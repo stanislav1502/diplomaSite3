@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,11 +21,12 @@ namespace DiplomaSite3.Models
 
         [Required]
         [EmailAddress]
+        [StringLength(50,MinimumLength =1)]
         public string Email { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
-        [StringLength(30, MinimumLength = 8)]
+        [PasswordPropertyText]
+        [StringLength(50, MinimumLength = 8)]
         public string Password { get; set; }
 
         [Required]
@@ -38,6 +40,7 @@ namespace DiplomaSite3.Models
         [Required]
         public UserType UserType { get; set; }
 
+        [NotMapped]
         public string FullName { get { return $"{FirstName} {LastName}"; } }
 
 

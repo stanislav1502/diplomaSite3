@@ -2,6 +2,7 @@
 using DiplomaSite3.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 
 namespace DiplomaSite3.Data;
 
@@ -13,15 +14,104 @@ public static class SeedDB
             serviceProvider.GetRequiredService<
                 DbContextOptions<DiplomaSite3Context>>()))
         {
+            Guid admin1 = Guid.NewGuid();
+
+            Guid teach1 = Guid.NewGuid();
+            Guid stud1 = Guid.NewGuid();
+            Guid teach2 = Guid.NewGuid();
+            Guid stud2 = Guid.NewGuid();
             Guid teach3 = Guid.NewGuid();
             Guid stud3 = Guid.NewGuid();
+            Guid teach4 = Guid.NewGuid();
 
-            // Look for any movies.
-            if (context.DiplomaModel.Any())
-            { return; } // has diplomas
-            else
+            if (!context.UserModel.Any())
             {
-                
+                context.UserModel.AddRange(
+                    new AdminModel
+                    {
+                        UserID = admin1,
+                        Username = "adminadmin",
+                        Email = "admin@ud3.bg",
+                        Password = "admin",
+                        FirstName = "Admin1",
+                        LastName = "1Admin",
+                        UserType = UserType.Admin,
+                        AdminPass = "parolataparolata"
+                    },
+                    new TeacherModel
+                    {
+                        UserID = teach1,
+                        Username = "teacher1",
+                        Email = "teach1@ud3.bg",
+                        Password = "teach",
+                        FirstName = "Teach1",
+                        LastName = "1Teach",
+                        UserType = UserType.Teacher,
+                        Approved = true
+                    },
+                    new TeacherModel
+                    {
+                        UserID = teach2,
+                        Username = "teacher2",
+                        Email = "teach2@ud3.bg",
+                        Password = "teach",
+                        FirstName = "Teach2",
+                        LastName = "2teach",
+                        UserType = UserType.Teacher,
+                        Approved = false
+                    },
+                    new TeacherModel
+                    {
+                        UserID = teach3,
+                        Username = "teacher3",
+                        Email = "teach3@ud3.bg",
+                        Password = "teach",
+                        FirstName = "Admin3",
+                        LastName = "3Admin",
+                        UserType = UserType.Teacher,
+                        Approved = true
+                    },
+                     new StudentModel
+                     {
+                         UserID = stud1,
+                         Username = "student1",
+                         Email = "stud1@ud3.bg",
+                         Password = "stud",
+                         FirstName = "Stud1",
+                         LastName = "1Stud",
+                         UserType = UserType.Student,
+                         FacultyNumber = "230001"
+                     },
+                      new StudentModel
+                      {
+                          UserID = stud2,
+                          Username = "student2",
+                          Email = "stud2@ud3.bg",
+                          Password = "stud",
+                          FirstName = "Stud2",
+                          LastName = "2Stud",
+                          UserType = UserType.Student,
+                          FacultyNumber = "230002"
+                      },
+                    new StudentModel
+                    {
+                        UserID = stud3,
+                        Username = "student3",
+                        Email = "stud3@ud3.bg",
+                        Password = "stud",
+                        FirstName = "Stud3",
+                        LastName = "3Stud",
+                        UserType = UserType.Student,
+                        FacultyNumber = "230123"
+                    }
+                );
+
+                context.SaveChanges();
+            }
+
+            if (!context.DiplomaModel.Any())
+            {
+
                 context.DiplomaModel.AddRange(
                     new DiplomaModel
                     {
@@ -31,8 +121,8 @@ public static class SeedDB
                         Grade = 7.99M,
                         Tags = "p2p,web,dcdn,content delivery",
                         Status = StatusEnum.Archived,
-                        TeacherID = Guid.NewGuid(),
-                        StudentID = Guid.NewGuid()
+                        TeacherID = teach1,
+                        StudentID = stud1
                     },
                     new DiplomaModel
                     {
@@ -41,8 +131,8 @@ public static class SeedDB
                         Status = StatusEnum.InAppraisal,
 
                         DefendDate = DateTime.Parse("20-12-2024"),
-                        StudentID = Guid.NewGuid(),
-                        TeacherID = Guid.NewGuid()
+                        TeacherID = teach2,
+                        StudentID = stud2
                     },
                     new DiplomaModel
                     {
@@ -60,53 +150,13 @@ public static class SeedDB
                         Description = "desc4",
                         Status = StatusEnum.Posted,
 
-                        TeacherID = Guid.NewGuid()
+                        TeacherID = teach4
                     }
                 );
-                context.SaveChanges();
+                context.SaveChanges(); // TODO: fix seeding 
             }
 
-            if (context.UserModel.Any())
-            { return; } //has users
-            else
-            {
-                context.UserModel.AddRange(
-                    new AdminModel
-                    {
-                        Username = "adminadmin",
-                        Email = "admin@ud3.bg",
-                        Password = "admin",
-                        FirstName = "Admin1",
-                        LastName = "1Admin",
-                        UserType = UserType.Admin,
-                        AdminPassword = "parolataparolata"                        
-                    },
-                    new TeacherModel
-                    {
-                        UserID = teach3,
-                        Username = "teacher3",
-                        Email = "teach3@ud3.bg",
-                        Password = "teach",
-                        FirstName = "Admin3",
-                        LastName = "3Admin",
-                        UserType = UserType.Teacher,
-                        Approved = true
-                    },
-                    new StudentModel
-                    {
-                        UserID = stud3,
-                        Username = "student2",
-                        Email = "stud2@ud3.bg",
-                        Password = "stud",
-                        FirstName = "Stud2",
-                        LastName = "2Admin",
-                        UserType = UserType.Admin,
-                        FacultyNumber = "230123"
-                    }
-                );
-            
-            context.SaveChanges();
-            }
+
         }
     }
 }

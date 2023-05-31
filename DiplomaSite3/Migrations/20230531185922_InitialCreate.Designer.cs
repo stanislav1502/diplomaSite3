@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomaSite3.Migrations
 {
     [DbContext(typeof(DiplomaSite3Context))]
-    [Migration("20230531140647_InitialCreate")]
+    [Migration("20230531185922_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,54 @@ namespace DiplomaSite3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DiplomaSite2.Models.UserModel", b =>
+            modelBuilder.Entity("DiplomaSite3.Models.DiplomaModel", b =>
+                {
+                    b.Property<Guid>("DiplomaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DefendDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal?>("Grade")
+                        .HasPrecision(5, 3)
+                        .HasColumnType("decimal(5,3)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("StudentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Tags")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid?>("TeacherID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("DiplomaID");
+
+                    b.HasIndex("StudentID")
+                        .IsUnique()
+                        .HasFilter("[StudentID] IS NOT NULL");
+
+                    b.HasIndex("TeacherID");
+
+                    b.ToTable("DiplomaModel");
+                });
+
+            modelBuilder.Entity("DiplomaSite3.Models.UserModel", b =>
                 {
                     b.Property<Guid>("UserID")
                         .ValueGeneratedOnAdd()
@@ -37,7 +84,8 @@ namespace DiplomaSite3.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -71,66 +119,36 @@ namespace DiplomaSite3.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("DiplomaSite3.Models.DiplomaModel", b =>
+            modelBuilder.Entity("DiplomaSite3.Models.AdminModel", b =>
                 {
-                    b.Property<Guid>("DiplomaID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasBaseType("DiplomaSite3.Models.UserModel");
 
-                    b.Property<DateTime?>("DefendDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("AdminPass")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal?>("Grade")
-                        .HasPrecision(5, 3)
-                        .HasColumnType("decimal(5,3)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("StudentID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Tags")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TeacherID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("DiplomaID");
-
-                    b.HasIndex("StudentID")
-                        .IsUnique()
-                        .HasFilter("[StudentID] IS NOT NULL");
-
-                    b.HasIndex("TeacherID");
-
-                    b.ToTable("DiplomaModel");
+                    b.HasDiscriminator().HasValue("AdminModel");
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.StudentModel", b =>
                 {
-                    b.HasBaseType("DiplomaSite2.Models.UserModel");
+                    b.HasBaseType("DiplomaSite3.Models.UserModel");
 
                     b.Property<string>("FacultyNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.HasDiscriminator().HasValue("StudentModel");
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.TeacherModel", b =>
                 {
-                    b.HasBaseType("DiplomaSite2.Models.UserModel");
+                    b.HasBaseType("DiplomaSite3.Models.UserModel");
 
-                    b.Property<bool>("Approved")
+                    b.Property<bool?>("Approved")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("TeacherModel");
@@ -144,9 +162,7 @@ namespace DiplomaSite3.Migrations
 
                     b.HasOne("DiplomaSite3.Models.TeacherModel", "Teacher")
                         .WithMany("PostedDiplomas")
-                        .HasForeignKey("TeacherID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeacherID");
 
                     b.Navigation("Student");
 

@@ -11,17 +11,9 @@ namespace DiplomaSite3.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<DiplomaModel>()
-                .HasOne(d => d.Student)
-                .WithOne(s => s.AssignedDiploma)
-                .IsRequired(false);
-        }
-
-        public DbSet<DiplomaSite3.Models.DiplomaModel> DiplomaModel { get; set; } 
+        public DbSet<DiplomaModel> DiplomaModel { get; set; } 
         public DbSet<UserModel> UserModel { get; set; }
-
+        public DbSet<AdminModel> AdminModel { get; set; }
 
     }
 }

@@ -15,9 +15,11 @@ namespace DiplomaSite3.Models
         public Guid DiplomaID { get; set; }
 
         [Required]
+        [StringLength(100)]
         public string Title { get; set; }
 
         [Required]
+        [StringLength(200)]
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
@@ -28,6 +30,7 @@ namespace DiplomaSite3.Models
         [DisplayFormat(NullDisplayText = "No grade")]
         public decimal? Grade { get; set; }
 
+        [StringLength(50)]
         [DisplayFormat(NullDisplayText = "No tags")]
         public string? Tags { get; set; }
 
