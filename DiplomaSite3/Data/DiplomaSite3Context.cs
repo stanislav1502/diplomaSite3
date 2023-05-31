@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DiplomaSite3.Models;
+using DiplomaSite2.Models;
 
 namespace DiplomaSite3.Data
 {
@@ -23,6 +24,7 @@ namespace DiplomaSite3.Data
         }
 
         public DbSet<DiplomaSite3.Models.DiplomaModel> DiplomaModel { get; set; } 
+        public DbSet<UserModel> UserModel { get; set; }
 
 
     }

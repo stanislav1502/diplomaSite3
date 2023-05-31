@@ -1,4 +1,5 @@
 ﻿
+using DiplomaSite2.Models;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
