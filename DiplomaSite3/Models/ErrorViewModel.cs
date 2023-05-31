@@ -1,3 +1,4 @@
+
 namespace DiplomaSite3.Models
 {
     public class ErrorViewModel

@@ -1,5 +1,4 @@
 ﻿
-using DiplomaSite2.Models;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
@@ -32,13 +31,14 @@ namespace DiplomaSite3.Models
         [DisplayFormat(NullDisplayText = "No tags")]
         public string? Tags { get; set; }
 
+        [Required]
         public StatusEnum Status { get; set; }
 
         // 1 diploma - by 1 assigner
-        [Required]
-        public Guid TeacherID { get; set; }
+        [DisplayFormat(NullDisplayText = "Missing teacher")]
+        public Guid? TeacherID { get; set; }
         
-        public TeacherModel Teacher { get; set; }
+        public TeacherModel? Teacher { get; set; }
         
         // 1 diploma - to 1 assignee
         [DisplayFormat(NullDisplayText = "No assigned student")]

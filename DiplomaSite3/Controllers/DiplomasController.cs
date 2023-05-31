@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿
 using DiplomaSite3.Data;
 using DiplomaSite3.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiplomaSite3.Controllers
 {
-    public class DiplomaModelsController : Controller
+    public class DiplomasController : Controller
     {
         private readonly DiplomaSite3Context _context;
 
-        public DiplomaModelsController(DiplomaSite3Context context)
+        public DiplomasController(DiplomaSite3Context context)
         {
             _context = context;
         }

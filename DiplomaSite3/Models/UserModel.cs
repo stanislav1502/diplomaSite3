@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DiplomaSite2.Models
+namespace DiplomaSite3.Models
 {
     public enum UserType
     {
@@ -23,7 +23,8 @@ namespace DiplomaSite2.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 8)]
+        [DataType(DataType.Password)]
+        [StringLength(30, MinimumLength = 8)]
         public string Password { get; set; }
 
         [Required]

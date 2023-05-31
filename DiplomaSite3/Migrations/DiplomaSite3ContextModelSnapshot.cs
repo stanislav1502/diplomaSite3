@@ -61,7 +61,7 @@ namespace DiplomaSite3.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserModel");
+                    b.ToTable("UserModel", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("UserModel");
 
@@ -109,7 +109,7 @@ namespace DiplomaSite3.Migrations
 
                     b.HasIndex("TeacherID");
 
-                    b.ToTable("DiplomaModel");
+                    b.ToTable("DiplomaModel", (string)null);
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.StudentModel", b =>
