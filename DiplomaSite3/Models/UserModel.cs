@@ -10,8 +10,6 @@ namespace DiplomaSite2.Models
     }
     public abstract class UserModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid UserID { get; set; }
 
         [Required]

@@ -6,6 +6,5 @@ namespace DiplomaSite3.Models
     {
         public string AdminPassword { get; set; }
 
-
     }
 }
