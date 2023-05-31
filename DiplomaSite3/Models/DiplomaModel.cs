@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace DiplomaSite3.Models
@@ -9,21 +10,21 @@ namespace DiplomaSite3.Models
 //    [Table("Diploma")]
     public class DiplomaModel
     {
-//        [Key]
+        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DiplomaID { get; set; }
 
         [Required]
         public string Title { get; set; }
 
-  [Required]
+        [Required]
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(NullDisplayText = "No defense ")]
         public DateTime? DefendDate { get; set; }
 
-    //    [Precision(5, 3)]
+        [Precision(5, 3)]
         [DisplayFormat(NullDisplayText = "No grade")]
         public decimal? Grade { get; set; }
 
@@ -35,13 +36,13 @@ namespace DiplomaSite3.Models
         // 1 diploma - by 1 assigner
         [Required]
         public Guid TeacherID { get; set; }
-
+        
+        public TeacherModel Teacher { get; set; }
+        
         // 1 diploma - to 1 assignee
+        [DisplayFormat(NullDisplayText = "No assigned student")]
         public Guid? StudentID { get; set; }
 
-        public TeacherModel Teacher { get; set; }
-
-        [DisplayFormat(NullDisplayText = "No assigned student")]
         public StudentModel? Student { get; set; }
     }
 }

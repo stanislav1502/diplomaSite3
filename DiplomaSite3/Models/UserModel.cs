@@ -10,9 +10,12 @@ namespace DiplomaSite2.Models
     }
     public abstract class UserModel
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid UserID { get; set; }
 
         [Required]
+        [StringLength(50, MinimumLength = 1)]
         public string Username { get; set; }
 
         [Required]
@@ -20,18 +23,21 @@ namespace DiplomaSite2.Models
         public string Email { get; set; }
 
         [Required]
+        [StringLength(50, MinimumLength = 8)]
         public string Password { get; set; }
 
         [Required]
+        [StringLength(20, MinimumLength = 1)]
         public string FirstName { get; set; }
 
         [Required]
+        [StringLength(20, MinimumLength = 1)]
         public string LastName { get; set; }
 
         [Required]
         public UserType UserType { get; set; }
 
-        public string FullName => $"{FirstName} {LastName}";
+        public string FullName { get { return $"{FirstName} {LastName}"; } }
 
 
     }

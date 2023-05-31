@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using DiplomaSite3.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<DiplomaSite3Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DiplomaSite3Context") ?? throw new InvalidOperationException("Connection string 'DiplomaSite3Context' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
