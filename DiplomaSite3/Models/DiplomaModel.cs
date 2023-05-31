@@ -7,7 +7,7 @@ namespace DiplomaSite3.Models
     public enum StatusEnum { Posted, WIP, Done, InAppraisal, Archived }
 
 //    [Table("Diploma")]
-    public class Diploma
+    public class DiplomaModel
     {
 //        [Key]
 //        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -36,7 +36,7 @@ namespace DiplomaSite3.Models
 //        [Required]
         public Guid TeacherID { get; set; }
 
-//        public TeacherModel Teacher { get; set; }
+        public TeacherModel Teacher { get; set; }
 
         // 1 diploma - to 1 assignee
 
