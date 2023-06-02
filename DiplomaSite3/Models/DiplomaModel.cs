@@ -7,7 +7,7 @@ namespace DiplomaSite3.Models
 
     public enum StatusEnum { Posted, WIP, Done, InAppraisal, Archived }
 
-//    [Table("Diploma")]
+
     public class DiplomaModel
     {
         [Key]
@@ -22,6 +22,7 @@ namespace DiplomaSite3.Models
         [StringLength(200)]
         public string Description { get; set; }
 
+        [Display(Name = "Defense on")]
         [DataType(DataType.Date)]
         [DisplayFormat(NullDisplayText = "No defense ")]
         public DateTime? DefendDate { get; set; }
@@ -38,12 +39,14 @@ namespace DiplomaSite3.Models
         public StatusEnum Status { get; set; }
 
         // 1 diploma - by 1 assigner
+        [Display(Name = "Teacher")]
         [DisplayFormat(NullDisplayText = "Missing teacher")]
         public Guid? TeacherID { get; set; }
         
         public TeacherModel? Teacher { get; set; }
-        
+
         // 1 diploma - to 1 assignee
+        [Display(Name = "Student")]
         [DisplayFormat(NullDisplayText = "No assigned student")]
         public Guid? StudentID { get; set; }
 
