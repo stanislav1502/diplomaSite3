@@ -15,23 +15,23 @@ namespace DiplomaSite3.Controllers
             _context = context;
         }
 
-        // GET: DiplomaModels
+        // GET: Diplomas
         public async Task<IActionResult> Index()
         {
-              return _context.DiplomaModel != null ? 
-                          View(await _context.DiplomaModel.ToListAsync()) :
-                          Problem("Entity set 'DiplomaSite3Context.DiplomaModel'  is null.");
+              return _context.Diplomas!= null ? 
+                          View(await _context.Diplomas.ToListAsync()) :
+                          Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
         }
 
-        // GET: DiplomaModels/Details/5
+        // GET: Diplomas/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null || _context.DiplomaModel == null)
+            if (id == null || _context.Diplomas == null)
             {
                 return NotFound();
             }
 
-            var diplomaModel = await _context.DiplomaModel
+            var diplomaModel = await _context.Diplomas
                 .FirstOrDefaultAsync(m => m.DiplomaID == id);
             if (diplomaModel == null)
             {
@@ -41,13 +41,13 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        // GET: DiplomaModels/Create
+        // GET: Diplomas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: DiplomaModels/Create
+        // POST: Diplomas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -64,15 +64,15 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        // GET: DiplomaModels/Edit/5
+        // GET: Diplomas/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || _context.DiplomaModel == null)
+            if (id == null || _context.Diplomas == null)
             {
                 return NotFound();
             }
 
-            var diplomaModel = await _context.DiplomaModel.FindAsync(id);
+            var diplomaModel = await _context.Diplomas.FindAsync(id);
             if (diplomaModel == null)
             {
                 return NotFound();
@@ -80,7 +80,7 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        // POST: DiplomaModels/Edit/5
+        // POST: Diplomas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -115,15 +115,15 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        // GET: DiplomaModels/Delete/5
+        // GET: Diplomas/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null || _context.DiplomaModel == null)
+            if (id == null || _context.Diplomas == null)
             {
                 return NotFound();
             }
 
-            var diplomaModel = await _context.DiplomaModel
+            var diplomaModel = await _context.Diplomas
                 .FirstOrDefaultAsync(m => m.DiplomaID == id);
             if (diplomaModel == null)
             {
@@ -133,19 +133,19 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        // POST: DiplomaModels/Delete/5
+        // POST: Diplomas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            if (_context.DiplomaModel == null)
+            if (_context.Diplomas == null)
             {
-                return Problem("Entity set 'DiplomaSite3Context.DiplomaModel'  is null.");
+                return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
             }
-            var diplomaModel = await _context.DiplomaModel.FindAsync(id);
+            var diplomaModel = await _context.Diplomas.FindAsync(id);
             if (diplomaModel != null)
             {
-                _context.DiplomaModel.Remove(diplomaModel);
+                _context.Diplomas.Remove(diplomaModel);
             }
             
             await _context.SaveChangesAsync();
@@ -154,7 +154,7 @@ namespace DiplomaSite3.Controllers
 
         private bool DiplomaModelExists(Guid id)
         {
-          return (_context.DiplomaModel?.Any(e => e.DiplomaID == id)).GetValueOrDefault();
+          return (_context.Diplomas?.Any(e => e.DiplomaID == id)).GetValueOrDefault();
         }
     }
 }

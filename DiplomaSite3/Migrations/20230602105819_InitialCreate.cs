@@ -12,7 +12,7 @@ namespace DiplomaSite3.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserModel",
+                name: "User",
                 columns: table => new
                 {
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -29,11 +29,11 @@ namespace DiplomaSite3.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserModel", x => x.UserID);
+                    table.PrimaryKey("PK_User", x => x.UserID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DiplomaModel",
+                name: "Diploma",
                 columns: table => new
                 {
                     DiplomaID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -48,29 +48,19 @@ namespace DiplomaSite3.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DiplomaModel", x => x.DiplomaID);
-                    table.ForeignKey(
-                        name: "FK_DiplomaModel_UserModel_StudentID",
-                        column: x => x.StudentID,
-                        principalTable: "UserModel",
-                        principalColumn: "UserID");
-                    table.ForeignKey(
-                        name: "FK_DiplomaModel_UserModel_TeacherID",
-                        column: x => x.TeacherID,
-                        principalTable: "UserModel",
-                        principalColumn: "UserID");
+                    table.PrimaryKey("PK_Diploma", x => x.DiplomaID);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiplomaModel_StudentID",
-                table: "DiplomaModel",
+                name: "IX_Diploma_StudentID",
+                table: "Diploma",
                 column: "StudentID",
                 unique: true,
                 filter: "[StudentID] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiplomaModel_TeacherID",
-                table: "DiplomaModel",
+                name: "IX_Diploma_TeacherID",
+                table: "Diploma",
                 column: "TeacherID");
         }
 
@@ -78,10 +68,10 @@ namespace DiplomaSite3.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DiplomaModel");
+                name: "Diploma");
 
             migrationBuilder.DropTable(
-                name: "UserModel");
+                name: "User");
         }
     }
 }

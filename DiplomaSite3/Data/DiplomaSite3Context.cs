@@ -11,9 +11,25 @@ namespace DiplomaSite3.Data
         {
         }
 
-        public DbSet<DiplomaModel> DiplomaModel { get; set; } 
-        public DbSet<UserModel> UserModel { get; set; }
-        public DbSet<AdminModel> AdminModel { get; set; }
+        public DbSet<DiplomaModel> Diplomas { get; set; } 
+        
+        public DbSet<StudentModel> Students{ get; set; }
+        public DbSet<TeacherModel> Teachers{ get; set; }
+        public DbSet<AdminModel> Admins{ get; set; }
+        public DbSet<UserModel> Users{ get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserModel>().ToTable("User");
+            
+            modelBuilder.Entity<DiplomaModel>().ToTable("Diploma");
+
+            modelBuilder.Entity<StudentModel>().ToTable("User");
+            modelBuilder.Entity<TeacherModel>().ToTable("User");
+            modelBuilder.Entity<AdminModel>().ToTable("User");
+
+
+        }
 
     }
 }

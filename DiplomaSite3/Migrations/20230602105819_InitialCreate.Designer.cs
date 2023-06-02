@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomaSite3.Migrations
 {
     [DbContext(typeof(DiplomaSite3Context))]
-    [Migration("20230531185922_InitialCreate")]
+    [Migration("20230602105819_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -69,7 +69,7 @@ namespace DiplomaSite3.Migrations
 
                     b.HasIndex("TeacherID");
 
-                    b.ToTable("DiplomaModel");
+                    b.ToTable("Diploma", (string)null);
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.UserModel", b =>
@@ -112,7 +112,7 @@ namespace DiplomaSite3.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("UserModel");
+                    b.ToTable("User", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("UserModel");
 
@@ -128,6 +128,8 @@ namespace DiplomaSite3.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.ToTable("User", (string)null);
+
                     b.HasDiscriminator().HasValue("AdminModel");
                 });
 
@@ -140,6 +142,8 @@ namespace DiplomaSite3.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
+                    b.ToTable("User", (string)null);
+
                     b.HasDiscriminator().HasValue("StudentModel");
                 });
 
@@ -150,6 +154,8 @@ namespace DiplomaSite3.Migrations
                     b.Property<bool?>("Approved")
                         .IsRequired()
                         .HasColumnType("bit");
+
+                    b.ToTable("User", (string)null);
 
                     b.HasDiscriminator().HasValue("TeacherModel");
                 });

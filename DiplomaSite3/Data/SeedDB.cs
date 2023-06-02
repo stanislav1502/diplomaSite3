@@ -24,9 +24,9 @@ public static class SeedDB
             Guid stud3 = Guid.NewGuid();
             Guid teach4 = Guid.NewGuid();
 
-            if (!context.UserModel.Any())
+            if (!context.Users.Any())
             {
-                context.UserModel.AddRange(
+                context.Users.AddRange(
                     new AdminModel
                     {
                         UserID = admin1,
@@ -109,10 +109,10 @@ public static class SeedDB
                 context.SaveChanges();
             }
 
-            if (!context.DiplomaModel.Any())
+            if (!context.Diplomas.Any())
             {
 
-                context.DiplomaModel.AddRange(
+                context.Diplomas.AddRange(
                     new DiplomaModel
                     {
                         Title = "DCDN: Distributed content delivery for the modern web",
