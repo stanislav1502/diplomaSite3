@@ -3,6 +3,7 @@ using DiplomaSite3.Data;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace DiplomaSite3.Controllers
 {
@@ -18,9 +19,22 @@ namespace DiplomaSite3.Controllers
         // GET: Diplomas
         public async Task<IActionResult> Index()
         {
-              return _context.Diplomas!= null ? 
-                          View(await _context.Diplomas.ToListAsync()) :
-                          Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
+            List<AdminDiplomaVM> vm = new List<AdminDiplomaVM>();
+            var diplomas = _context.Diplomas;
+            if (diplomas != null)
+            {
+                foreach (var diploma in diplomas)
+                {
+
+                    vm.Add(new AdminDiplomaVM(diploma));
+                }
+                return View(vm);
+            }
+            else 
+            {
+                return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
+            }
+
         }
 
         // GET: Diplomas/Details/5
