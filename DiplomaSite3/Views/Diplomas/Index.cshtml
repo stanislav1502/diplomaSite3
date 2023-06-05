@@ -33,10 +33,10 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeacherID)
+                @Html.DisplayNameFor(model => model.Teacher)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentID)
+                @Html.DisplayNameFor(model => model.Student)
             </th>
             <th></th>
         </tr>
@@ -64,10 +64,11 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TeacherID)
+                @Html.DisplayFor(modelItem => item.Teacher)
+                    
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentID)
+                @Html.DisplayFor(modelItem => item.Student)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.DiplomaID">Edit</a> |

@@ -2,7 +2,9 @@
 using DiplomaSite3.Data;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 using System.Collections.Generic;
 
 namespace DiplomaSite3.Controllers
@@ -17,23 +19,28 @@ namespace DiplomaSite3.Controllers
         }
 
         // GET: Diplomas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            List<AdminDiplomaVM> vm = new List<AdminDiplomaVM>();
             var diplomas = _context.Diplomas;
-            if (diplomas != null)
+            if (diplomas == null)
             {
-                foreach (var diploma in diplomas)
-                {
+                return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");  
+            }
 
-                    vm.Add(new AdminDiplomaVM(diploma));
-                }
-                return View(vm);
-            }
-            else 
+            List<AdminDiplomaVM> vm = new List<AdminDiplomaVM>();
+            foreach (var diploma in diplomas)
             {
-                return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
+                var teacher = await _context.Teachers.FindAsync(diploma.TeacherID);
+                var student = await _context.Students.FindAsync(diploma.StudentID);
+
+                var teach = teacher == null ? null : teacher.FullName;
+                var stud = student == null ? null : student.FullName;
+
+                var advm = new AdminDiplomaVM(diploma, teach, stud);
+                vm.Add(advm);
             }
+
+            return View(vm);
 
         }
 
@@ -58,6 +65,7 @@ namespace DiplomaSite3.Controllers
         // GET: Diplomas/Create
         public IActionResult Create()
         {
+            PopulateTeachersDropDownList();
             return View();
         }
 
@@ -169,6 +177,14 @@ namespace DiplomaSite3.Controllers
         private bool DiplomaModelExists(Guid id)
         {
           return (_context.Diplomas?.Any(e => e.DiplomaID == id)).GetValueOrDefault();
+        }
+
+        private void PopulateTeachersDropDownList(object selectedTeacher = null)
+        {
+            var teachersQuery = from t in _context.Teachers
+                                   orderby t.FullName
+                                   select t;
+            ViewBag.DepartmentID = new SelectList(teachersQuery.AsNoTracking(), "UserID", "FirstName", selectedTeacher);
         }
     }
 }

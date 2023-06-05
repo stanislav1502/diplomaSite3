@@ -10,43 +10,43 @@ namespace DiplomaSite3.Models
     public class AdminDiplomaVM
     {
         [Key]
-        public Guid DiplomaID { get; set; }
+        public Guid DiplomaID { get; }
 
         [Required]
         [StringLength(100)]
-        public string Title { get; set; }
+        public string Title { get;  }
 
         [Required]
         [StringLength(200)]
-        public string Description { get; set; }
+        public string Description { get; }
 
         [Display(Name = "Defense")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", NullDisplayText = "No defense ")]
-        public DateTime? DefendDate { get; set; }
+        public DateTime? DefendDate { get; }
 
         [Precision(5, 3)]
         [DisplayFormat(NullDisplayText = "No grade")]
-        public decimal? Grade { get; set; }
+        public decimal? Grade { get; }
 
         [StringLength(50)]
         [DisplayFormat(NullDisplayText = "No tags")]
-        public string? Tags { get; set; }
+        public string? Tags { get; }
 
         [Required]
-        public StatusEnum Status { get; set; }
+        public StatusEnum Status { get; }
 
         // 1 diploma - by 1 assigner
         [Display(Name = "Teacher")]
         [DisplayFormat(NullDisplayText = "Missing teacher")]
-        public Guid? TeacherID { get; set; }
+        public string? Teacher { get; }
         
         // 1 diploma - to 1 assignee
         [Display(Name = "Student")]
-        [DisplayFormat(NullDisplayText = "No assigned student")]
-        public Guid? StudentID { get; set; }
+        [DisplayFormat(NullDisplayText = "Not assigned")]
+        public string? Student { get; }
 
-        public AdminDiplomaVM(DiplomaModel dm)
+        public AdminDiplomaVM(DiplomaModel dm,string teacher,string student)
         {
             DiplomaID = dm.DiplomaID;
             Title = dm.Title;
@@ -55,8 +55,8 @@ namespace DiplomaSite3.Models
             Grade = dm.Grade;
             Tags = dm.Tags;
             Status = dm.Status;
-            TeacherID = dm.TeacherID;
-            StudentID = dm.StudentID;
+            Teacher = teacher;
+            Student = student;
         }
     }
 }

@@ -66,8 +66,8 @@ public static class SeedDB
                         Username = "teacher3",
                         Email = "teach3@ud3.bg",
                         Password = "teach",
-                        FirstName = "Admin3",
-                        LastName = "3Admin",
+                        FirstName = "Teach3",
+                        LastName = "3Teach",
                         UserType = UserType.Teacher,
                         Approved = true
                     },
@@ -131,7 +131,6 @@ public static class SeedDB
                         Status = StatusEnum.InAppraisal,
 
                         DefendDate = DateTime.Parse("20-12-2024"),
-                        TeacherID = teach2,
                         StudentID = stud2
                     },
                     new DiplomaModel
