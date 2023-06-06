@@ -1,5 +1,6 @@
 ﻿
 using DiplomaSite3.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -24,26 +25,38 @@ public static class SeedDB
             Guid stud3 = Guid.NewGuid();
             Guid teach4 = Guid.NewGuid();
 
-            if (!context.Users.Any())
+            if (!context.UsersDBS.Any())
             {
                 context.Users.AddRange(
                     new AdminModel
                     {
-                        UserID = admin1,
-                        Username = "adminadmin",
+                        Id = admin1,
+                        UserName = "AdminAdmin",
+                        NormalizedUserName = null,
                         Email = "admin@ud3.bg",
-                        Password = "admin",
+                        NormalizedEmail = null,
+                        EmailConfirmed = true,
+                        PasswordHash = "admin",
+                        SecurityStamp = null,
+                        ConcurrencyStamp = null,
+                        PhoneNumber = "1234567890",
+                        PhoneNumberConfirmed = true,
+                        TwoFactorEnabled = true,
+                        LockoutEnd = null,
+                        LockoutEnabled = false,
+                        AccessFailedCount = 0,
                         FirstName = "Admin1",
                         LastName = "1Admin",
                         UserType = UserType.Admin,
-                        AdminPass = "parolataparolata"
+                        AdminPass = "parolataparolata",
+
                     },
                     new TeacherModel
                     {
-                        UserID = teach1,
-                        Username = "teacher1",
+                        Id = teach1,
+                        UserName = "teacher1",
                         Email = "teach1@ud3.bg",
-                        Password = "teach",
+                        PasswordHash = "teach",
                         FirstName = "Teach1",
                         LastName = "1Teach",
                         UserType = UserType.Teacher,
@@ -51,10 +64,10 @@ public static class SeedDB
                     },
                     new TeacherModel
                     {
-                        UserID = teach2,
-                        Username = "teacher2",
+                        Id = teach2,
+                        UserName = "teacher2",
                         Email = "teach2@ud3.bg",
-                        Password = "teach",
+                        PasswordHash = "teach",
                         FirstName = "Teach2",
                         LastName = "2teach",
                         UserType = UserType.Teacher,
@@ -62,10 +75,10 @@ public static class SeedDB
                     },
                     new TeacherModel
                     {
-                        UserID = teach3,
-                        Username = "teacher3",
+                        Id = teach3,
+                        UserName = "teacher3",
                         Email = "teach3@ud3.bg",
-                        Password = "teach",
+                        PasswordHash = "teach",
                         FirstName = "Teach3",
                         LastName = "3Teach",
                         UserType = UserType.Teacher,
@@ -73,10 +86,10 @@ public static class SeedDB
                     },
                      new StudentModel
                      {
-                         UserID = stud1,
-                         Username = "student1",
+                         Id = stud1,
+                         UserName = "student1",
                          Email = "stud1@ud3.bg",
-                         Password = "stud",
+                         PasswordHash = "stud",
                          FirstName = "Stud1",
                          LastName = "1Stud",
                          UserType = UserType.Student,
@@ -84,10 +97,10 @@ public static class SeedDB
                      },
                       new StudentModel
                       {
-                          UserID = stud2,
-                          Username = "student2",
+                          Id = stud2,
+                          UserName = "student2",
                           Email = "stud2@ud3.bg",
-                          Password = "stud",
+                          PasswordHash = "stud",
                           FirstName = "Stud2",
                           LastName = "2Stud",
                           UserType = UserType.Student,
@@ -95,10 +108,10 @@ public static class SeedDB
                       },
                     new StudentModel
                     {
-                        UserID = stud3,
-                        Username = "student3",
+                        Id = stud3,
+                        UserName = "student3",
                         Email = "stud3@ud3.bg",
-                        Password = "stud",
+                        PasswordHash = "stud",
                         FirstName = "Stud3",
                         LastName = "3Stud",
                         UserType = UserType.Student,
@@ -109,10 +122,10 @@ public static class SeedDB
                 context.SaveChanges();
             }
 
-            if (!context.Diplomas.Any())
+            if (!context.DiplomasDBS.Any())
             {
 
-                context.Diplomas.AddRange(
+                context.DiplomasDBS.AddRange(
                     new DiplomaModel
                     {
                         Title = "DCDN: Distributed content delivery for the modern web",
@@ -152,9 +165,8 @@ public static class SeedDB
                         TeacherID = teach4
                     }
                 );
-                context.SaveChanges(); // TODO: fix seeding 
+                context.SaveChanges(); 
             }
-
 
         }
     }

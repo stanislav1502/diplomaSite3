@@ -1,13 +1,31 @@
 
 using DiplomaSite3.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using DiplomaSite3.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddDbContext<DiplomaSite3Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DiplomaSite3Context") ?? throw new InvalidOperationException("Connection string 'DiplomaSite3Context' not found.")));
 
+builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DiplomaSite3Context>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddRazorPages();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
 
 var app = builder.Build();
 
@@ -25,6 +43,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+else
+{
+    app.UseMigrationsEndPoint();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -37,5 +59,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiplomaSite3.Models
 {
@@ -11,7 +12,7 @@ namespace DiplomaSite3.Models
     public class DiplomaModel
     {
         [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DiplomaID { get; set; }
 
         [Required]

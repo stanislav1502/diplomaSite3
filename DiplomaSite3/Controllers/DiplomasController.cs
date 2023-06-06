@@ -21,7 +21,7 @@ namespace DiplomaSite3.Controllers
         // GET: Diplomas
         public async Task<IActionResult> Index(string searchString)
         {
-            var diplomas = _context.Diplomas;
+            var diplomas = _context.DiplomasDBS;
             if (diplomas == null)
             {
                 return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");  
@@ -30,8 +30,8 @@ namespace DiplomaSite3.Controllers
             List<AdminDiplomaVM> viewModel = new List<AdminDiplomaVM>();
             foreach (var diploma in diplomas)
             {
-                var teacher = await _context.Teachers.FindAsync(diploma.TeacherID);
-                var student = await _context.Students.FindAsync(diploma.StudentID) ;
+                var teacher = await _context.TeachersDBS.FindAsync(diploma.TeacherID);
+                var student = await _context.StudentsDBS.FindAsync(diploma.StudentID) ;
 
                 var advm = new AdminDiplomaVM(diploma, teacher == null ? null : teacher.FullName, student == null ? null : student.FullName);
                 viewModel.Add(advm);
@@ -44,12 +44,12 @@ namespace DiplomaSite3.Controllers
         // GET: Diplomas/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null || _context.Diplomas == null)
+            if (id == null || _context.DiplomasDBS == null)
             {
                 return NotFound();
             }
 
-            var diplomaModel = await _context.Diplomas
+            var diplomaModel = await _context.DiplomasDBS
                 .FirstOrDefaultAsync(m => m.DiplomaID == id);
             if (diplomaModel == null)
             {
@@ -86,12 +86,12 @@ namespace DiplomaSite3.Controllers
         // GET: Diplomas/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || _context.Diplomas == null)
+            if (id == null || _context.DiplomasDBS == null)
             {
                 return NotFound();
             }
 
-            var diplomaModel = await _context.Diplomas.FindAsync(id);
+            var diplomaModel = await _context.DiplomasDBS.FindAsync(id);
             if (diplomaModel == null)
             {
                 return NotFound();
@@ -137,12 +137,12 @@ namespace DiplomaSite3.Controllers
         // GET: Diplomas/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null || _context.Diplomas == null)
+            if (id == null || _context.DiplomasDBS == null)
             {
                 return NotFound();
             }
 
-            var diplomaModel = await _context.Diplomas
+            var diplomaModel = await _context.DiplomasDBS
                 .FirstOrDefaultAsync(m => m.DiplomaID == id);
             if (diplomaModel == null)
             {
@@ -157,14 +157,14 @@ namespace DiplomaSite3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            if (_context.Diplomas == null)
+            if (_context.DiplomasDBS == null)
             {
                 return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
             }
-            var diplomaModel = await _context.Diplomas.FindAsync(id);
+            var diplomaModel = await _context.DiplomasDBS.FindAsync(id);
             if (diplomaModel != null)
             {
-                _context.Diplomas.Remove(diplomaModel);
+                _context.DiplomasDBS.Remove(diplomaModel);
             }
             
             await _context.SaveChangesAsync();
@@ -173,12 +173,12 @@ namespace DiplomaSite3.Controllers
 
         private bool DiplomaModelExists(Guid id)
         {
-          return (_context.Diplomas?.Any(e => e.DiplomaID == id)).GetValueOrDefault();
+          return (_context.DiplomasDBS?.Any(e => e.DiplomaID == id)).GetValueOrDefault();
         }
 
         private void PopulateTeachersDropDownList(object selectedTeacher = null)
         {
-            var teachersQuery = from t in _context.Teachers
+            var teachersQuery = from t in _context.TeachersDBS
                                    orderby t.FullName
                                    select t;
             ViewBag.DepartmentID = new SelectList(teachersQuery.AsNoTracking(), "UserID", "FirstName", selectedTeacher);
