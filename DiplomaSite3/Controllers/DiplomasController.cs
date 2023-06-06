@@ -27,20 +27,17 @@ namespace DiplomaSite3.Controllers
                 return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");  
             }
 
-            List<AdminDiplomaVM> vm = new List<AdminDiplomaVM>();
+            List<AdminDiplomaVM> viewModel = new List<AdminDiplomaVM>();
             foreach (var diploma in diplomas)
             {
                 var teacher = await _context.Teachers.FindAsync(diploma.TeacherID);
-                var student = await _context.Students.FindAsync(diploma.StudentID);
+                var student = await _context.Students.FindAsync(diploma.StudentID) ;
 
-                var teach = teacher == null ? null : teacher.FullName;
-                var stud = student == null ? null : student.FullName;
-
-                var advm = new AdminDiplomaVM(diploma, teach, stud);
-                vm.Add(advm);
+                var advm = new AdminDiplomaVM(diploma, teacher == null ? null : teacher.FullName, student == null ? null : student.FullName);
+                viewModel.Add(advm);
             }
 
-            return View(vm);
+            return View(viewModel);
 
         }
 
