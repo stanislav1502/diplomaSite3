@@ -6,16 +6,17 @@ using DiplomaSite3.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddDbContext<DiplomaSite3Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DiplomaSite3Context") ?? throw new InvalidOperationException("Connection string 'DiplomaSite3Context' not found.")));
 
 builder.Services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DiplomaSite3Context>();
 
-// Add services to the container.
+// password hashing
+builder.Services.AddScoped<IPasswordHasher<UserModel>, MyPassHashing>();
+
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddRazorPages();
-
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // Cookie settings

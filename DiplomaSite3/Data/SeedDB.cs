@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DiplomaSite3.Data;
 
@@ -15,7 +17,11 @@ public static class SeedDB
             serviceProvider.GetRequiredService<
                 DbContextOptions<DiplomaSite3Context>>()))
         {
+            Random rng = new Random();
+            
             Guid admin1 = Guid.NewGuid();
+            byte[] adminsalt = new byte[32]; 
+            rng.NextBytes(adminsalt);
 
             Guid teach1 = Guid.NewGuid();
             Guid stud1 = Guid.NewGuid();
@@ -32,11 +38,12 @@ public static class SeedDB
                     {
                         Id = admin1,
                         UserName = "AdminAdmin",
-                        NormalizedUserName = null,
+                        NormalizedUserName = "AdminAdmin".Normalize(),
                         Email = "admin@ud3.bg",
-                        NormalizedEmail = null,
+                        NormalizedEmail = "admin@ud3.bg".Normalize(),
                         EmailConfirmed = true,
-                        PasswordHash = "admin",
+                        PasswordHash = Rfc2898DeriveBytes.Pbkdf2("adminadmin", adminsalt, 35716, HashAlgorithmName.SHA512, 100).ToString(),
+                        PasswordSalt = adminsalt,
                         SecurityStamp = null,
                         ConcurrencyStamp = null,
                         PhoneNumber = "1234567890",
@@ -48,7 +55,7 @@ public static class SeedDB
                         FirstName = "Admin1",
                         LastName = "1Admin",
                         UserType = UserType.Admin,
-                        AdminPass = "parolataparolata",
+                        AdminPass = "123456",
 
                     },
                     new TeacherModel
@@ -57,6 +64,7 @@ public static class SeedDB
                         UserName = "teacher1",
                         Email = "teach1@ud3.bg",
                         PasswordHash = "teach",
+                        PasswordSalt = adminsalt,
                         FirstName = "Teach1",
                         LastName = "1Teach",
                         UserType = UserType.Teacher,
@@ -68,6 +76,7 @@ public static class SeedDB
                         UserName = "teacher2",
                         Email = "teach2@ud3.bg",
                         PasswordHash = "teach",
+                        PasswordSalt = adminsalt,
                         FirstName = "Teach2",
                         LastName = "2teach",
                         UserType = UserType.Teacher,
@@ -79,6 +88,7 @@ public static class SeedDB
                         UserName = "teacher3",
                         Email = "teach3@ud3.bg",
                         PasswordHash = "teach",
+                        PasswordSalt = adminsalt,
                         FirstName = "Teach3",
                         LastName = "3Teach",
                         UserType = UserType.Teacher,
@@ -90,6 +100,7 @@ public static class SeedDB
                          UserName = "student1",
                          Email = "stud1@ud3.bg",
                          PasswordHash = "stud",
+                         PasswordSalt = adminsalt,
                          FirstName = "Stud1",
                          LastName = "1Stud",
                          UserType = UserType.Student,
@@ -101,6 +112,7 @@ public static class SeedDB
                           UserName = "student2",
                           Email = "stud2@ud3.bg",
                           PasswordHash = "stud",
+                          PasswordSalt = adminsalt,
                           FirstName = "Stud2",
                           LastName = "2Stud",
                           UserType = UserType.Student,
@@ -112,6 +124,7 @@ public static class SeedDB
                         UserName = "student3",
                         Email = "stud3@ud3.bg",
                         PasswordHash = "stud",
+                        PasswordSalt = adminsalt,
                         FirstName = "Stud3",
                         LastName = "3Stud",
                         UserType = UserType.Student,

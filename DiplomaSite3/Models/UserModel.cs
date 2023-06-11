@@ -24,6 +24,8 @@ namespace DiplomaSite3.Models
         [Required]
         public UserType UserType { get; set; }
 
+        public byte[] PasswordSalt { get; set; }
+
         [NotMapped]
         public string FullName { get { return $"{FirstName} {LastName}"; } }
 
