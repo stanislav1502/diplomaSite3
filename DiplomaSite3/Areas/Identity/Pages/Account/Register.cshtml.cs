@@ -1,6 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
 
 using System;
 using System.Collections.Generic;
@@ -52,8 +51,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
         public string ReturnUrl { get; set; }
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
+        
         public class InputModel
         {
             [Required]
@@ -68,6 +66,14 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [StringLength(20, MinimumLength = 1)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(20, MinimumLength = 1)]
+            public string LastName { get; set; }
+
+            [Required]
             [Display(Name = "Acount Type")]
             public UserType UserType { get; set; } = UserType.Student;
 
@@ -77,32 +83,37 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            
             [Display(Name = "2FA password")]
-            [DataType(DataType.Password)]
-            public string AdminPass { get; set; }
+            public string? AdminPass { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
