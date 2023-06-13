@@ -14,7 +14,6 @@ namespace DiplomaSite3.Data
         }
 
         public DbSet<DiplomaModel> DiplomasDBS { get; set; } 
-        
         public DbSet<StudentModel> StudentsDBS{ get; set; }
         public DbSet<TeacherModel> TeachersDBS{ get; set; }
         public DbSet<AdminModel> AdminsDBS{ get; set; }

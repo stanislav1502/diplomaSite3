@@ -1,5 +1,6 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+#nullable disable
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using DiplomaSite3.Enums;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -75,7 +77,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Acount Type")]
-            public UserType UserType { get; set; } = UserType.Student;
+            public MyRolesEnum UserType { get; set; } = MyRolesEnum.Student;
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -91,16 +93,16 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
 
             
             [Display(Name = "2FA password")]
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
             public string? AdminPass { get; set; }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public void OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -159,9 +161,9 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             {
                 switch (Input.UserType)
                 {
-                    case UserType.Student: return Activator.CreateInstance<StudentModel>();
-                    case UserType.Teacher: return Activator.CreateInstance<TeacherModel>();
-                    case UserType.Admin: return Activator.CreateInstance<AdminModel>();
+                    case MyRolesEnum.Student: return Activator.CreateInstance<StudentModel>();
+                    case MyRolesEnum.Teacher: return Activator.CreateInstance<TeacherModel>();
+                    case MyRolesEnum.Admin: return Activator.CreateInstance<AdminModel>();
                     default: return null;
                 }
             }

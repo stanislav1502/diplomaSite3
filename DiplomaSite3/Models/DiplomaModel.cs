@@ -2,12 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DiplomaSite3.Enums;
 
 namespace DiplomaSite3.Models
 {
-
-    public enum StatusEnum { Posted, WIP, Done, InAppraisal, Archived }
-
 
     public class DiplomaModel
     {
@@ -17,11 +15,13 @@ namespace DiplomaSite3.Models
 
         [Required]
         [StringLength(100)]
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public string Title { get; set; }
 
         [Required]
         [StringLength(200)]
         public string Description { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         [Display(Name = "Defense on")]
         [DataType(DataType.Date)]

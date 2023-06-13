@@ -1,4 +1,5 @@
-﻿
+﻿#nullable disable
+
 using DiplomaSite3.Data;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Mvc;

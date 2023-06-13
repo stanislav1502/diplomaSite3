@@ -1,5 +1,6 @@
 ﻿
 using DiplomaSite3.Models;
+using DiplomaSite3.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -54,7 +55,7 @@ public static class SeedDB
                         AccessFailedCount = 0,
                         FirstName = "Admin1",
                         LastName = "1Admin",
-                        UserType = UserType.Admin,
+                        UserType = MyRolesEnum.Admin,
                         AdminPass = "123456",
 
                     },
@@ -67,7 +68,7 @@ public static class SeedDB
                         PasswordSalt = adminsalt,
                         FirstName = "Teach1",
                         LastName = "1Teach",
-                        UserType = UserType.Teacher,
+                        UserType = MyRolesEnum.Teacher,
                         Approved = true
                     },
                     new TeacherModel
@@ -79,7 +80,7 @@ public static class SeedDB
                         PasswordSalt = adminsalt,
                         FirstName = "Teach2",
                         LastName = "2teach",
-                        UserType = UserType.Teacher,
+                        UserType = MyRolesEnum.Teacher,
                         Approved = false
                     },
                     new TeacherModel
@@ -91,7 +92,7 @@ public static class SeedDB
                         PasswordSalt = adminsalt,
                         FirstName = "Teach3",
                         LastName = "3Teach",
-                        UserType = UserType.Teacher,
+                        UserType = MyRolesEnum.Teacher,
                         Approved = true
                     },
                      new StudentModel
@@ -103,7 +104,7 @@ public static class SeedDB
                          PasswordSalt = adminsalt,
                          FirstName = "Stud1",
                          LastName = "1Stud",
-                         UserType = UserType.Student,
+                         UserType = MyRolesEnum.Student,
                          FacultyNumber = "230001"
                      },
                       new StudentModel
@@ -115,7 +116,7 @@ public static class SeedDB
                           PasswordSalt = adminsalt,
                           FirstName = "Stud2",
                           LastName = "2Stud",
-                          UserType = UserType.Student,
+                          UserType = MyRolesEnum.Student,
                           FacultyNumber = "230002"
                       },
                     new StudentModel
@@ -127,7 +128,7 @@ public static class SeedDB
                         PasswordSalt = adminsalt,
                         FirstName = "Stud3",
                         LastName = "3Stud",
-                        UserType = UserType.Student,
+                        UserType = MyRolesEnum.Student,
                         FacultyNumber = "230123"
                     }
                 );
@@ -182,5 +183,13 @@ public static class SeedDB
             }
 
         }
+    }
+
+    public static async Task SeedRolesAsync(UserManager<UserModel> userManager, RoleManager<IdentityRole<Guid>> roleManager)
+    {
+        //Seed Roles
+        await roleManager.CreateAsync(new IdentityRole<Guid>(MyRolesEnum.Student.ToString()));
+        await roleManager.CreateAsync(new IdentityRole<Guid>(MyRolesEnum.Teacher.ToString()));
+        await roleManager.CreateAsync(new IdentityRole<Guid>(MyRolesEnum.Admin.ToString()));
     }
 }

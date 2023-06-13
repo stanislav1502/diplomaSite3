@@ -1,4 +1,7 @@
 ﻿
+#nullable disable
+
+using DiplomaSite3.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -6,10 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiplomaSite3.Models
 {
-    public enum UserType
-    {
-        Student, Teacher, Admin
-    }
+    
     public abstract class UserModel : IdentityUser<Guid>
     {
 
@@ -22,7 +22,7 @@ namespace DiplomaSite3.Models
         public string LastName { get; set; }
 
         [Required]
-        public UserType UserType { get; set; }
+        public MyRolesEnum UserType { get; set; }
 
         public byte[] PasswordSalt { get; set; }
 

@@ -20,7 +20,10 @@ namespace DiplomaSite3.Data
                 salt = user.PasswordSalt;
             }
             var hash = Rfc2898DeriveBytes.Pbkdf2(password,salt,35716,HashAlgorithmName.SHA512,100);
+#pragma warning disable CS8603 // Possible Null reference return.            
             return hash.ToString();
+#pragma warning restore CS8603 // Possible Null reference return.
+
         }
 
         public PasswordVerificationResult VerifyHashedPassword(UserModel user, string hashedPassword, string providedPassword)
