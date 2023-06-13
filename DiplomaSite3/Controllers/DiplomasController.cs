@@ -2,6 +2,7 @@
 
 using DiplomaSite3.Data;
 using DiplomaSite3.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 
 namespace DiplomaSite3.Controllers
 {
+    [Authorize]
     public class DiplomasController : Controller
     {
         private readonly DiplomaSite3Context _context;
@@ -20,6 +22,7 @@ namespace DiplomaSite3.Controllers
         }
 
         // GET: Diplomas
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string searchString)
         {
             var diplomas = _context.DiplomasDBS;

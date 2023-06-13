@@ -1,4 +1,8 @@
 ﻿
+@using DiplomaSite3.Enums
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<UserModel> SignInManager
+
 @model IEnumerable<DiplomaSite3.Models.AdminDiplomaVM>
 
 @{
@@ -8,7 +12,10 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    {
+        <a asp-action="Create">Create New</a>
+    }
 </p>
 <table class="table">
     

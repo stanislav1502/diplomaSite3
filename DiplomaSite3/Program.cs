@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DiplomaSite3.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using DiplomaSite3.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,8 @@ using (var scope = app.Services.CreateScope())
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
         SeedDB.Initialize(services);
-        await SeedDB.SeedRolesAsync(userManager, roleManager);
+        await SeedDB.SeedRolesAsync(roleManager);
+        await SeedDB.AssignRolesAsync(context, userManager);
     }
     catch (Exception ex)
     {

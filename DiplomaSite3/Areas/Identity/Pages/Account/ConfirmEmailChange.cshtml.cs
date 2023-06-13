@@ -25,11 +25,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             _signInManager = signInManager;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [TempData]
+       [TempData]
         public string StatusMessage { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string userId, string email, string code)
@@ -53,14 +49,15 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            // In our UI email and user name are one and the same, so when we update the email
-            // we need to update the user name.
-            var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
-            if (!setUserNameResult.Succeeded)
-            {
-                StatusMessage = "Error changing user name.";
-                return Page();
-            }
+            // not in mine it isn't
+            //// In our UI email and user name are one and the same, so when we update the email
+            //// we need to update the user name.
+            //var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
+            //if (!setUserNameResult.Succeeded)
+            //{
+            //    StatusMessage = "Error changing user name.";
+            //    return Page();
+            //}
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Thank you for confirming your email change.";
