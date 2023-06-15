@@ -22,7 +22,7 @@ namespace DiplomaSite3.Controllers
             return View();
         }
 
-
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
