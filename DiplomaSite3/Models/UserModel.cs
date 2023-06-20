@@ -12,6 +12,9 @@ namespace DiplomaSite3.Models
     
     public abstract class UserModel : IdentityUser<Guid>
     {
+        [Key]
+        [Required]
+        override public Guid Id { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 1)]

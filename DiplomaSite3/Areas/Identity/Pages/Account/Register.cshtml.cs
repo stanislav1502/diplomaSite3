@@ -93,10 +93,12 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            
+
             [Display(Name = "2FA password")]
+            [DataType(DataType.Password)]
+            [StringLength(maximumLength: 50)]
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-            public string? AdminPass { get; set; }
+            public string? AdminPass { get; set; } = null;
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
         }
 
@@ -120,7 +122,17 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 user.UserType = Input.UserType;
 
+                if(user.UserType == MyRolesEnum.Admin) 
+                { 
+                    user.TwoFactorEnabled = false;
+                }
+                else
+                {
+                    user.TwoFactorEnabled = false;
+                }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
 
                 if (result.Succeeded)
                 {

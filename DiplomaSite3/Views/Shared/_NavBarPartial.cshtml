@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<UserModel> SignInManager
+@inject UserManager<UserModel> UserManager
 
 <ul class="navbar-nav">
 
@@ -13,15 +14,24 @@
     {
         
         <li class="nav-item">
-
-        
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Diplomas" asp-action="Index">Diplomas</a>
         </li>
+
+        @if (User.IsInRole("Student"))
+        {
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Diplomas" asp-action="MyDiploma">My Diploma</a>
+        }
+
+        @if (User.IsInRole("Teacher"))
+        {
+            <a class="nav-link  btn navbtn mx-1" asp-controller="TeacherDiploma" asp-action="Index">My Diplomas</a>
+        }
     }
     else
     {
 
         <li class="nav-item">
-            <a class="nav-link  btn navbtn mx-1" asp-controller="Diplomas" asp-action="Index">Diploma</a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Diplomas" asp-action="Index">Diplomas</a>
         </li>
     }
 </ul>

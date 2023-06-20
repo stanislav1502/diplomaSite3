@@ -3,6 +3,7 @@
 using DiplomaSite3.Data;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace DiplomaSite3.Controllers
         }
 
         // GET: Diplomas
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Index(string searchString)
         {
@@ -31,21 +33,34 @@ namespace DiplomaSite3.Controllers
                 return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");  
             }
 
-            List<AdminDiplomaVM> viewModel = new List<AdminDiplomaVM>();
-            foreach (var diploma in diplomas)
-            {
-                var teacher = await _context.TeachersDBS.FindAsync(diploma.TeacherID);
-                var student = await _context.StudentsDBS.FindAsync(diploma.StudentID) ;
+            var diplomasQuerry = from d in diplomas
+                         select d;
 
-                var advm = new AdminDiplomaVM(diploma, teacher == null ? null : teacher.FullName, student == null ? null : student.FullName);
-                viewModel.Add(advm);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                diplomasQuerry = diplomasQuerry.Where(s => s.Title!.Contains(searchString));
+            }
+
+            var viewModel = new AdminDiplomaVM
+            {
+                Diplomas = await diplomasQuerry.ToListAsync()
+            };
+
+            foreach (var diploma in viewModel.Diplomas)
+            {
+                var teacher = _context.TeachersDBS.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", diploma.TeacherID).AsNoTracking();
+                diploma.Teacher = teacher.Any() ? teacher.First() : null;
+                var student = _context.StudentsDBS.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", diploma.StudentID).AsNoTracking();
+                diploma.Student = student.Any() ? student.First() : null;
             }
 
             return View(viewModel);
 
         }
 
-        // GET: Diplomas/Details/5
+        // GET: Diplomas/Details/0000000000000000000000000000000000000
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null || _context.DiplomasDBS == null)
@@ -63,7 +78,31 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
+        
+        [HttpGet]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> MyDiploma()
+        {
+           
+            var stringID = User.Claims.First().Value; 
+            if (stringID == null || _context.StudentsDBS == null)
+            {
+                return NotFound();
+            }
+            Guid userID = new Guid(stringID);
+
+            var diplomaModel = _context.DiplomasDBS.FromSqlRaw("SELECT * FROM Diploma WHERE StudentID = {0}", userID).AsNoTracking().First();
+            if (diplomaModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(diplomaModel);
+        }
+
         // GET: Diplomas/Create
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             PopulateTeachersDropDownList();
@@ -138,6 +177,8 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
         // GET: Diplomas/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {

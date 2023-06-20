@@ -4,7 +4,7 @@
 @inject SignInManager<UserModel> SignInManager
 @inject UserManager<UserModel> UserManager
 
-@model AdminDiplomaVM
+@model TeacherDiplomasVM
 
 @{
     ViewData["Title"] = "Index";
@@ -12,28 +12,26 @@
 
 <h1>Index</h1>
 
-<form asp-controller="Diplomas" asp-action="Index" method="get">
-    <p>
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
-</form>
-
 <p>
-    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Teacher"))
     {
         <a asp-action="Create">Create New</a>
     }
 </p>
+
+<form asp-controller="Movies" asp-action="Index" method="get">
+    <p>
+    Title: <input type="text" asp-for="SearchString" />
+    <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Diplomas![0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Diplomas![0].DefendDate)
@@ -46,9 +44,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Diplomas![0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Teacher)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Diplomas![0].Student)
@@ -65,10 +60,21 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DefendDate)
+                    @if (item.DefendDate != null)
+                {
+                        @Html.DisplayFor(modelItem => item.DefendDate)
+                    }
+                    else
+                    {
+                        if(item.Status == StatusEnum.Done)
+                        {
+                            <a asp-action="SetDefense" asp-route-id="@item.DiplomaID" method="post"></a>
+                        }
+                        else
+                        {
+                            
+                        }
+                    }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Grade)
@@ -80,29 +86,10 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Teacher!.FullName)
-                    @{
-                        var teacher = item.Teacher!; var name = "";
-                        if (teacher != null)
-                        { name = teacher.FullName; }
-
-                        Console.WriteLine("teacher" + name );
-                }
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Student!.FullName)
             </td>
 			@if (SignInManager.IsSignedIn(User))
             {
-                @if (User.IsInRole("Admin"))
-                {
-                    <td>
-                    <a asp-action="Edit" asp-route-id="@item.DiplomaID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DiplomaID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DiplomaID">Delete</a>
-                    </td>
-                }
-
                 @if (User.IsInRole("Teacher"))
                 {
                     <td>
@@ -110,16 +97,14 @@
                     <a asp-action="Details" asp-route-id="@item.DiplomaID">Details</a>
                     </td>
                 }
-
-                @if(User.IsInRole("Student"))
-                {
-                    <td>
-                    <a asp-action="Details" asp-route-id="@item.DiplomaID">Details</a>
-                    </td>
-                }
-
             }
-        </tr>
+            else
+            {
+                <td>
+                    <a></a>
+                </td>
+            }
+            </tr>
         }
     </tbody>
 

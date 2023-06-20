@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiplomaSite3.Models
 {
@@ -9,7 +10,7 @@ namespace DiplomaSite3.Models
         [StringLength(6)]
         public string? FacultyNumber { get; set; }
 
-        [DisplayFormat(NullDisplayText = "No assigned diploma")]
+        //public Guid? AssignedDiplomaID { get; set; }
         public DiplomaModel? AssignedDiploma { get; set; }
     }
 }
