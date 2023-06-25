@@ -13,14 +13,23 @@
 <h1>Index</h1>
 
 <form asp-controller="Diplomas" asp-action="Index" method="get">
-    <p>
-        Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
+   <p> 
+        <div>
+            Title: <input type="text" asp-for="SearchString" />
+            
+        </div>
+        <div>
+            Only Posted
+            <input type="checkbox" asp-for="OnlyPosted"/>
+        </div>
+        <div>
+            <input type="submit" value="Filter" />
+        </div> 
+   </p>
 </form>
 
 <p>
-    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin"))
     {
         <a asp-action="Create">Create New</a>
     }
@@ -81,13 +90,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Teacher!.FullName)
-                    @{
-                        var teacher = item.Teacher!; var name = "";
-                        if (teacher != null)
-                        { name = teacher.FullName; }
-
-                        Console.WriteLine("teacher" + name );
-                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Student!.FullName)

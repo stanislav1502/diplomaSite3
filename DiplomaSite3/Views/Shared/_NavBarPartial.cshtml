@@ -26,6 +26,12 @@
         {
             <a class="nav-link  btn navbtn mx-1" asp-controller="TeacherDiploma" asp-action="Index">My Diplomas</a>
         }
+        
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="nav-link  btn navbtn mx-1" asp-controller="AdminPanel" asp-action="Index">Admin Panel</a>
+        }
+
     }
     else
     {

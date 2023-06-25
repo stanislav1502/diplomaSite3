@@ -1,0 +1,169 @@
+﻿
+@using DiplomaSite3.Enums
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<UserModel> SignInManager
+@inject UserManager<UserModel> UserManager
+
+@model AdminVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Admin Panel</h1>
+
+@if (User.IsInRole("Admin"))
+{
+<form asp-controller="Admin" asp-action="Index" method="get">
+    <p>
+        Title: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].DefendDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].Tags)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].Teacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Diplomas![0].Student)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach (var item in Model.Diplomas!)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DefendDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher!.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student!.FullName)
+            </td>
+			
+            <td>
+            <a asp-action="DEdit" asp-route-id="@item.DiplomaID">Edit</a> |
+            <a asp-action="DDetails" asp-route-id="@item.DiplomaID">Details</a> |
+            <a asp-action="DDelete" asp-route-id="@item.DiplomaID">Delete</a>
+            </td>
+            
+        </tr>
+        }
+    </tbody>
+
+</table>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users![0].Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users![0].UserType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users![0].UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users![0].FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users![0].LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users![0].Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users![0].PhoneNumber)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Users!)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                   
+                    <td>
+                    <a asp-action="UEdit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="UDetails" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="UDelete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                   
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    </div>
+}

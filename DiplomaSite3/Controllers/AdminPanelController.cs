@@ -1,7 +1,6 @@
 ﻿#nullable disable
 
 using DiplomaSite3.Data;
-using DiplomaSite3.Enums;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,43 +12,44 @@ using System.Collections.Generic;
 
 namespace DiplomaSite3.Controllers
 {
-    [Authorize]
-    public class DiplomasController : Controller
+    [Authorize(Roles = "Admin")]
+    public class AdminPanelController : Controller
     {
         private readonly DiplomaSite3Context _context;
 
-        public DiplomasController(DiplomaSite3Context context)
+        public AdminPanelController(DiplomaSite3Context context)
         {
             _context = context;
         }
 
-        // GET: Diplomas
-        [AllowAnonymous]
+        // GET: AdminPanel
         [HttpGet]
-        public async Task<IActionResult> Index(string searchString, bool onlyposted)
+        public async Task<IActionResult> Index(string searchString)
         {
             var diplomas = _context.DiplomasDBS;
             if (diplomas == null)
             {
                 return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");  
             }
+            var users = _context.UsersDBS;
+            if (users == null)
+            {
+                return Problem("Entity set 'DiplomaSite3Context.Users'  is null.");
+            }
 
             var diplomasQuerry = from d in diplomas
                          select d;
-
+            var usersQuerry = from u in users
+                                 select u;
             if (!string.IsNullOrEmpty(searchString))
             {
                 diplomasQuerry = diplomasQuerry.Where(s => s.Title!.Contains(searchString));
             }
 
-            if(onlyposted)
+            var viewModel = new AdminVM
             {
-                diplomasQuerry = diplomasQuerry.Where(s => s.Status!.Equals(StatusEnum.Posted));
-            }
-
-            var viewModel = new AdminDiplomaVM
-            {
-                Diplomas = await diplomasQuerry.ToListAsync()
+                Diplomas = await diplomasQuerry.ToListAsync(),
+                Users = await usersQuerry.ToListAsync()
             };
 
             foreach (var diploma in viewModel.Diplomas)
@@ -64,40 +64,18 @@ namespace DiplomaSite3.Controllers
 
         }
 
-        // GET: Diplomas/Details/0000000000000000000000000000000000000
+        // DIPLOMAS
+
         [HttpGet]
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> DDetails(Guid? id)
         {
             if (id == null || _context.DiplomasDBS == null)
             {
                 return NotFound();
             }
-            var viewModel = new AdminDiplomaVM();
 
             var diplomaModel = await _context.DiplomasDBS
                 .FirstOrDefaultAsync(m => m.DiplomaID == id);
-            if (diplomaModel == null)
-            {
-                return NotFound();
-            }
-            viewModel.DiplomaModel = diplomaModel;
-
-            return View(viewModel);
-        }
-
-        
-        [HttpGet]
-        [Authorize(Roles = "Student")]
-        public async Task<IActionResult> MyDiploma()
-        {
-            var stringID = User.Claims.First().Value; 
-            if (stringID == null || _context.StudentsDBS == null)
-            {
-                return NotFound();
-            }
-            Guid userID = new Guid(stringID);
-            
-            var diplomaModel = _context.DiplomasDBS.FromSqlRaw("SELECT * FROM Diploma WHERE StudentID = {0}", userID).AsNoTracking().First();
             if (diplomaModel == null)
             {
                 return NotFound();
@@ -106,37 +84,9 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        // GET: Diplomas/Create
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Create()
+        public async Task<IActionResult> DEdit(Guid? id)
         {
-            PopulateTeachersDropDownList();
-            return View();
-        }
-
-        // POST: Diplomas/Create
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DiplomaModel diplomaModel)
-        {
-            if (ModelState.IsValid)
-            {
-                diplomaModel.DiplomaID = Guid.NewGuid();
-                _context.Add(diplomaModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return RedirectToAction(nameof(Details),nameof(DiplomasController),diplomaModel.DiplomaID);
-        }
-
-        // GET: Diplomas/Edit/5
-        [Authorize(Roles = "Admin,Teacher")]
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            var viewModel = new AdminDiplomaVM();
-
             if (id == null || _context.DiplomasDBS == null)
             {
                 return NotFound();
@@ -147,19 +97,12 @@ namespace DiplomaSite3.Controllers
             {
                 return NotFound();
             }
-
-            viewModel.DiplomaModel = diplomaModel;
-
-            return View(viewModel);
+            return View(diplomaModel);
         }
 
-        // POST: Diplomas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("DiplomaID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] DiplomaModel diplomaModel)
+        public async Task<IActionResult> DEdit(Guid id, [Bind("DiplomaID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] DiplomaModel diplomaModel)
         {
             if (id != diplomaModel.DiplomaID)
             {
@@ -175,7 +118,8 @@ namespace DiplomaSite3.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DiplomaModelExists(diplomaModel.DiplomaID))
+                    var diplomaModelExists = (_context.DiplomasDBS?.Any(e => e.DiplomaID == id)).GetValueOrDefault();
+                    if (!diplomaModelExists)
                     {
                         return NotFound();
                     }
@@ -189,10 +133,8 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet]
-        // GET: Diplomas/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> DDelete(Guid? id)
         {
             if (id == null || _context.DiplomasDBS == null)
             {
@@ -209,9 +151,7 @@ namespace DiplomaSite3.Controllers
             return View(diplomaModel);
         }
 
-        // POST: Diplomas/Delete/5
-        [Authorize(Roles = "Admin")]
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DDelete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
@@ -229,33 +169,62 @@ namespace DiplomaSite3.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = "Student")]
+        // USERS
+
+        [HttpGet]
+        public async Task<IActionResult> UDetails(Guid? id)
+        {
+            if (id == null || _context.UsersDBS == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = await _context.UsersDBS
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(userModel);
+        }
+
+        public async Task<IActionResult> UEdit(Guid? id)
+        {
+            if (id == null || _context.UsersDBS == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = await _context.UsersDBS.FindAsync(id);
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+            return View(userModel);
+        }
+
+        // POST: Diplomas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RequestDiploma(string diploma, string student)
+        public async Task<IActionResult> UEdit(Guid id, [Bind("Id,Username,Email")] UserModel userModel)
         {
-            var stud = new Guid(student);
-            if (_context.DiplomasDBS == null)
+            if (id != userModel.Id)
             {
-                return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
+                return NotFound();
             }
-            var diplomaModel = await _context.DiplomasDBS.FromSqlRaw("SELECT * FROM Diploma WHERE DiplomaID = {0}", diploma).FirstAsync();
 
-            if (ModelState.IsValid && diplomaModel.Status == StatusEnum.Posted)
+            if (ModelState.IsValid)
             {
                 try
                 {
-
-                    diplomaModel.Student = (StudentModel)(await _context.UsersDBS.FindAsync(stud));
-                    diplomaModel.StudentID = diplomaModel.Student.Id;
-                    diplomaModel.Status = StatusEnum.WIP;
-
-                    _context.Update(diplomaModel);
+                    _context.Update(userModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DiplomaModelExists(diplomaModel.DiplomaID))
+                    var userModelExists = (_context.UsersDBS?.Any(e => e.Id == id)).GetValueOrDefault();
+                    if (!userModelExists)
                     {
                         return NotFound();
                     }
@@ -266,23 +235,46 @@ namespace DiplomaSite3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            return RedirectToAction(nameof(Index),nameof(DiplomasController));
+            return View(userModel);
         }
 
-
-
-        private bool DiplomaModelExists(Guid id)
+        [HttpGet]
+        // GET: Diplomas/Delete/5
+        public async Task<IActionResult> UDelete(Guid? id)
         {
-          return (_context.DiplomasDBS?.Any(e => e.DiplomaID == id)).GetValueOrDefault();
+            if (id == null || _context.UsersDBS == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = await _context.UsersDBS
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(userModel);
         }
 
-        private void PopulateTeachersDropDownList(object selectedTeacher = null)
+        // POST: Diplomas/Delete/5
+        [HttpPost, ActionName("UDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UDeleteConfirmed(Guid id)
         {
-            var teachersQuery = from t in _context.TeachersDBS
-                                   orderby t.FullName
-                                   select t;
-            ViewBag.TeachersID = new SelectList(teachersQuery.AsNoTracking(), "UserID", "FullName", selectedTeacher);
+            if (_context.UsersDBS == null)
+            {
+                return Problem("Entity set 'DiplomaSite3Context.Users'  is null.");
+            }
+            var userModel = await _context.UsersDBS.FindAsync(id);
+            if (userModel != null)
+            {
+                _context.UsersDBS.Remove(userModel);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
     }
 }

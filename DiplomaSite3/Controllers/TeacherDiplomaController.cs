@@ -55,20 +55,36 @@ namespace DiplomaSite3.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetStatus(StatusEnum status)
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
+            TeacherCreateVM model = new TeacherCreateVM();
+            Guid teacherID = Guid.Empty;
+            if (User != null)
+                teacherID = new Guid(User.Claims.First().Value);
+            if (!teacherID.Equals(Guid.Empty))
+                model.TeacherTC = _context.TeachersDBS.Find(teacherID);
             
+            return View(model);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetDefense()
+        public async Task<IActionResult> Create(TeacherCreateVM model)
         {
 
+            if (ModelState.IsValid)
+            {
+                model.DiplomaTC.DiplomaID = Guid.NewGuid();
+
+                _context.DiplomasDBS.Add(model.DiplomaTC);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
         }
+
 
 
     }

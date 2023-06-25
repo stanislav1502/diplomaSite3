@@ -1,0 +1,62 @@
+﻿
+@using DiplomaSite3.Enums
+@model DiplomaSite3.Models.TeacherCreateVM
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TeacherDiploma</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DiplomaTC.Title" class="control-label"></label>
+                <input asp-for="DiplomaTC.Title" class="form-control" />
+                <span asp-validation-for="DiplomaTC.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiplomaTC.Description" class="control-label"></label>
+                <input asp-for="DiplomaTC.Description" class="form-control" />
+                <span asp-validation-for="DiplomaTC.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiplomaTC.Tags" class="control-label"></label>
+                <input asp-for="DiplomaTC.Tags" class="form-control" />
+                <span asp-validation-for="DiplomaTC.Tags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiplomaTC.Status" class="control-label"></label>
+                <select asp-for="DiplomaTC.Status" class="form-control" readonly >
+                    <option selected> @StatusEnum.Posted </option>
+                </select>
+                <span asp-validation-for="DiplomaTC.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiplomaTC.TeacherID" class="control-label"></label>
+                @{
+                    var teacher = Model.TeacherTC;
+                }
+                <input asp-for="DiplomaTC.TeacherID" class="form-control" value="@teacher.FullName" readonly />
+                <span asp-validation-for="DiplomaTC.TeacherID" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

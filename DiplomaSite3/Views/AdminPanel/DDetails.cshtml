@@ -1,7 +1,5 @@
 ﻿
 @model DiplomaSite3.Models.DiplomaModel
-@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<UserModel> SignInManager
 
 @{
     ViewData["Title"] = "Details";
@@ -64,9 +62,6 @@
     </dl>
 </div>
 <div>
-    @if (User.IsInRole("Teacher"))
-    {
-        <a asp-action="Edit" asp-route-id="@Model?.DiplomaID">Edit</a> <span>|</span> 
-    }
+    <a asp-action="DEdit" asp-route-id="@Model?.DiplomaID">Edit</a> <span>|</span>
     <a asp-action="Index">Back to List</a>
 </div>
