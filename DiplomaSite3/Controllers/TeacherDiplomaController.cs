@@ -3,6 +3,7 @@ using DiplomaSite3.Enums;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -19,7 +20,7 @@ namespace DiplomaSite3.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string? searchString, string? searchStatus)
         {
             var diplomas = _context.DiplomasDBS;
             if (diplomas == null)
@@ -28,12 +29,7 @@ namespace DiplomaSite3.Controllers
             }
 
             var diplomasQuerry = from d in diplomas
-                                 select d;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                diplomasQuerry = diplomasQuerry.Where(s => s.Title!.Contains(searchString));
-            }
+                                 select d ;
 
             if (User != null)
             {
@@ -41,9 +37,25 @@ namespace DiplomaSite3.Controllers
                 diplomasQuerry = diplomasQuerry.Where(d => d.TeacherID!.Equals(userID));
             }
 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                diplomasQuerry = diplomasQuerry.Where(d => d.Title!.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(searchStatus))
+            {
+                if (!searchStatus.Equals("Any"))
+
+                {
+                    var status = Enum.Parse<StatusEnum>(searchStatus, true);
+                    diplomasQuerry = diplomasQuerry.Where(d => d.Status!.Equals(status));
+
+                }
+            }
+
             var viewModel = new TeacherDiplomasVM
             {
-                Diplomas = await diplomasQuerry.ToListAsync()
+                Diplomas = await diplomasQuerry.OrderByDescending(d =>d.Title).ToListAsync()
             };
 
             foreach (var diploma in viewModel.Diplomas)
@@ -51,6 +63,7 @@ namespace DiplomaSite3.Controllers
                 var student = _context.StudentsDBS.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", diploma.StudentID).AsNoTracking();
                 diploma.Student = student.Any() ? student.First() : null;
             }
+            
 
             return View(viewModel);
         }
@@ -58,7 +71,7 @@ namespace DiplomaSite3.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            TeacherCreateVM model = new TeacherCreateVM();
+            StudentTeacherDiplomaVM model = new StudentTeacherDiplomaVM();
             Guid teacherID = Guid.Empty;
             if (User != null)
                 teacherID = new Guid(User.Claims.First().Value);
@@ -70,7 +83,7 @@ namespace DiplomaSite3.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TeacherCreateVM model)
+        public async Task<IActionResult> Create(StudentTeacherDiplomaVM model)
         {
 
             if (ModelState.IsValid)
@@ -85,7 +98,25 @@ namespace DiplomaSite3.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null || _context.DiplomasDBS == null)
+            {
+                return NotFound();
+            }
+            var viewModel = new TeacherDiplomasVM();
 
+            var diplomaModel = await _context.DiplomasDBS
+                .FirstOrDefaultAsync(m => m.DiplomaID == id);
+            if (diplomaModel == null)
+            {
+                return NotFound();
+            }
+            viewModel.Diplomas.Add(diplomaModel);
+
+            return View(viewModel);
+        }
 
     }
 }

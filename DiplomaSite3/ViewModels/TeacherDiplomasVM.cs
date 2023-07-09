@@ -9,6 +9,7 @@ namespace DiplomaSite3.Models
     {
         public List<DiplomaModel>? Diplomas { get; set; }
         public string? SearchString { get; set; }
+        public StatusEnum? SearchStatus { get; set; }
 
     }
 }

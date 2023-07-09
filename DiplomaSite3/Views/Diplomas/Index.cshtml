@@ -13,19 +13,14 @@
 <h1>Index</h1>
 
 <form asp-controller="Diplomas" asp-action="Index" method="get">
-   <p> 
-        <div>
-            Title: <input type="text" asp-for="SearchString" />
-            
-        </div>
-        <div>
-            Only Posted
-            <input type="checkbox" asp-for="OnlyPosted"/>
-        </div>
-        <div>
-            <input type="submit" value="Filter" />
-        </div> 
-   </p>
+    <p> 
+      Title: <input type="text" asp-for="SearchString" />
+      Only Posted <input type="checkbox" asp-for="OnlyPosted"/>
+    </p>
+
+    <div class="float-end">
+    <input type="submit" value="Filter" />
+    </div>
 </form>
 
 <p>
@@ -34,32 +29,32 @@
         <a asp-action="Create">Create New</a>
     }
 </p>
-<table class="table">
+<table class="table" id="indexDiplomaTable">
     
     <thead>
         <tr>
-            <th>
+            <th onclick="sortTable(0)">
                 @Html.DisplayNameFor(model => model.Diplomas![0].Title)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Diplomas![0].Description)
             </th>
-            <th>
+            <th onclick="sortTable(2)">
                 @Html.DisplayNameFor(model => model.Diplomas![0].DefendDate)
             </th>
-            <th>
+            <th onclick="sortTable(3)">
                 @Html.DisplayNameFor(model => model.Diplomas![0].Grade)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Diplomas![0].Tags)
             </th>
-            <th>
+            <th onclick="sortTable(5)">
                 @Html.DisplayNameFor(model => model.Diplomas![0].Status)
             </th>
-            <th>
+            <th onclick="sortTable(6)">
                 @Html.DisplayNameFor(model => model.Diplomas![0].Teacher)
             </th>
-            <th>
+            <th onclick="sortTable(7)">
                 @Html.DisplayNameFor(model => model.Diplomas![0].Student)
             </th>
             <th></th>
@@ -126,3 +121,60 @@
     </tbody>
 
 </table>
+
+<script>
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("indexDiplomaTable");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        // If so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+              set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>

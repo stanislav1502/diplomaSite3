@@ -2,7 +2,7 @@
 
 namespace DiplomaSite3.Models
 {
-    public class TeacherCreateVM
+    public class StudentTeacherDiplomaVM
     {
         public DiplomaModel DiplomaTC { get; set; }
         public StudentModel StudentTC { get; set; }

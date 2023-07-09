@@ -39,17 +39,17 @@ namespace DiplomaSite3.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                diplomasQuerry = diplomasQuerry.Where(s => s.Title!.Contains(searchString));
+                diplomasQuerry = diplomasQuerry.Where(d => d.Title!.Contains(searchString));
             }
 
             if(onlyposted)
             {
-                diplomasQuerry = diplomasQuerry.Where(s => s.Status!.Equals(StatusEnum.Posted));
+                diplomasQuerry = diplomasQuerry.Where(d => d.Status!.Equals(StatusEnum.Posted));
             }
 
             var viewModel = new AdminDiplomaVM
             {
-                Diplomas = await diplomasQuerry.ToListAsync()
+                Diplomas = await diplomasQuerry.OrderByDescending(d => d.Title).ToListAsync()
             };
 
             foreach (var diploma in viewModel.Diplomas)
@@ -234,6 +234,7 @@ namespace DiplomaSite3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RequestDiploma(string diploma, string student)
         {
+            
             var stud = new Guid(student);
             if (_context.DiplomasDBS == null)
             {
