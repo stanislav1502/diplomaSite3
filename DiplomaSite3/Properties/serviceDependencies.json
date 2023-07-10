@@ -3,17 +3,6 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:DiplomaSite3Context"
-    },
-    "compute.appService1": {
-      "group": "connections",
-      "type": "compute.appService"
-    },
-    "secrets1": {
-      "type": "secrets"
-    },
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "db196286connectionstring"
     }
   }
 }
