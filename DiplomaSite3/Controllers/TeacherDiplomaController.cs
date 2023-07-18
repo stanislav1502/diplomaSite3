@@ -1,4 +1,5 @@
-﻿using DiplomaSite3.Data;
+﻿
+using DiplomaSite3.Data;
 using DiplomaSite3.Enums;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -60,7 +61,7 @@ namespace DiplomaSite3.Controllers
 
             foreach (var diploma in viewModel.Diplomas)
             {
-                var student = _context.StudentsDBS.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", diploma.StudentID).AsNoTracking();
+                var student = _context.StudentsDBS.FromSqlRaw("SELECT * FROM Users WHERE Id = {0}", diploma.StudentID!).AsNoTracking();
                 diploma.Student = student.Any() ? student.First() : null;
             }
             
@@ -75,9 +76,12 @@ namespace DiplomaSite3.Controllers
             Guid teacherID = Guid.Empty;
             if (User != null)
                 teacherID = new Guid(User.Claims.First().Value);
+            else return Problem("Teacher is not logged in.");
+
             if (!teacherID.Equals(Guid.Empty))
                 model.TeacherTC = _context.TeachersDBS.Find(teacherID);
             
+
             return View(model);
         }
 
@@ -113,7 +117,7 @@ namespace DiplomaSite3.Controllers
             {
                 return NotFound();
             }
-            viewModel.Diplomas.Add(diplomaModel);
+            viewModel.Diplomas!.Add(diplomaModel);
 
             return View(viewModel);
         }

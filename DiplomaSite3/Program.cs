@@ -3,8 +3,11 @@ using DiplomaSite3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DiplomaSite3.Models;
-using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using DiplomaSite3.Enums;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,19 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred seeding the DB.");
     }
 }
+
+// configuring localization 
+var supportedCultures = new[] { "bg", "en" };
+var localizationOptions = new RequestLocalizationOptions()
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+var querryStringCultureProvider = localizationOptions.RequestCultureProviders[0];
+localizationOptions.RequestCultureProviders.RemoveAt(0);
+localizationOptions.RequestCultureProviders.Insert(1, querryStringCultureProvider);
+localizationOptions.SetDefaultCulture("bg");
+
+app.UseRequestLocalization(localizationOptions);
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -72,21 +88,50 @@ void AddServices(IServiceCollection services)
     .AddEntityFrameworkStores<DiplomaSite3Context>();
 
     services
-     .AddAuthorization().AddAuthentication();
+        .AddAuthorization()
+        .AddAuthentication();
 
     // password hashing
     services.AddScoped<IPasswordHasher<UserModel>, MyPassHashing>();
+    
 
-    services.AddControllersWithViews();
-    services.AddRazorPages();
+    // cookies
     services.ConfigureApplicationCookie(options =>
     {
-        // Cookie settings
         options.Cookie.HttpOnly = true;
         options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
+        
         options.LoginPath = "/Identity/Account/Login";
         options.AccessDeniedPath = "/Identity/Account/AccessDenied";
         options.SlidingExpiration = true;
     });
+
+    // adding localization 
+    services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+    services.AddMvc()
+        .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, options => { options.ResourcesPath = "Resources"; })
+        .AddDataAnnotationsLocalization(options =>
+        {
+            options.DataAnnotationLocalizerProvider = (type, factory) =>
+                factory.Create(typeof(SharedResource));
+        });
+
+    services.AddControllersWithViews()
+          .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, options => { options.ResourcesPath = "Resources"; })
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(SharedResource));
+    });
+
+    services.AddRazorPages()
+        .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, options => { options.ResourcesPath = "Resources"; })
+        .AddDataAnnotationsLocalization(options =>
+        {
+            options.DataAnnotationLocalizerProvider = (type, factory) =>
+                factory.Create(typeof(SharedResource));
+        });
+
+
 }

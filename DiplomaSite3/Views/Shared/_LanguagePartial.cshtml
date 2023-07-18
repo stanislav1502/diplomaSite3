@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Localization;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Options;
+
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures!
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
+<div>
+    <form asp-controller="Home" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
+          method="post">
+        <button class="btn navbtn mx-1" name="culture" onclick="this.form.submit();" value="bg"> @Localizer["bgBtn"] </button>
+    </form>
+    <form asp-controller="Home" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
+          method="post">
+        <button class="btn navbtn mx-1" name="culture" onclick="this.form.submit();" value="en">  @Localizer["enBtn"] </button>
+    </form>
+
+</div>

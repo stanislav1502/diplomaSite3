@@ -85,29 +85,29 @@ namespace DiplomaSite3.Controllers
             return View(viewModel);
         }
 
-        
-        [HttpGet]
-        [Authorize(Roles = "Student")]
+
+		[HttpGet]
+		[Authorize(Roles = "Student")]
         public async Task<IActionResult> MyDiploma()
-        {
-            var stringID = User.Claims.First().Value; 
-            if (stringID == null || _context.StudentsDBS == null)
-            {
-                return NotFound();
-            }
-            Guid userID = new Guid(stringID);
-            
-            var diplomaModel = _context.DiplomasDBS.FromSqlRaw("SELECT * FROM Diploma WHERE StudentID = {0}", userID).AsNoTracking().First();
-            if (diplomaModel == null)
-            {
-                return NotFound();
-            }
+		{
+			var stringID = User.Claims.First().Value;
+			if (stringID == null || _context.StudentsDBS == null)
+			{
+				return NotFound();
+			}
+			Guid userID = new Guid(stringID);
 
-            return View(diplomaModel);
-        }
+			var diplomaModel = _context.DiplomasDBS.FromSqlRaw("SELECT * FROM Diploma WHERE StudentID = {0}", userID).AsNoTracking().First();
+			if (diplomaModel == null)
+			{
+				return NotFound();
+			}
 
-        // GET: Diplomas/Create
-        [HttpGet]
+			return View(diplomaModel);
+		}
+
+		// GET: Diplomas/Create
+		[HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -271,7 +271,30 @@ namespace DiplomaSite3.Controllers
             return RedirectToAction(nameof(Index),nameof(DiplomasController));
         }
 
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Student")]
+        [HttpPost]
+        public async Task<IActionResult> MarkDone(IFormCollection collection)
+        {
+            string diploma = collection["diplomaid"];
+            Guid id = new Guid(diploma);
+            if (_context.DiplomasDBS == null)
+            {
+                return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
+            }
+            var diplomaModel = await _context.DiplomasDBS.FindAsync(id);
+            if (diplomaModel != null)
+            {
+                if (User.Claims.FirstOrDefault().Value.Equals(diplomaModel.StudentID.ToString()))
+                {
+                    diplomaModel.Status = StatusEnum.Done;
+                    _context.DiplomasDBS.Update(diplomaModel);
+                } 
+            }
 
+            await _context.SaveChangesAsync();
+            return RedirectToAction("MyDiploma");
+        }
 
         private bool DiplomaModelExists(Guid id)
         {

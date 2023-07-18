@@ -13,10 +13,10 @@
 <h1>Index</h1>
 
 <form asp-controller="Diplomas" asp-action="Index" method="get">
-    <p> 
-      Title: <input type="text" asp-for="SearchString" />
-      Only Posted <input type="checkbox" asp-for="OnlyPosted"/>
-    </p>
+    <div class="float-start"> 
+    Title: <input type="text" asp-for="SearchString" />  
+    Only Posted: <input type="checkbox" asp-for="OnlyPosted"/>
+    </div>
 
     <div class="float-end">
     <input type="submit" value="Filter" />

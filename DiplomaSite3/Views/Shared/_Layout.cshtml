@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Diplomna Project</title>
+    <title> @ViewData["Title"] </title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DiplomaSite3.styles.css" asp-append-version="true" />
@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand mx-1" asp-controller="Home" asp-action="Index">Diplomi Uni-Ruse</a>
+                <a class="navbar-brand mx-1" asp-controller="Home" asp-action="Index">@Localizer["siteTitle"]</a>
                 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
@@ -26,8 +26,13 @@
                     <ul class="navbar-nav flex-grow-1 flex-row-reverse">
 					    <partial name="_LoginPartial" />
                     </ul>
-                </div>
                 
+                    <ul class="navbar-nav flex-1 flex-row-reverse">
+                        <partial name="_LanguagePartial" />
+                    </ul>
+                </div>
+
+
             </div>
             
         </nav>
@@ -41,7 +46,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - Diplomna Project - Stanislav Iliev
+            @Localizer["footerTxt"]
         </div>
     </footer>
 
