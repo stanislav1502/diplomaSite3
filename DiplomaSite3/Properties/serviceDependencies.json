@@ -3,6 +3,9 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:DiplomaSite3Context"
+    },
+    "secrets1": {
+      "type": "secrets"
     }
   }
 }

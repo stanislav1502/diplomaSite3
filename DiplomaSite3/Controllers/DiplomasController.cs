@@ -88,7 +88,7 @@ namespace DiplomaSite3.Controllers
 
 		[HttpGet]
 		[Authorize(Roles = "Student")]
-        public async Task<IActionResult> MyDiploma()
+        public IActionResult MyDiploma()
 		{
 			var stringID = User.Claims.First().Value;
 			if (stringID == null || _context.StudentsDBS == null)
@@ -112,6 +112,7 @@ namespace DiplomaSite3.Controllers
         public IActionResult Create()
         {
             PopulateTeachersDropDownList();
+            PopulateProgrammesDropDownList();
             return View();
         }
 
@@ -306,7 +307,14 @@ namespace DiplomaSite3.Controllers
             var teachersQuery = from t in _context.TeachersDBS
                                    orderby t.FullName
                                    select t;
-            ViewBag.TeachersID = new SelectList(teachersQuery.AsNoTracking(), "UserID", "FullName", selectedTeacher);
+            ViewBag.TeacherList = new SelectList(teachersQuery.AsNoTracking(), "UserID", "FullName", selectedTeacher);
+        }
+
+        private void PopulateProgrammesDropDownList(object selectedDegree = null)
+        {
+            var degreesQuerry = from t in _context.DegreesDBS
+                                select t;
+            ViewBag.DegreeList = new SelectList(degreesQuerry.AsNoTracking(), "Id", "DegreeName", selectedDegree);
         }
     }
 }

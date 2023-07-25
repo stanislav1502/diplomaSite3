@@ -23,6 +23,12 @@ namespace DiplomaSite3.Models
         public string Description { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
+
+        [Display(Name = "Assigned on")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(NullDisplayText = "Not assigned")]
+        public DateTime? AssignDate { get; set; }
+
         [Display(Name = "Defense on")]
         [DataType(DataType.Date)]
         [DisplayFormat(NullDisplayText = "No defense ")]
@@ -38,6 +44,14 @@ namespace DiplomaSite3.Models
 
         [Required]
         public StatusEnum Status { get; set; }
+
+
+        [Required]
+        [Display(Name = "Degree")]
+        public int? DegreeId { get; set; }
+        public DegreeModel? Degree { get; set; }
+        
+
 
         // 1 diploma - by 1 assigner
         [Display(Name = "Teacher")]

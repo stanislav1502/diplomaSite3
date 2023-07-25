@@ -122,15 +122,6 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 user.UserType = Input.UserType;
 
-                if(user.UserType == MyRolesEnum.Admin) 
-                { 
-                    user.TwoFactorEnabled = false;
-                }
-                else
-                {
-                    user.TwoFactorEnabled = false;
-                }
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
 
@@ -197,7 +188,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<UserModel>)_userStore;
+            return (IUserEmailStore<UserModel>) _userStore;
         }
     }
 }

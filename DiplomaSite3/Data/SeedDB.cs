@@ -1,25 +1,15 @@
 ﻿
 using DiplomaSite3.Models;
 using DiplomaSite3.Enums;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Security.Cryptography;
-using System.Text;
-using NuGet.DependencyResolver;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Numerics;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using NuGet.Protocol.Plugins;
-using DiplomaSite3.Areas.Identity.Pages.Account;
+using Microsoft.AspNetCore.Identity;
 
 namespace DiplomaSite3.Data;
 
 public static class SeedDB
 {
-    public static async void Initialize(IServiceProvider serviceProvider)
+    public static void Initialize(IServiceProvider serviceProvider)
     {
         using (var context = new DiplomaSite3Context(
             serviceProvider.GetRequiredService<
@@ -30,16 +20,19 @@ public static class SeedDB
             {
                 UserModel user = Activator.CreateInstance<AdminModel>();
                 string username = "Admin";
-                string useremail= "admin@admin.haha";
+                string useremail = "admin@admin.haha";
                 string userpass = "admin1-Admin";
                 string userfirstname = "admin";
                 string userlastname = "adminov";
-                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
-                await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+
+                context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //      await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
                 user.FirstName = userfirstname;
                 user.LastName = userlastname;
                 user.UserType = MyRolesEnum.Admin;
-                await context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
 
 
                 user = Activator.CreateInstance<TeacherModel>();
@@ -48,27 +41,251 @@ public static class SeedDB
                 userpass = ",a'%4n,k9Yp&#X\"";
                 userfirstname = "Teacher";
                 userlastname = "Teacherov";
-                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
-                await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+
+                context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //       await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
                 user.FirstName = userfirstname;
                 user.LastName = userlastname;
                 user.UserType = MyRolesEnum.Teacher;
-                await context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
 
-                user = Activator.CreateInstance<AdminModel>();
+
+                user = Activator.CreateInstance<StudentModel>();
                 username = "Student";
-                useremail= "student@stud.haha";
+                useremail = "student@stud.haha";
                 userpass = ",9BkiGkf2s:kSn7";
                 userfirstname = "student";
                 userlastname = "Studentski";
-                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
-                await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+
+                context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
                 user.FirstName = userfirstname;
                 user.LastName = userlastname;
                 user.UserType = MyRolesEnum.Student;
-                await context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+
+                context.SaveChanges();
+
+            }
+
+            if (context.StudentsDBS.Any())
+            {
+                context.StudentsDBS.First().FacultyNumber = "123456"; 
+                context.SaveChanges(true);
+            }
+
+            if (context.UsersDBS.Any())
+            {
+                var users = context.UsersDBS;
+                var userQuerry = from u in users
+                                     select u;
+
+                foreach (var u in userQuerry)
+                    u.EmailConfirmed = true;
+
+                context.SaveChanges(true);
+            }
 
 
+            if (!context.FacultiesDBS.Any())
+            {
+
+                context.FacultiesDBS.AddRange(
+
+                    new FacultyModel
+                    {
+                        FacultyName = "Аграрно-индустриален"
+                    },
+                    new FacultyModel
+                    {
+                        FacultyName = "Машинно-технологичен"
+                    },
+                    new FacultyModel
+                    {
+                        FacultyName = "Електротехника, електроника и автоматика"
+                    },
+                    new FacultyModel
+                    {
+                        FacultyName = "Транспортен"
+                    },
+                    new FacultyModel
+                    {
+                        FacultyName = "Бизнес и мениджмънт"
+                    },
+                    new FacultyModel
+                    {
+                        FacultyName = "Природни науки и образование"
+                    },
+                    new FacultyModel
+                    {
+                        FacultyName = "Юридически"
+                    },
+                    new FacultyModel
+                    {
+                        FacultyName = "Обществено здраве и здравни грижи​​"
+                    });
+                context.SaveChanges();
+            }
+
+            if (!context.DepartmentsDBS.Any())
+            {
+                context.AddRange(
+
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Земеделска техника",
+                        FacultyId = 1,
+                    },
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Материалознание и технология на материалите",
+                        FacultyId = 2,
+                    },
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Електроника",
+                        FacultyId = 2,
+                    },
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Двигатели и транспортна техника",
+                        FacultyId = 1,
+                    },
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Икономика и международни отношения",
+                        FacultyId = 2,
+                    },
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Информатика и информационни технологии",
+                        FacultyId = 4,
+                    },
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Публичноправни науки",
+                        FacultyId = 2,
+                    },
+                    new DepartmentModel
+                    {
+                        DepartmentName = "Обществено здраве",
+                        FacultyId = 2,
+                    });
+            }
+
+            if (!context.ProgrammesDBS.Any())
+            {
+
+                context.ProgrammesDBS.AddRange(
+                    new ProgrammeModel
+                    {
+                        ProgrammeName = "Земеделска техника и технологии",
+                        DepartmentId = 1,
+                    },
+                    new ProgrammeModel
+                    {
+                        ProgrammeName = "Материалознание и технологии",
+                        DepartmentId = 2,
+                    },
+                    new ProgrammeModel
+                    {
+                        ProgrammeName = "Електронизация",
+                        DepartmentId = 3
+                    },
+                    new ProgrammeModel
+                    {
+                        ProgrammeName = "Автомобилна техника",
+                        DepartmentId = 4
+                    },
+                    new ProgrammeModel
+                    {
+                        ProgrammeName = "Политическа икономия",
+                        DepartmentId = 5
+                    },
+                    new ProgrammeModel
+                    {
+                        ProgrammeName = "Софтуерно инженерство",
+                        DepartmentId = 6
+                    },
+                    new ProgrammeModel
+                    {
+                        ProgrammeName = "Право",
+                        DepartmentId = 7  
+                    }, new ProgrammeModel
+                    {
+                        ProgrammeName = "Кинезитерапия",
+                        DepartmentId = 8
+                    });
+                context.SaveChanges();
+            }
+
+            if (!context.DegreesDBS.Any())
+            {
+
+                context.DegreesDBS.AddRange(
+                    
+                    new DegreeModel
+                    {
+                        FacultyId = context.FacultiesDBS.ToList().ElementAt(0).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(0).Id,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(0).Id,
+                        Degree = DegreeEnum.Bachelor
+                    },
+                    new DegreeModel
+                    {
+                        FacultyId = context.FacultiesDBS.ToList().ElementAt(1).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(1).Id  ,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(1).Id,
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        FacultyId= context.FacultiesDBS.ToList().ElementAt(2).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(2).Id,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(2).Id,
+                        Degree = DegreeEnum.Doctorate
+                    },
+                    new DegreeModel
+                    {
+                        FacultyId = context.FacultiesDBS.ToList().ElementAt(3).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(3).Id,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(3).Id,
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        FacultyId = context.FacultiesDBS.ToList().ElementAt(4).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(4).Id,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(4).Id,
+                        Degree = DegreeEnum.Doctorate
+                    }, 
+                    new DegreeModel
+                    {
+                        FacultyId = context.FacultiesDBS.ToList().ElementAt(5).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(5).Id,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(5).Id,  
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        FacultyId = context.FacultiesDBS.ToList().ElementAt(6).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(6).Id,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(6).Id,
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        FacultyId = context.FacultiesDBS.ToList().ElementAt(7).Id,
+                        DepartmentId = context.DepartmentsDBS.ToList().ElementAt(7).Id,
+                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(7).Id,
+                        Degree = DegreeEnum.Bachelor
+                    }
+                );
+                context.SaveChanges();
             }
 
             if (!context.DiplomasDBS.Any())
@@ -79,19 +296,22 @@ public static class SeedDB
                     {
                         Title = "DCDN: Distributed content delivery for the modern web",
                         Description = "This thesis explores the state of the art in browser-based P2P content delivery for the web and seeks to answer whether such systems can be used to efficiently and invisibly deliver content.",
+                        AssignDate = DateTime.Now,
                         DefendDate = DateTime.Parse("5-6-2014"),
                         Grade = 7.99M,
                         Tags = "p2p,web,dcdn,content delivery",
+                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(6).Id,
                         Status = StatusEnum.Archived,
-                        TeacherID = (await context.TeachersDBS.FirstAsync()).Id,
-                        StudentID = (await context.StudentsDBS.FirstAsync()).Id
+                        TeacherID = (context.TeachersDBS.First()).Id,
+                        StudentID = (context.StudentsDBS.First()).Id
                     },
                     new DiplomaModel
                     {
                         Title = "Diploma 2",
                         Description = "desc2",
+                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(2).Id,
                         Status = StatusEnum.InAppraisal,
-
+                        AssignDate = DateTime.Now.AddDays(-30),
                         DefendDate = DateTime.Parse("20-12-2024"),
                         StudentID = null
                     },
@@ -100,7 +320,7 @@ public static class SeedDB
                         Title = "Diploma 3",
                         Description = "desc3",
                         Status = StatusEnum.WIP,
-
+                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(1).Id,
                         Tags = "tag303,tag3,tag33",
                         TeacherID = null,
                         StudentID = null
@@ -109,6 +329,7 @@ public static class SeedDB
                     {
                         Title = "Diploma 4",
                         Description = "desc4",
+                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(7).Id,
                         Status = StatusEnum.Posted,
 
                         TeacherID = null

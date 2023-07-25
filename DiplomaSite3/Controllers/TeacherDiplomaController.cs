@@ -79,8 +79,10 @@ namespace DiplomaSite3.Controllers
             else return Problem("Teacher is not logged in.");
 
             if (!teacherID.Equals(Guid.Empty))
-                model.TeacherTC = _context.TeachersDBS.Find(teacherID);
-            
+#pragma warning disable CS8601 // Possible null reference assignment.
+                model.TeacherTC = await _context.TeachersDBS.FindAsync(teacherID);
+#pragma warning restore CS8601 // Possible null reference assignment.
+
 
             return View(model);
         }

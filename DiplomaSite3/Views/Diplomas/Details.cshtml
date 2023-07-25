@@ -14,52 +14,52 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.Title)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.Title)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiplomaModel.Title)
+            @Html.DisplayFor(model => model.DiplomaModel!.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.Description)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiplomaModel.Description)
+            @Html.DisplayFor(model => model.DiplomaModel!.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.DefendDate)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.DefendDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiplomaModel.DefendDate)
+            @Html.DisplayFor(model => model.DiplomaModel!.DefendDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.Grade)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.Grade)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiplomaModel.Grade)
+            @Html.DisplayFor(model => model.DiplomaModel!.Grade)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.Tags)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.Tags)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiplomaModel.Tags)
+            @Html.DisplayFor(model => model.DiplomaModel!.Tags)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.Status)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.Status)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiplomaModel.Status)
+            @Html.DisplayFor(model => model.DiplomaModel!.Status)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.TeacherID)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.TeacherID)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiplomaModel.TeacherID)
+            @Html.DisplayFor(model => model.DiplomaModel!.TeacherID)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiplomaModel.StudentID)
+            @Html.DisplayNameFor(model => model.DiplomaModel!.StudentID)
         </dt>
         <dd class="col-sm-10">
-            @if (Model.DiplomaModel.StudentID == null)
+            @if (Model.DiplomaModel!.StudentID == null)
             {
                 <form asp-controller="Diplomas" asp-action="RequestDiploma" method="post">
                     <input type="hidden" asp-for="@Model.DiplomaModel.DiplomaID" value="@Model.DiplomaModel.DiplomaID" />
@@ -69,7 +69,7 @@
         }else
         {
 
-                @Html.DisplayFor(model => model.DiplomaModel.StudentID)
+                @Html.DisplayFor(model => model.DiplomaModel!.StudentID)
 
             }
         </dd>

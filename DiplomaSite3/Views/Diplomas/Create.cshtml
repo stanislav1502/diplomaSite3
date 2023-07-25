@@ -15,44 +15,49 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.Title" class="control-label"></label>
-                <input asp-for="DiplomaModel.Title" class="form-control" />
-                <span asp-validation-for="DiplomaModel.Title" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.Title" class="control-label"></label>
+                <input asp-for="DiplomaModel!.Title" class="form-control" />
+                <span asp-validation-for="DiplomaModel!.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.Description" class="control-label"></label>
-                <input asp-for="DiplomaModel.Description" class="form-control" />
-                <span asp-validation-for="DiplomaModel.Description" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.Degree" class="control-label"></label>
+                <select asp-for="DiplomaModel!.Degree" class="form-control" asp-items="@ViewBag.DegreeList"> </select>
+                <span asp-validation-for="DiplomaModel!.Degree" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.DefendDate" class="control-label"></label>
-                <input asp-for="DiplomaModel.DefendDate" class="form-control" />
-                <span asp-validation-for="DiplomaModel.DefendDate" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.Description" class="control-label"></label>
+                <input asp-for="DiplomaModel!.Description" class="form-control" />
+                <span asp-validation-for="DiplomaModel!.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.Grade" class="control-label"></label>
-                <input asp-for="DiplomaModel.Grade" class="form-control" />
-                <span asp-validation-for="DiplomaModel.Grade" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.DefendDate" class="control-label"></label>
+                <input asp-for="DiplomaModel!.DefendDate" class="form-control" />
+                <span asp-validation-for="DiplomaModel!.DefendDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.Tags" class="control-label"></label>
-                <input asp-for="DiplomaModel.Tags" class="form-control" />
-                <span asp-validation-for="DiplomaModel.Tags" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.Grade" class="control-label"></label>
+                <input asp-for="DiplomaModel!.Grade" class="form-control" />
+                <span asp-validation-for="DiplomaModel!.Grade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.Status" class="control-label"></label>
-                <select asp-for="DiplomaModel.Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()"></select>
-                <span asp-validation-for="DiplomaModel.Status" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.Tags" class="control-label"></label>
+                <input asp-for="DiplomaModel!.Tags" class="form-control" />
+                <span asp-validation-for="DiplomaModel!.Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.TeacherID" class="control-label"></label>
-                <input asp-for="DiplomaModel.TeacherID" class="form-control" />
-                <span asp-validation-for="DiplomaModel.TeacherID" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.Status" class="control-label"></label>
+                <select asp-for="DiplomaModel!.Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()"></select>
+                <span asp-validation-for="DiplomaModel!.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiplomaModel.StudentID" class="control-label"></label>
-                <input asp-for="DiplomaModel.StudentID" class="form-control" />
-                <span asp-validation-for="DiplomaModel.StudentID" class="text-danger"></span>
+                <label asp-for="DiplomaModel!.TeacherID" class="control-label"></label>
+                <select asp-for="DiplomaModel!.TeacherID" class="form-control" asp-items="@ViewBag.TeacherList"> </select>
+                <span asp-validation-for="DiplomaModel!.TeacherID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiplomaModel!.StudentID" class="control-label"></label>
+                <input asp-for="DiplomaModel!.StudentID" class="form-control" />
+                <span asp-validation-for="DiplomaModel!.StudentID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

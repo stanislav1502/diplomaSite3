@@ -8,6 +8,9 @@ using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using DiplomaSite3.Services;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,8 +90,9 @@ void AddServices(IServiceCollection services)
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<DiplomaSite3Context>();
 
-    services
-        .AddAuthorization()
+    // services.AddScoped<IEmailSender, EmailSender>();
+
+    services.AddAuthorization()
         .AddAuthentication();
 
     // password hashing
