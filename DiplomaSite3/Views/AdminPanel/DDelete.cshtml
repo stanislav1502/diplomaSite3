@@ -1,5 +1,5 @@
 ﻿
-@model DiplomaSite3.Models.DiplomaModel
+@model AssignedThesisModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -13,57 +13,57 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Thesis.Title)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Thesis.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Thesis.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Thesis.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DefendDate)
+            @Html.DisplayNameFor(model => model.Thesis.DefendDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DefendDate)
+            @Html.DisplayFor(model => model.Thesis.DefendDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Grade)
+            @Html.DisplayNameFor(model => model.Thesis.Grade)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Grade)
+            @Html.DisplayFor(model => model.Thesis.Grade)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tags)
+            @Html.DisplayNameFor(model => model.Thesis.Tags)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tags)
+            @Html.DisplayFor(model => model.Thesis.Tags)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.Thesis.Status)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+            @Html.DisplayFor(model => model.Thesis.Status)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TeacherID)
+            @Html.DisplayNameFor(model => model.Teacher)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TeacherID)
+            @Html.DisplayFor(model => model.Teacher)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StudentID)
+            @Html.DisplayNameFor(model => model.Student)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentID)
+            @Html.DisplayFor(model => model.Student)
         </dd>
     </dl>
     
     <form asp-action="DDelete">
-        <input type="hidden" asp-for="DiplomaID" />
+        <input type="hidden" asp-for="ThesisID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

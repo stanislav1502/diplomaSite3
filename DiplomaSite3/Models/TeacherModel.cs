@@ -6,8 +6,9 @@ namespace DiplomaSite3.Models
 {
     public class TeacherModel:UserModel
     {
-        public bool? Approved { get; set; } = false;
+        [Required]
+        public bool? Verified { get; set; } = false;
 
-        public ICollection<DiplomaModel>? PostedDiplomas { get; set; }
+        public ICollection<AssignedThesisModel>? PostedTheses { get; set; }
     }
 }

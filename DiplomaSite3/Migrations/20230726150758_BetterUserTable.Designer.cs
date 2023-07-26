@@ -4,6 +4,7 @@ using DiplomaSite3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomaSite3.Migrations
 {
     [DbContext(typeof(DiplomaSite3Context))]
-    partial class DiplomaSite3ContextModelSnapshot : ModelSnapshot
+    [Migration("20230726150758_BetterUserTable")]
+    partial class BetterUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,7 +251,7 @@ namespace DiplomaSite3.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -392,8 +395,10 @@ namespace DiplomaSite3.Migrations
                 {
                     b.HasBaseType("DiplomaSite3.Models.UserModel");
 
-                    b.Property<bool>("Verified")
-                        .HasColumnType("bit");
+                    b.Property<string>("AdminPass")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.ToTable("Admins", (string)null);
                 });
@@ -414,8 +419,7 @@ namespace DiplomaSite3.Migrations
                 {
                     b.HasBaseType("DiplomaSite3.Models.UserModel");
 
-                    b.Property<bool?>("Verified")
-                        .IsRequired()
+                    b.Property<bool?>("Approved")
                         .HasColumnType("bit");
 
                     b.ToTable("Teachers", (string)null);

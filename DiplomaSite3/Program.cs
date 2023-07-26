@@ -1,16 +1,9 @@
 
 using DiplomaSite3.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using DiplomaSite3.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
-using System.Globalization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using DiplomaSite3.Services;
-using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

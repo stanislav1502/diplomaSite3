@@ -3,7 +3,6 @@
     public enum DegreeEnum
     {
         Bachelor,
-        Master,
-        Doctorate
+        Master
     }
 }

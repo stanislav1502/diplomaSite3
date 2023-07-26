@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DiplomaSite3.Models
 {
-    public class TeacherDiplomasVM
+    public class TeacherThesesVM
     {
-        public List<DiplomaModel>? Diplomas { get; set; }
+        public List<AssignedThesisModel>? ThesisList { get; set; }
         public string? SearchString { get; set; }
         public StatusEnum? SearchStatus { get; set; }
 

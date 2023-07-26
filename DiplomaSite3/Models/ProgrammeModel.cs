@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualStudio.Web.CodeGeneration.Design;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiplomaSite3.Models
@@ -20,7 +21,9 @@ namespace DiplomaSite3.Models
 
         public override string ToString()
         {
-            return ProgrammeName.ToString();
+            var str = "";
+            str += Department!.ToString() +" "+ ProgrammeName;
+            return str;
         }
     }
 }

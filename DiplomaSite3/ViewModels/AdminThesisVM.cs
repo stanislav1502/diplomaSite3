@@ -6,13 +6,13 @@ using System.ComponentModel;
 
 namespace DiplomaSite3.Models
 {
-    public class AdminDiplomaVM
+    public class AdminThesisVM
     {
 
-        public List<DiplomaModel>? Diplomas { get; set;}
+        public List<AssignedThesisModel>? ThesesList { get; set;}
         
-        public DiplomaModel? DiplomaModel { get; set;}
-
+        public AssignedThesisModel? ThesisModel { get; set;}
+        
         public string? SearchString { get; set;}
 
         public bool OnlyPosted { get; set;} = false;

@@ -1,0 +1,82 @@
+﻿
+@model AdminThesisVM
+
+@inject UserManager<UserModel> UserManager
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>DiplomaModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Thesis.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThesisModel.Thesis.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Thesis.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThesisModel.Thesis.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Thesis.DefendDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThesisModel.Thesis.DefendDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Thesis.Grade)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThesisModel.Thesis.Grade)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Thesis.Tags)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThesisModel.Thesis.Tags)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Thesis.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThesisModel.Thesis.Status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Teacher.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThesisModel.Teacher.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThesisModel.Student.FullName)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.ThesisModel.Student == null)
+            {
+                <form asp-controller="Diplomas" asp-action="RequestDiploma" method="post">
+                    <input type="hidden" asp-for="@Model.ThesisModel!.ThesisID" value="@Model.ThesisModel!.ThesisID" />
+                    <input type="hidden" asp-for="@Model.ThesisModel.StudentID" value="UserManager.GetUserId(User)" />
+                    <input type="submit" value="Request Diploma" class="btn btnreq mx-1" />
+                </form>
+            }else
+            {
+                @Html.DisplayFor(model => model.ThesisModel.Student.Id)
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    @if(User.IsInRole("Admin") || User.IsInRole("Teacher"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ThesisModel!.ThesisID">Edit</a> <span>|</span>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

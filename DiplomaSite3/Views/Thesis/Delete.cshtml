@@ -1,5 +1,5 @@
 ﻿
-@model DiplomaSite3.Models.DiplomaModel
+@model ThesisModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -48,22 +48,10 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Status)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TeacherID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TeacherID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StudentID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentID)
-        </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="DiplomaID" />
+        <input type="hidden" asp-for="ThesisID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

@@ -1,6 +1,6 @@
 ﻿@using DiplomaSite3.Enums
 
-@model DiplomaSite3.Models.DiplomaModel
+@model DiplomaSite3.Models.ThesisModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -14,7 +14,7 @@
     <div class="col-md-4">
         <form asp-action="DEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DiplomaID" />
+            <input type="hidden" asp-for="ThesisID" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -44,16 +44,6 @@
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TeacherID" class="control-label"></label>
-                <input asp-for="TeacherID" class="form-control" />
-                <span asp-validation-for="TeacherID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentID" class="control-label"></label>
-                <input asp-for="StudentID" class="form-control" />
-                <span asp-validation-for="StudentID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

@@ -1,10 +1,8 @@
 ﻿
-@using DiplomaSite3.Enums
-@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<UserModel> SignInManager
 @inject UserManager<UserModel> UserManager
 
-@model TeacherDiplomasVM
+@model TeacherThesesVM
 
 @{
     ViewData["Title"] = "Index";
@@ -35,44 +33,44 @@
     <thead>
         <tr>
             <th onclick="sortTable(0)">
-                @Html.DisplayNameFor(model => model.Diplomas![0].Title)
+                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].DefendDate)
+                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.DefendDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Grade)
+                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Grade)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Tags)
+                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Tags)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Status)
+                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Student)
+                @Html.DisplayNameFor(model => model.ThesisList![0].Student)
             </th>
             <th></th>
         </tr>
     </thead>
     
     <tbody>
-        @foreach (var item in Model.Diplomas!)
+        @foreach (var item in Model.ThesisList!)
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.Thesis.Title)
             </td>
             <td>
-                    @if (item.DefendDate != null)
+                    @if (item.Thesis.DefendDate != null)
                 {
-                        @Html.DisplayFor(modelItem => item.DefendDate)
+                        @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
                     }
                     else
                     {
-                        if(item.Status == StatusEnum.Done)
+                        if (item.Thesis.Status == StatusEnum.Done)
                         {
-                            <a asp-action="SetDefense" asp-route-id="@item.DiplomaID" method="post"></a>
+                            <a asp-action="SetDefense" asp-route-id="@item.ThesisID" method="post"></a>
                         }
                         else
                         {
@@ -81,13 +79,13 @@
                     }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Grade)
+                    @Html.DisplayFor(modelItem => item.Thesis.Grade)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tags)
+                    @Html.DisplayFor(modelItem => item.Thesis.Tags)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                    @Html.DisplayFor(modelItem => item.Thesis.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Student!.FullName)
@@ -97,15 +95,15 @@
                 @if (User.IsInRole("Teacher"))
                 {
                     <td>
-                    <a asp-action="Edit" asp-controller="TeacherDiploma" asp-route-id="@item.DiplomaID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DiplomaID">Details</a>
+                    <a asp-action="Edit" asp-controller="TeacherDiploma" asp-route-id="@item.ThesisID">Edit</a> |
+                    <a asp-action="Details" asp-controller="Diplomas" asp-route-id="@item.ThesisID">Details</a>
                     </td>
                 }
             }
             else
             {
                 <td>
-                    <a></a>
+                    <a> </a>
                 </td>
             }
             </tr>

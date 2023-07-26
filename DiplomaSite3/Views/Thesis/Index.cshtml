@@ -1,10 +1,10 @@
 ﻿
-@using DiplomaSite3.Enums
 @using Microsoft.AspNetCore.Identity;
 @inject SignInManager<UserModel> SignInManager
-@inject UserManager<UserModel> UserManager
 
-@model AdminDiplomaVM
+@model AdminThesisVM
+
+@inject UserManager<UserModel> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -34,54 +34,56 @@
     <thead>
         <tr>
             <th onclick="sortTable(0)">
-                @Html.DisplayNameFor(model => model.Diplomas![0].Title)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Description)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Description)
             </th>
             <th onclick="sortTable(2)">
-                @Html.DisplayNameFor(model => model.Diplomas![0].DefendDate)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.DefendDate)
             </th>
             <th onclick="sortTable(3)">
-                @Html.DisplayNameFor(model => model.Diplomas![0].Grade)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Grade)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diplomas![0].Tags)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Tags)
             </th>
             <th onclick="sortTable(5)">
-                @Html.DisplayNameFor(model => model.Diplomas![0].Status)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Status)
             </th>
             <th onclick="sortTable(6)">
-                @Html.DisplayNameFor(model => model.Diplomas![0].Teacher)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Teacher)
             </th>
             <th onclick="sortTable(7)">
-                @Html.DisplayNameFor(model => model.Diplomas![0].Student)
+                @Html.DisplayNameFor(model => model.ThesesList![0].Student)
             </th>
-            <th></th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     
     <tbody>
-        @foreach (var item in Model.Diplomas!)
+        @foreach (var item in Model.ThesesList)
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                    @Html.DisplayFor(modelItem => item.Thesis.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.Thesis.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DefendDate)
+                    @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Grade)
+                    @Html.DisplayFor(modelItem => item.Thesis.Grade)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tags)
+                    @Html.DisplayFor(modelItem => item.Thesis.Tags)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                    @Html.DisplayFor(modelItem => item.Thesis.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Teacher!.FullName)
@@ -94,24 +96,24 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
-                    <a asp-action="Edit" asp-route-id="@item.DiplomaID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DiplomaID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.DiplomaID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.ThesisID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ThesisID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ThesisID">Delete</a>
                     </td>
                 }
 
                 @if (User.IsInRole("Teacher"))
                 {
                     <td>
-                    <a asp-action="Edit" asp-route-id="@item.DiplomaID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.DiplomaID">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.ThesisID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ThesisID">Details</a>
                     </td>
                 }
 
                 @if(User.IsInRole("Student"))
                 {
                     <td>
-                    <a asp-action="Details" asp-route-id="@item.DiplomaID">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.ThesisID">Details</a>
                     </td>
                 }
 

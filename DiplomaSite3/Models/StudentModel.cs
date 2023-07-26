@@ -8,9 +8,9 @@ namespace DiplomaSite3.Models
     {
         [Required]
         [StringLength(6)]
-        public string? FacultyNumber { get; set; }
+        public string FacultyNumber { get; set; }
 
         //public Guid? AssignedDiplomaID { get; set; }
-        public DiplomaModel? AssignedDiploma { get; set; }
+        public AssignedThesisModel? AssignedThesis { get; set; }
     }
 }
