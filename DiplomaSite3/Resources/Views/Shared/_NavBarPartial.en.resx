@@ -120,9 +120,6 @@
   <data name="adminBtn" xml:space="preserve">
     <value>Admin panel</value>
   </data>
-  <data name="diplomasBtn" xml:space="preserve">
-    <value>Thesis</value>
-  </data>
   <data name="homeBtn" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -131,5 +128,8 @@
   </data>
   <data name="teacherBtn" xml:space="preserve">
     <value>My thesis</value>
+  </data>
+  <data name="thesesBtn" xml:space="preserve">
+    <value>Theses</value>
   </data>
 </root>

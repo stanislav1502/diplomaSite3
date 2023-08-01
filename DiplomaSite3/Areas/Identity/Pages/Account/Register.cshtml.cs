@@ -77,6 +77,9 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             [StringLength(20, MinimumLength = 1)]
             public string LastName { get; set; }
 
+
+            public string? FacultyNumber { get; set; } = null;
+
             [Required]
             [Display(Name = "Acount Type")]
             public MyRolesEnum UserType { get; set; } = MyRolesEnum.Student;
@@ -93,14 +96,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-
-            [Display(Name = "2FA password")]
-            [DataType(DataType.Password)]
-            [StringLength(maximumLength: 50)]
-#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-            public string? AdminPass { get; set; } = null;
-#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
-        }
+ }
 
         public void OnGet(string returnUrl = null)
         {
@@ -168,9 +164,15 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             {
                 switch (Input.UserType)
                 {
-                    case MyRolesEnum.Student: return Activator.CreateInstance<StudentModel>();
-                    case MyRolesEnum.Teacher: return Activator.CreateInstance<TeacherModel>();
-                    case MyRolesEnum.Admin: return Activator.CreateInstance<AdminModel>();
+                    case MyRolesEnum.Student:
+                    var stresult = Activator.CreateInstance<StudentModel>();
+                        stresult.FacultyNumber = Input.FacultyNumber;
+                        return stresult;
+                    case MyRolesEnum.Teacher:
+                        var tresult = Activator.CreateInstance<TeacherModel>();
+                        tresult.Verified = false;
+                        return tresult;
+                    //case MyRolesEnum.Admin: return Activator.CreateInstance<AdminModel>();
                     default: return null;
                 }
             }

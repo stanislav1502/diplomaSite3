@@ -3,7 +3,7 @@
 @using DiplomaSite3.Enums;
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = Localizer["title"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -11,52 +11,74 @@
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <h2>@Localizer["description"]</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <section>
+                 
             <div class="form-group mb-4" >
-                <label asp-for="Input.UserType" class="control-label"></label>
-                <select asp-for="Input.UserType" id="user-type" class="form-control" onchange="ShowAdminPass()" asp-items="Html.GetEnumSelectList<MyRolesEnum>().SkipLast(1)">  </select>
+                <label asp-for="Input.UserType" class="control-label">@Localizer["usertypeLb"]</label>
+                        @{
+                            var items = Html.GetEnumSelectList<MyRolesEnum>().SkipLast(1);
+                            items.ElementAt(0).Text = Localizer["student"].Value;
+                            items.ElementAt(1).Text = Localizer["teacher"].Value;
+                        }
+                <select asp-for="Input.UserType" id="user-type" class="form-control" onchange="ShowHidden()" asp-items=items>  </select>
                 <span asp-validation-for="Input.UserType" class="text-danger"></span>
             </div>
+                 
+                 
             <div class="form-floating mb-1">
                 <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="username" />
-                <label asp-for="Input.Username">Username</label>
+                <label asp-for="Input.Username">@Localizer["usernameLb"]</label>
                 <span asp-validation-for="Input.Username" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-4">
+                    </div>
+                 
+                 
+                <div class="form-floating mb-4">
                 <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
+                <label asp-for="Input.Email">@Localizer["emailLb"]</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-1">
+                    </div>
+                 
+                 
+                <div class="form-floating mb-1">
                 <input asp-for="Input.FirstName" class="form-control" autocomplete="name" aria-required="true" placeholder="firstname" />
-                <label asp-for="Input.FirstName">First Name</label>
+                <label asp-for="Input.FirstName">@Localizer["firstnameLb"]</label>
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
+                    </div>
+                 
+                 
             <div class="form-floating mb-4">
                 <input asp-for="Input.LastName" class="form-control" autocomplete="name" aria-required="true" placeholder="lastname" />
-                <label asp-for="Input.LastName">Last Name</label>
+                <label asp-for="Input.LastName">@Localizer["lastnameLb"]</label>
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
+                 
+
+            <div class="form-floating mb-3" id="faculy-number-field" style="visibility:visible">
+                <input asp-for="Input.FacultyNumber" class="form-control" placeholder="123456" />
+                <label asp-for="Input.FacultyNumber">@Localizer["fnLb"]</label>
+                <span asp-validation-for="Input.FacultyNumber" class="text-danger"></span>
+            </div>
+                 
+                 
             <div class="form-floating mb-1">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
+                <label asp-for="Input.Password">@Localizer["passwordLb"]</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
+                    </div>
+                 
+                 
             <div class="form-floating mb-3">
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <label asp-for="Input.ConfirmPassword">@Localizer["confpassLb"]</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            
-            <div class="form-floating mb-3" id="admin-pass-input" style="visibility:hidden">
-                    <input asp-for="Input.AdminPass" class="form-control" autocomplete="new-password"  placeholder="password" />
-                    <label asp-for="Input.AdminPass">2FA Password</label>
-                    <span asp-validation-for="Input.AdminPass" class="text-danger"></span>
-                </div>
-            
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary" onmouseover="ShowAdminPass()">Register</button>
+                    </div>
+                 
+            </section>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary" onmouseover="ShowHidden()">@Localizer["registerBtn"]</button>
         </form>
     </div>
 
@@ -65,16 +87,22 @@
 @section Scripts {
     <script>
 
-        function ShowAdminPass() {
+        function ShowHidden() {
             let selectInput = document.querySelector('select#user-type');
+            let student = 0;
+            let teacher = 1;
             let admin = 2;
-            let passfield = document.querySelector('div#admin-pass-input');
+
+            let fnField = document.querySelector('div#faculy-number-field');
             var value = selectInput.value;
 
-            if ( value == admin ) {
-                passfield.style.visibility = 'visible';
+            if ( value == student ) {
+                fnField.style.visibility = 'visible';
             }
-            else passfield.style.visibility = 'hidden';
+            else if ( value == teacher)
+            {
+                fnField.style.visibility = 'collapse';
+            }
         }
 
     </script>

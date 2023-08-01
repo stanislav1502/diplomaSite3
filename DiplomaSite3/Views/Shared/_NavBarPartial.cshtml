@@ -14,12 +14,12 @@
     {
         
         <li class="nav-item">
-            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index">@Localizer["diplomasBtn"]</a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index">@Localizer["thesesBtn"]</a>
         </li>
 
         @if (User.IsInRole("Student"))
         {
-            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="MyDiploma">@Localizer["studentBtn"]</a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="MyThesis">@Localizer["studentBtn"]</a>
         }
 
         @if (User.IsInRole("Teacher"))
@@ -37,7 +37,7 @@
     {
 
         <li class="nav-item">
-            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index">@Localizer["diplomasBtn"]</a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index">@Localizer["thesesBtn"]</a>
         </li>
     }
 </ul>

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.ComponentModel;
 
 namespace DiplomaSite3.Areas.Identity.Pages.Account
 {
@@ -43,6 +44,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
+            [Localizable(true)]
             public string Email { get; set; }
 
             /// <summary>
