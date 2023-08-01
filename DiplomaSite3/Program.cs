@@ -1,7 +1,9 @@
 
 using DiplomaSite3.Data;
 using DiplomaSite3.Models;
+using DiplomaSite3.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 
@@ -83,7 +85,7 @@ void AddServices(IServiceCollection services)
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<DiplomaSite3Context>();
 
-    // services.AddScoped<IEmailSender, EmailSender>();
+    services.AddTransient<IEmailSender, EmailSender>();
 
     services.AddAuthorization()
         .AddAuthentication();

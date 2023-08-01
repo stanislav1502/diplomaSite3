@@ -89,7 +89,7 @@ namespace DiplomaSite3.Controllers
 
 		[HttpGet]
 		[Authorize(Roles = "Student")]
-        public IActionResult MyDiploma()
+        public IActionResult MyThesis()
 		{
 			var stringID = User.Claims.First().Value;
 			if (stringID == null || _context.StudentsDBS == null)
@@ -98,13 +98,18 @@ namespace DiplomaSite3.Controllers
 			}
 			Guid userID = new Guid(stringID);
 
-			var diplomaModel = _context.ThesisDBS.FromSqlRaw("SELECT * FROM Thesis WHERE StudentID = {0}", userID).AsNoTracking().First();
-			if (diplomaModel == null)
-			{
-				return NotFound();
-			}
+            var thesisQuerry = _context.AssignedThesesDBS.FromSqlRaw("SELECT * FROM AssignedTheses WHERE StudentID = {0}", userID).AsNoTracking();
 
-			return View(diplomaModel);
+            var thesisModel = new AssignedThesisModel();
+
+            if ( ! thesisQuerry.Any() )
+            {
+                return NotFound();
+            }
+            else thesisModel = thesisQuerry.First();
+
+
+            return View(thesisModel);
 		}
 
 		// GET: Diplomas/Create
@@ -144,13 +149,13 @@ namespace DiplomaSite3.Controllers
                 return NotFound();
             }
 
-            var diplomaModel = await _context.ThesisDBS.FindAsync(id);
-            if (diplomaModel == null)
+            var thesisModel = await _context.ThesisDBS.FindAsync(id);
+            if (thesisModel == null)
             {
                 return NotFound();
             }
 
-            viewModel.ThesisModel.Thesis = diplomaModel;
+            viewModel.ThesisModel.Thesis = thesisModel;
 
             return View(viewModel);
         }
@@ -161,9 +166,9 @@ namespace DiplomaSite3.Controllers
         [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] ThesisModel diplomaModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] ThesisModel thesisModel)
         {
-            if (id != diplomaModel.ThesisID)
+            if (id != thesisModel.ThesisID)
             {
                 return NotFound();
             }
@@ -172,12 +177,12 @@ namespace DiplomaSite3.Controllers
             {
                 try
                 {
-                    _context.Update(diplomaModel);
+                    _context.Update(thesisModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DiplomaModelExists(diplomaModel.ThesisID))
+                    if (!DiplomaModelExists(thesisModel.ThesisID))
                     {
                         return NotFound();
                     }
@@ -188,7 +193,7 @@ namespace DiplomaSite3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(diplomaModel);
+            return View(thesisModel);
         }
 
         [Authorize(Roles = "Admin")]
@@ -314,7 +319,7 @@ namespace DiplomaSite3.Controllers
             var teachersQuery = from t in _context.TeachersDBS
                                    orderby t.FullName
                                    select t;
-            ViewBag.TeacherList = new SelectList(teachersQuery.AsNoTracking(), "UserID", "FullName", selectedTeacher);
+            ViewBag.TeacherList = new SelectList(teachersQuery.AsNoTracking(), "Id", "FullName", selectedTeacher);
         }
 
         private void PopulateProgrammesDropDownList(object selectedDegree = null)

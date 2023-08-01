@@ -25,7 +25,7 @@ namespace DiplomaSite3.Services
             };
 
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("diploma@testing.com");
+            mailMessage.From = new MailAddress("thesis@project.com");
             mailMessage.To.Add(new MailAddress(email));
 
             mailMessage.Subject = subject;
