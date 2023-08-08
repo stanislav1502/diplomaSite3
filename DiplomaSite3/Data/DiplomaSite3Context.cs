@@ -22,7 +22,7 @@ namespace DiplomaSite3.Data
         public DbSet<ProgrammeModel> ProgrammesDBS { get; set; }
         public DbSet<DegreeModel> DegreesDBS { get; set; }
         public DbSet<AssignedThesisModel> AssignedThesesDBS { get; set; }
-
+        public DbSet<RequestedThesisModel> RequestedThesesDBS { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,8 @@ namespace DiplomaSite3.Data
             modelBuilder.Entity<AssignedThesisModel>()
                 .HasOne(a=>a.Student).WithOne(s=>s.AssignedThesis).OnDelete(DeleteBehavior.ClientSetNull);
 
+            modelBuilder.Entity<RequestedThesisModel>().ToTable("RequestedTheses")
+                .HasMany(r=>r.Students).WithMany(s=>s.RequestedTheses);
         }
 
     }

@@ -1,0 +1,111 @@
+﻿
+@inject SignInManager<UserModel> SignInManager
+@inject UserManager<UserModel> UserManager
+
+@model RequestedThesesVM
+
+@{
+    ViewData["Title"] = "Requests";
+}
+
+<form asp-controller="TeacherTheses" asp-action="ViewRequests" method="get">
+    <input type="hidden" asp-for=@Model.RequestedThesis.ThesisID value="@Model.RequestedThesis.ThesisID">
+    <div class="float-start">
+        Title: <input type="text" asp-for="SearchString" />
+    </div>
+    <div class="float-start">
+        Student: <input type="text" asp-for="SearchStudent" />
+    </div>
+    <div class="float-end">
+        <input type="submit" value="Filter" />
+    </div>
+</form>
+
+
+<div>
+<h1>Thesis</h1>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Localizer["thesisNameTxt"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RequestedThesis.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["thesisDescriptionTxt"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RequestedThesis.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["thesisAssignedTxt"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RequestedThesis.AssignDate)
+        </dd>
+    </dl>
+</div>
+
+<hr />
+<h2>Requests</h2>
+
+<table class="table">
+    
+    <thead>
+        <tr>
+            <th onclick="sortTable(0)">
+                @Localizer["facultyNumberTxt"]
+            </th>
+            <th>
+                @Localizer["studentNameTxt"]
+            </th>
+            <th>
+                @Localizer["studentEmailTxt"]
+            </th>
+            <th>
+                @Localizer["studentPhoneTxt"]
+            </th>
+            <th>
+                @*assign buttons*@
+            </th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach (var item in Model.StudentsList!)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FacultyNumber)
+            </td>
+            <td>    
+                    @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                <div>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (User.IsInRole("Teacher"))
+                    {
+                    <form asp-controller="TeacherTheses" asp-action="GiveThesis" method="post">
+                        <input type="hidden" asp-for="@Model.RequestedThesis.ThesisID" name="ThesisID" value=@Model.RequestedThesis.ThesisID />
+                                    <input type="hidden" asp-for="@Model.GivingTeacherId" name="TeacherID" value=@UserManager.GetUserId(User) />
+                        <input type="hidden" asp-for="@Model.GivenStudentId" name="StudentID" value=@item.Id/>
+                        <input type="submit" value="@Localizer["giveThesisBtn"]" class="btn btnreq mx-1" />
+                    </form>
+                    }
+                }
+                </div>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>

@@ -346,7 +346,13 @@ public static class SeedDB
                     ThesisID = context.ThesisDBS.AsNoTracking().ToList().ElementAt(2).ThesisID,
                     TeacherID = null,
                     StudentID = context.StudentsDBS.AsNoTracking().ToList().ElementAt(0).Id
-                });
+                }, new AssignedThesisModel
+                {
+                    ThesisID = context.ThesisDBS.AsNoTracking().ToList().ElementAt(3).ThesisID,
+                    TeacherID = null,
+                    StudentID = null
+                }
+                );
                 context.SaveChanges();
             }
 

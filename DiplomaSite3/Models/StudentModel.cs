@@ -12,5 +12,7 @@ namespace DiplomaSite3.Models
 
         //public Guid? AssignedDiplomaID { get; set; }
         public AssignedThesisModel? AssignedThesis { get; set; }
+
+        public ICollection<RequestedThesisModel> RequestedTheses { get; set;}
     }
 }

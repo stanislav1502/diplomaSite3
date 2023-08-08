@@ -37,18 +37,18 @@ namespace DiplomaSite3.Controllers
                 return Problem("Entity set 'DiplomaSite3Context.Users'  is null.");
             }
 
-            var diplomasQuerry = from d in theses
+            var thesesQuerry = from d in theses
                          select d;
             var usersQuerry = from u in users
                                  select u;
             if (!string.IsNullOrEmpty(searchString))
             {
-                diplomasQuerry = diplomasQuerry.Where(s => s.Thesis!.Title.Contains(searchString));
+                thesesQuerry = thesesQuerry.Where(s => s.Thesis!.Title.Contains(searchString));
             }
 
             var viewModel = new AdminVM
             {
-                ThesisList = await diplomasQuerry.ToListAsync(),
+                ThesisList = await thesesQuerry.ToListAsync(),
                 UsersList = await usersQuerry.ToListAsync()
             };
 
@@ -102,9 +102,9 @@ namespace DiplomaSite3.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DEdit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] ThesisModel diplomaModel)
+        public async Task<IActionResult> DEdit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] ThesisModel thesisModel)
         {
-            if (id != diplomaModel.ThesisID)
+            if (id != thesisModel.ThesisID)
             {
                 return NotFound();
             }
@@ -113,13 +113,13 @@ namespace DiplomaSite3.Controllers
             {
                 try
                 {
-                    _context.Update(diplomaModel);
+                    _context.Update(thesisModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    var diplomaModelExists = (_context.ThesisDBS?.Any(e => e.ThesisID == id)).GetValueOrDefault();
-                    if (!diplomaModelExists)
+                    var thesisModelExists = (_context.ThesisDBS?.Any(e => e.ThesisID == id)).GetValueOrDefault();
+                    if (!thesisModelExists)
                     {
                         return NotFound();
                     }
@@ -130,7 +130,7 @@ namespace DiplomaSite3.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(diplomaModel);
+            return View(thesisModel);
         }
 
         [HttpGet]
@@ -141,14 +141,14 @@ namespace DiplomaSite3.Controllers
                 return NotFound();
             }
 
-            var diplomaModel = await _context.ThesisDBS
+            var thesisModel = await _context.ThesisDBS
                 .FirstOrDefaultAsync(m => m.ThesisID == id);
-            if (diplomaModel == null)
+            if (thesisModel == null)
             {
                 return NotFound();
             }
 
-            return View(diplomaModel);
+            return View(thesisModel);
         }
 
         [HttpPost, ActionName("DDelete")]
@@ -159,10 +159,10 @@ namespace DiplomaSite3.Controllers
             {
                 return Problem("Entity set 'DiplomaSite3Context.Diplomas'  is null.");
             }
-            var diplomaModel = await _context.ThesisDBS.FindAsync(id);
-            if (diplomaModel != null)
+            var thesisModel = await _context.ThesisDBS.FindAsync(id);
+            if (thesisModel != null)
             {
-                _context.ThesisDBS.Remove(diplomaModel);
+                _context.ThesisDBS.Remove(thesisModel);
             }
             
             await _context.SaveChangesAsync();

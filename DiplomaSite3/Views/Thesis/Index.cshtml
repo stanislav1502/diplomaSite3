@@ -7,26 +7,28 @@
 @inject UserManager<UserModel> UserManager
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<h1>Index</h1>
+<h1>@Localizer["title"]</h1>
 
-<form asp-controller="Diplomas" asp-action="Index" method="get">
-    <div class="float-start"> 
-    Title: <input type="text" asp-for="SearchString" />  
-    Only Posted: <input type="checkbox" asp-for="OnlyPosted"/>
+<form asp-controller="Thesis" asp-action="Index" method="get">
+    <div class="float-start">
+        @Localizer["thesisNameTxt"]: <input type="text" asp-for="Search" />
+    </div>
+    <div class="float-start">
+        @Localizer["onlyPostedTxt"]: <input type="checkbox" asp-for="OnlyPosted" />
     </div>
 
     <div class="float-end">
-    <input type="submit" value="Filter" />
+        <input type="submit" value="@Localizer["filterBtn"]" />
     </div>
 </form>
 
 <p>
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create">@Localizer["createBtn"]</a>
     }
 </p>
 <table class="table" id="indexThesisTable">
@@ -34,31 +36,31 @@
     <thead>
         <tr>
             <th onclick="sortTable(0)">
-                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Title)
+                @Localizer["thesisNameTxt"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Description)
+                @Localizer["thesisDescriptionTxt"]
             </th>
             <th onclick="sortTable(2)">
-                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.DefendDate)
+                @Localizer["thesisDefenseTxt"]
             </th>
             <th onclick="sortTable(3)">
-                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Grade)
+                @Localizer["thesisGradeTxt"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Tags)
+                @Localizer["thesisTagsTxt"]
             </th>
             <th onclick="sortTable(5)">
-                @Html.DisplayNameFor(model => model.ThesesList![0].Thesis.Status)
+                @Localizer["thesisStatusTxt"]
             </th>
             <th onclick="sortTable(6)">
-                @Html.DisplayNameFor(model => model.ThesesList![0].Teacher)
+                @Localizer["thesisTeacherTxt"]
             </th>
             <th onclick="sortTable(7)">
-                @Html.DisplayNameFor(model => model.ThesesList![0].Student)
+                @Localizer["thesisStudentTxt"]
             </th>
             <th>
-
+                @*for buttons*@
             </th>
         </tr>
     </thead>
@@ -96,24 +98,24 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
-                    <a asp-action="Edit" asp-route-id="@item.ThesisID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ThesisID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ThesisID">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.ThesisID">@Localizer["editBtn"]</a> |
+                            <a asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ThesisID">@Localizer["deleteBtn"]</a>
                     </td>
                 }
 
                 @if (User.IsInRole("Teacher"))
                 {
                     <td>
-                    <a asp-action="Edit" asp-route-id="@item.ThesisID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ThesisID">Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.ThesisID">@Localizer["editBtn"]</a> |
+                            <a asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
                     </td>
                 }
 
                 @if(User.IsInRole("Student"))
                 {
                     <td>
-                    <a asp-action="Details" asp-route-id="@item.ThesisID">Details</a>
+                            <a asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
                     </td>
                 }
 

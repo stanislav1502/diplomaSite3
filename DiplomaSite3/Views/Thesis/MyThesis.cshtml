@@ -4,70 +4,72 @@
 @inject SignInManager<UserModel> SignInManager
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<h1>Details</h1>
+<h1>@Localizer["title"]</h1>
 
 <div>
-    <h4>DiplomaModel</h4>
+    
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Thesis.Title)
+            @Localizer["thesisNameTxt"]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Thesis.Title)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Thesis.Description)
+            @Localizer["thesisDescriptionTxt"]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Thesis.Description)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Thesis.DefendDate)
+        <dt class="col-sm-2">
+            @Localizer["thesisAssignedTxt"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Thesis.AssignDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["thesisDefenseTxt"]
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Thesis.DefendDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Thesis.Grade)
+            @Localizer["thesisGradeTxt"]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Thesis.Grade)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Thesis.Tags)
+            @Localizer["thesisTagsTxt"]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Thesis.Tags)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Thesis.Status)
+            @Localizer["thesisStatusTxt"]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Thesis.Status)
             @if (Model.Thesis.Status == DiplomaSite3.Enums.StatusEnum.WIP)
             {
-                <form asp-controller="Diplomas" asp-action="MarkDone" method="post">
-                    <div>
-                        <input type="hidden" name="diplomaid" asp-for="@Model.ThesisID" value="@Model?.ThesisID" />
-                    </div>
-                    <div>
-                        <input type="submit" value="Mark as Done" class="btn btnreq mx-1" />
-                    </div>
+                <form asp-controller="Thesis" asp-action="MarkDone" method="post">
+                    <input type="hidden" asp-for="@Model.ThesisID" name="ThesisID" value="@Model?.ThesisID" />
+                    <input type="submit" value="@Localizer["markDoneBtn"]" class ="btn btnreq mx-1" />
                 </form>
             }
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Teacher.FullName)
+            @Localizer["thesisTeacherTxt"]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Teacher.FullName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Student.FullName)
+            @Localizer["thesisStudentTxt"]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Student.FullName)
@@ -77,7 +79,7 @@
 <div>
     @if (User.IsInRole("Teacher"))
     {
-        <a asp-action="Edit" asp-route-id="@Model?.ThesisID">Edit</a> <span>|</span>
+        <a asp-action="Edit" asp-route-id="@Model?.ThesisID">@Localizer["editBtn"]</a> <span>|</span>
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["backBtn"]</a>
 </div>
