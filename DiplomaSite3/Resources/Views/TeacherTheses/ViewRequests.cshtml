@@ -100,9 +100,9 @@
                     {
                     <form asp-controller="TeacherTheses" asp-action="GiveThesis" method="post">
                         <input type="hidden" asp-for="@Model.RequestedThesis.ThesisID" name="ThesisID" value=@Model.RequestedThesis.ThesisID />
-                        <input type="hidden" asp-for="@Model.GivingTeacherId" name="TeacherID" value=@UserManager.GetUserId(User) />
+                                    <input type="hidden" asp-for="@Model.GivingTeacherId" name="TeacherID" value=@UserManager.GetUserId(User) />
                         <input type="hidden" asp-for="@Model.GivenStudentId" name="StudentID" value=@item.Id/>
-						<input type="submit" class="btn btnreq mx-1" value="@Localizer["giveThesisBtn"]" />
+                        <input type="submit" value="@Localizer["giveThesisBtn"]" class="btn btnreq mx-1" />
                     </form>
                     }
                 }

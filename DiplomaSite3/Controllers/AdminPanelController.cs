@@ -26,39 +26,26 @@ namespace DiplomaSite3.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string searchString)
         {
-            var theses = _context.AssignedThesesDBS;
-            if (theses == null)
-            {
-                return Problem("Entity set 'DiplomaSite3Context.Thesis'  is null.");  
-            }
+          
             var users = _context.UsersDBS;
             if (users == null)
             {
                 return Problem("Entity set 'DiplomaSite3Context.Users'  is null.");
             }
 
-            var thesesQuerry = from d in theses
-                         select d;
             var usersQuerry = from u in users
                                  select u;
             if (!string.IsNullOrEmpty(searchString))
             {
-                thesesQuerry = thesesQuerry.Where(s => s.Thesis!.Title.Contains(searchString));
+                usersQuerry = usersQuerry.Where(u => u.UserName!.Contains(searchString) );
             }
 
             var viewModel = new AdminVM
             {
-                ThesisList = await thesesQuerry.ToListAsync(),
-                UsersList = await usersQuerry.ToListAsync()
+                AdminsList = await usersQuerry.Where(u => u.UserType == Enums.MyRolesEnum.Admin).ToListAsync(),
+                TeachersList = await usersQuerry.Where(u => u.UserType == Enums.MyRolesEnum.Teacher).ToListAsync(),
+                StudentsList = await usersQuerry.Where(u => u.UserType == Enums.MyRolesEnum.Student).ToListAsync()
             };
-
-            foreach (var thesis in viewModel.ThesisList)
-            {
-                var teacher = _context.TeachersDBS.FromSqlRaw("SELECT * FROM Teachers WHERE Id = {0}", thesis.TeacherID).AsNoTracking();
-                thesis.Teacher = teacher.Any() ? teacher.First() : null;
-                var student = _context.StudentsDBS.FromSqlRaw("SELECT * FROM Students WHERE Id = {0}", thesis.StudentID).AsNoTracking();
-                thesis.Student = student.Any() ? student.First() : null;
-            }
 
             return View(viewModel);
 
@@ -189,11 +176,11 @@ namespace DiplomaSite3.Controllers
             return View(userModel);
         }
 
-        public async Task<IActionResult> UEdit(Guid? id)
+        public async Task<IActionResult> EmailConfirm(Guid id)
         {
             if (id == null || _context.UsersDBS == null)
             {
-                return NotFound();
+                return Problem("No entities for operation");
             }
 
             var userModel = await _context.UsersDBS.FindAsync(id);
@@ -201,42 +188,48 @@ namespace DiplomaSite3.Controllers
             {
                 return NotFound();
             }
-            return View(userModel);
+
+            userModel.EmailConfirmed = true;
+            
+            _context.UsersDBS.Update(userModel);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index), nameof(AdminPanelController));
         }
 
-        // POST: Diplomas/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UEdit(Guid id, [Bind("Id,Username,Email")] UserModel userModel)
-        {
-            if (id != userModel.Id)
-            {
-                return NotFound();
-            }
+        //// POST: Diplomas/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> UEdit(Guid id, [Bind("Id,Username,Email")] UserModel userModel)
+        //{
+        //    if (id != userModel.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(userModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    var userModelExists = (_context.UsersDBS?.Any(e => e.Id == id)).GetValueOrDefault();
-                    if (!userModelExists)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userModel);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(userModel);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            var userModelExists = (_context.UsersDBS?.Any(e => e.Id == id)).GetValueOrDefault();
+        //            if (!userModelExists)
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(userModel);
+        //}
 
         [HttpGet]
         // GET: Diplomas/Delete/5

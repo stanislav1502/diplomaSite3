@@ -13,10 +13,22 @@
 
   <ItemGroup>
     <Content Remove="Areas\Identity\Pages\Account\Manage\ExternalLogins.cshtml" />
+    <Content Remove="Resources\Views\AdminPanel\DDelete.cshtml" />
+    <Content Remove="Resources\Views\AdminPanel\DDetails.cshtml" />
+    <Content Remove="Resources\Views\AdminPanel\DEdit.cshtml" />
+    <Content Remove="Resources\Views\AdminPanel\UDelete.cshtml" />
+    <Content Remove="Resources\Views\AdminPanel\UDetails.cshtml" />
+    <Content Remove="Resources\Views\TeacherTheses\ViewRequests.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="Resources\Views\AdminPanel\DDelete.cshtml" />
+    <None Include="Resources\Views\AdminPanel\DDetails.cshtml" />
+    <None Include="Resources\Views\AdminPanel\DEdit.cshtml" />
+    <None Include="Resources\Views\AdminPanel\UDelete.cshtml" />
+    <None Include="Resources\Views\AdminPanel\UDetails.cshtml" />
+    <None Include="Resources\Views\TeacherTheses\ViewRequests.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

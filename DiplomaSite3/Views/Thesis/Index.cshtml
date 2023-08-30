@@ -8,27 +8,37 @@
 
 @{
     ViewData["Title"] = Localizer["title"];
+    var isGuest = User.Claims.ToList().Any() ? false : true;
 }
 
 <h1>@Localizer["title"]</h1>
 
 <form asp-controller="Thesis" asp-action="Index" method="get">
-    <div class="float-start">
-        @Localizer["thesisNameTxt"]: <input type="text" asp-for="Search" />
+    <div class="float-start m-1">
+        <label for="searchTextbox"> @Localizer["thesisNameTxt"]: </label>
+        <input type="text" id="searchTextbox" asp-for="Search" />
     </div>
-    <div class="float-start">
-        @Localizer["onlyPostedTxt"]: <input type="checkbox" asp-for="OnlyPosted" />
+    <div class="float-start m-1">
+        
+        @if (isGuest)
+        {
+            <input type="hidden" id="postedCheckbox" asp-for="OnlyPosted" value="true" />
+        }else
+        {
+            <label for="postedCheckbox">@Localizer["onlyPostedTxt"]: </label>
+            <input type="checkbox" id="postedCheckbox" asp-for="OnlyPosted" />
+        }
     </div>
 
     <div class="float-end">
-        <input type="submit" value="@Localizer["filterBtn"]" />
+        <input class="btn btnreq" type="submit" value="@Localizer["filterBtn"]" />
     </div>
 </form>
 
 <p>
     @if (User.IsInRole("Admin"))
     {
-        <a asp-action="Create">@Localizer["createBtn"]</a>
+        <a class="btn thesisbtn" asp-controller="Thesis" asp-action="Create">@Localizer["createBtn"]</a>
     }
 </p>
 <table class="table" id="indexThesisTable">
@@ -98,24 +108,23 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
-                            <a asp-action="Edit" asp-route-id="@item.ThesisID">@Localizer["editBtn"]</a> |
-                            <a asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a> |
-                            <a asp-action="Delete" asp-route-id="@item.ThesisID">@Localizer["deleteBtn"]</a>
+                            <a class="btn thesisbtn m-1" asp-action="Edit" asp-route-id="@item.ThesisID">@Localizer["editBtn"]</a>
+                            <a class="btn thesisbtn m-1" asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
+                            <a class="btn delbtn m-1" asp-action="Delete" asp-route-id="@item.ThesisID">@Localizer["deleteBtn"]</a>
                     </td>
                 }
 
                 @if (User.IsInRole("Teacher"))
                 {
                     <td>
-                            <a asp-action="Edit" asp-route-id="@item.ThesisID">@Localizer["editBtn"]</a> |
-                            <a asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
+                            <a class="btn thesisbtn m-1" asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
                     </td>
                 }
 
                 @if(User.IsInRole("Student"))
                 {
                     <td>
-                            <a asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
+                            <a class="btn thesisbtn m-1" asp-action="Details" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
                     </td>
                 }
 

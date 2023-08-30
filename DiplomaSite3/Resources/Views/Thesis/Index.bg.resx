@@ -133,7 +133,7 @@
     <value>Филтрирай</value>
   </data>
   <data name="onlyPostedTxt" xml:space="preserve">
-    <value>Само нови</value>
+    <value>Свободни</value>
   </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Дата на Защита</value>

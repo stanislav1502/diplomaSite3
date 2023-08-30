@@ -2,7 +2,7 @@
 @model AdminThesisVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["title"];
     var controler = "";
 }
 
@@ -12,59 +12,59 @@
 else if(User.IsInRole("Teacher"))
 { controler = "TeacherTheses"; }
 
-<h1>Create</h1>
+<h1>@Localizer["titleTxt"]</h1>
 
-<h4>DiplomaModel</h4>
+<h4>@Localizer["thesisTxt"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
     
-        <form asp-action="Create" asp-controller="@controler">
+        <form asp-action="Create" asp-controller="@controler" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.Title" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.Title" class="control-label">@Localizer["thesisNameTxt"]</label>
                 <input asp-for="ThesisModel!.Thesis.Title" class="form-control" />
                 <span asp-validation-for="ThesisModel!.Thesis.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.Degree" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.Degree" class="control-label">@Localizer["thesisDegreeTxt"]</label>
                 <select asp-for="ThesisModel!.Thesis.Degree" class="form-control" asp-items="@ViewBag.DegreeList"> </select>
                 <span asp-validation-for="ThesisModel!.Thesis.Degree" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.Description" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.Description" class="control-label">@Localizer["thesisDescriptionTxt"]</label>
                 <input asp-for="ThesisModel!.Thesis.Description" class="form-control" />
                 <span asp-validation-for="ThesisModel!.Thesis.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.DefendDate" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.DefendDate" class="control-label">@Localizer["thesisDefenseTxt"]</label>
                 <input asp-for="ThesisModel!.Thesis.DefendDate" class="form-control" />
                 <span asp-validation-for="ThesisModel!.Thesis.DefendDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.Grade" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.Grade" class="control-label">@Localizer["thesisGradeTxt"]</label>
                 <input asp-for="ThesisModel!.Thesis.Grade" class="form-control" />
                 <span asp-validation-for="ThesisModel!.Thesis.Grade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.Tags" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.Tags" class="control-label">@Localizer["thesisTagsTxt"]</label>
                 <input asp-for="ThesisModel!.Thesis.Tags" class="form-control" />
                 <span asp-validation-for="ThesisModel!.Thesis.Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.Status" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.Status" class="control-label">@Localizer["thesisStatusTxt"]</label>
                 <select asp-for="ThesisModel!.Thesis.Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()"></select>
                 <span asp-validation-for="ThesisModel!.Thesis.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["createBtn"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["backBtn"]</a>
 </div>
 
 @section Scripts {

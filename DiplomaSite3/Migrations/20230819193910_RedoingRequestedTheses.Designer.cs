@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomaSite3.Migrations
 {
     [DbContext(typeof(DiplomaSite3Context))]
-    [Migration("20230726150758_BetterUserTable")]
-    partial class BetterUserTable
+    [Migration("20230819193910_RedoingRequestedTheses")]
+    partial class RedoingRequestedTheses
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,6 +127,29 @@ namespace DiplomaSite3.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Programmes", (string)null);
+                });
+
+            modelBuilder.Entity("DiplomaSite3.Models.RequestedThesesModel", b =>
+                {
+                    b.Property<int>("RequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"));
+
+                    b.Property<Guid>("StudentID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ThesisID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RequestId");
+
+                    b.HasIndex("StudentID");
+
+                    b.HasIndex("ThesisID");
+
+                    b.ToTable("RequestedTheses", (string)null);
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.ThesisModel", b =>
@@ -251,7 +274,7 @@ namespace DiplomaSite3.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -395,10 +418,8 @@ namespace DiplomaSite3.Migrations
                 {
                     b.HasBaseType("DiplomaSite3.Models.UserModel");
 
-                    b.Property<string>("AdminPass")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<bool>("Verified")
+                        .HasColumnType("bit");
 
                     b.ToTable("Admins", (string)null);
                 });
@@ -419,7 +440,8 @@ namespace DiplomaSite3.Migrations
                 {
                     b.HasBaseType("DiplomaSite3.Models.UserModel");
 
-                    b.Property<bool?>("Approved")
+                    b.Property<bool?>("Verified")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.ToTable("Teachers", (string)null);
@@ -474,6 +496,25 @@ namespace DiplomaSite3.Migrations
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("DiplomaSite3.Models.RequestedThesesModel", b =>
+                {
+                    b.HasOne("DiplomaSite3.Models.StudentModel", "Student")
+                        .WithMany("RequestedTheses")
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DiplomaSite3.Models.ThesisModel", "Thesis")
+                        .WithMany("StudentRequests")
+                        .HasForeignKey("ThesisID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Thesis");
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.ThesisModel", b =>
@@ -589,11 +630,15 @@ namespace DiplomaSite3.Migrations
                 {
                     b.Navigation("Assigned")
                         .IsRequired();
+
+                    b.Navigation("StudentRequests");
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.StudentModel", b =>
                 {
                     b.Navigation("AssignedThesis");
+
+                    b.Navigation("RequestedTheses");
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.TeacherModel", b =>

@@ -3,6 +3,7 @@ using DiplomaSite3.Data;
 using DiplomaSite3.Enums;
 using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
@@ -99,43 +100,47 @@ namespace DiplomaSite3.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ViewRequests(Guid id, string? searchString, string? searchStudent) 
+        public async Task<IActionResult> ViewRequests(Guid id, string? searchStudent) 
         {
             var model = new RequestedThesesVM();
-            model.RequestedThesis.ThesisID = id;
 
+            if (_context.AssignedThesesDBS is null || _context.TeachersDBS is null || _context.RequestedThesesDBS is null || _context.ThesisDBS is null)
+                return Problem("Required Entity sets are null.");
+
+
+            if (id.Equals(Guid.Empty) )
+                return Problem("Invalid request form.");
+
+            var thesis = await _context.ThesisDBS.FindAsync(id);
+            var assignedThesis = await _context.AssignedThesesDBS.FindAsync(id);
+
+            var teacher = await _context.TeachersDBS.FindAsync(assignedThesis.TeacherID);
+            
+            
+            var requests = _context.RequestedThesesDBS;
+
+            if (assignedThesis is null || teacher is null || requests is null || thesis is null)
+                return Problem("Nonexistent entities.");
+
+            model.RequestedThesis = thesis;
+
+            var requestsQuerry = from r in requests select r;
+            requestsQuerry=requestsQuerry.Where(x => x.ThesisID == id);
+
+            if (!string.IsNullOrEmpty(searchStudent))
+            {
+                requestsQuerry = requestsQuerry.Where(r=>r.Student.FullName.Contains(searchStudent));
+            }
+
+            var requested = await requestsQuerry.ToListAsync();
+            
+            foreach (var request in requested)
+            {
+                var student = await _context.StudentsDBS.FindAsync(request.StudentID);
+                model.StudentsList.Add(student);
+            }
 
             return View(model);
-
-            //var theses = _context.RequestedThesesDBS;
-            //if (theses == null)
-            //{
-            //    return Problem("Entity set 'DiplomaSite3Context.Thesis'  is null.");
-            //}
-
-            //var thesisQuerry = from t in theses
-            //                   select t;
-
-            //var teacher = new TeacherModel();
-            //if (User != null)
-            //{
-            //    var userID = new Guid(User.Claims.First().Value);
-            //    teacher = await _context.TeachersDBS.FindAsync(userID);
-            //}
-
-            //if (!string.IsNullOrEmpty(searchString))
-            //{
-            //    thesisQuerry = thesisQuerry.Where(d => d.Thesis.Title.Contains(searchString));
-            //}
-
-            //if (!string.IsNullOrEmpty(searchStudent))
-            //{
-            // _context.AssignedThesesDBS.   
-            //    var status = Enum.Parse<StatusEnum>(searchStatus, true);
-            //    thesisQuerry = thesisQuerry.Where(d => d.Thesis.As.Equals(status));
-
-            //}
-
         }
 
 

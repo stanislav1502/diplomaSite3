@@ -5,27 +5,27 @@
 @model TeacherThesesVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<h1>Index</h1>
+<h1>@Localizer["title"]</h1>
 
 <p>
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Teacher"))
     {
-        <a asp-action="Create">Create New</a>
+        <a class="btn thesisbtn m-1" asp-controller="Thesis" asp-action="Create">@Localizer["createBtn"]</a>
     }
 </p>
 
-<form asp-controller="TeacherThesis" asp-action="Index" method="get">
+<form asp-controller="TeacherTheses" asp-action="Index" method="get">
     <p>
-    Title: <input type="text" asp-for="SearchString"/>
-    
-    Status: <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<StatusEnum>()">
+        @Localizer["thesisNameTxt"]: <input type="text" asp-for="SearchString" />
+
+        @Localizer["thesisStatusTxt"]: <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<StatusEnum>()">
         <option>Any</option>
     </select>
     </p>
-    <input type="submit" value="Filter" />
+    <input type="submit" value="@Localizer["filterBtn"]" />
 </form>
 
 <table class="table">
@@ -33,22 +33,22 @@
     <thead>
         <tr>
             <th onclick="sortTable(0)">
-                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Title)
+                @Localizer["thesisNameTxt"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.DefendDate)
+                @Localizer["thesisDefenseTxt"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Grade)
+                @Localizer["thesisGradeTxt"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Tags)
+                @Localizer["thesisTagsTxt"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThesisList![0].Thesis.Status)
+                @Localizer["thesisStatusTxt"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ThesisList![0].Student)
+                @Localizer["thesisStudentTxt"]
             </th>
             <th></th>
         </tr>
@@ -62,21 +62,17 @@
                 @Html.DisplayFor(modelItem => item.Thesis.Title)
             </td>
             <td>
-                    @if (item.Thesis.DefendDate != null)
+                @if (item.Thesis.DefendDate != null)
                 {
-                        @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
-                    }
-                    else
+                    @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
+                }
+                else
+                {
+                    if (item.Thesis.Status == StatusEnum.Done)
                     {
-                        if (item.Thesis.Status == StatusEnum.Done)
-                        {
-                            <a asp-action="SetDefense" asp-route-id="@item.ThesisID" method="post"></a>
-                        }
-                        else
-                        {
-                            
-                        }
+                        <a asp-action="SetDefense" asp-route-id="@item.ThesisID" method="post">@Localizer["setDefenseBtn"]</a>
                     }
+                }
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.Thesis.Grade)
@@ -87,38 +83,26 @@
             <td>
                     @Html.DisplayFor(modelItem => item.Thesis.Status)
             </td>
-            
-            @if(item.Student is not null)
-            {
             <td>
-            @Html.DisplayFor(modelItem => item.Student!.FullName)
-            </td>
+            @if (item.Student == null && item.Thesis.Status == StatusEnum.Posted)
+            {
+                    <a class="btn thesisbtn m-1" asp-action="ViewRequests" asp-controller="TeacherTheses" asp-route-id="@item.ThesisID"> @Localizer["viewRequestsBtn"]</a>
             }
             else
             {
-             <td>
-                 <a asp-action="ViewRequests" asp-controller="TeacherTheses" asp-route-id="@item.ThesisID" > View thesis requests</a>
-             </td>           
+                @Html.DisplayFor(modelItem => item.Student!.FullName)
             }
-           
+			</td>
+            <td>
 			@if (SignInManager.IsSignedIn(User))
             {
-                @if (User.IsInRole("Teacher"))
+                if(User.IsInRole("Teacher"))
                 {
-                    <td>
-                            <a asp-action="Edit" asp-controller="TeacherTheses" asp-route-id="@item.ThesisID">Edit</a> |
-                    <a asp-action="Details" asp-controller="Thesis" asp-route-id="@item.ThesisID">Details</a>
-                    </td>
+                    <a class="btn thesisbtn m-1" asp-action="Details" asp-controller="Thesis" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
                 }
-            }
-            else
-            {
-                <td>
-                    <a>
-                        
-                    </a>
-                </td>
-            }
+            } 
+            </td>
+           
             </tr>
         }
     </tbody>

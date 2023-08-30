@@ -1,0 +1,69 @@
+﻿@model AdminVM
+
+
+<div>
+    <span> @Localizer["studentsTxt"] </span>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Localizer["userIdTxt"]
+                </th>
+                <th>
+                    @Localizer["usernameTxt"]
+                </th>
+                <th>
+                    @Localizer["fullNameTxt"]
+                </th>
+                <th>
+                    @Localizer["fnTxt"]
+                </th>
+                <th>
+                    @Localizer["emailTxt"]
+                </th>
+                <th>
+                    @Localizer["phoneNumberTxt"]
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.StudentsList!)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => ((StudentModel)item).FacultyNumber);
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @if (item.EmailConfirmed is false)
+                        {
+                            <a class="btn thesisbtn m-1" asp-action="EmailConfirm" asp-route-id="@item.Id">    @Localizer["emailConfirmBtn"]</a>
+                        }
+                        <a class="btn thesisbtn m-1" asp-action="UDetails" asp-route-id="@item.Id">    @Localizer["detailsBtn"]</a>
+                        <a class="btn delbtn m-1" asp-action="UDelete" asp-route-id="@item.Id">    @Localizer["deleteBtn"]</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

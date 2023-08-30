@@ -9,6 +9,8 @@ namespace DiplomaSite3.Data;
 
 public static class SeedDB
 {
+    private static readonly bool cofirmAllEmails = false;
+
     public static async void Initialize(IServiceProvider serviceProvider)
     {
         using (var context = new DiplomaSite3Context(
@@ -91,7 +93,7 @@ public static class SeedDB
             }
 
 
-            if (context.UsersDBS.Any())
+            if (context.UsersDBS.Any() && cofirmAllEmails)
             {
                 var users = context.UsersDBS;
                 var userQuerry = from u in users

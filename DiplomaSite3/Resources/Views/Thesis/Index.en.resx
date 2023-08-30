@@ -133,7 +133,7 @@
     <value>Filter</value>
   </data>
   <data name="onlyPostedTxt" xml:space="preserve">
-    <value>Only Posted</value>
+    <value>Available</value>
   </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Defense date</value>

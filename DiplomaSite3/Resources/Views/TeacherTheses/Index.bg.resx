@@ -117,31 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="descriptionTxt" xml:space="preserve">
-    <value>Влезте със съществуващ акаунт</value>
+  <data name="createBtn" xml:space="preserve">
+    <value>Създай Нова</value>
   </data>
-  <data name="forgotPassLnk" xml:space="preserve">
-    <value>Забравена парола?</value>
+  <data name="detailsBtn" xml:space="preserve">
+    <value>Детайли</value>
   </data>
-  <data name="loginBtn" xml:space="preserve">
-    <value>Вход</value>
+  <data name="editBtn" xml:space="preserve">
+    <value>Промени</value>
   </data>
-  <data name="passwordLb" xml:space="preserve">
-    <value>Парола</value>
+  <data name="filterBtn" xml:space="preserve">
+    <value>Филтрирай</value>
   </data>
-  <data name="registerNewLnk" xml:space="preserve">
-    <value>Регистрация на нов потребител</value>
+  <data name="setDefenseBtn" xml:space="preserve">
+    <value>Нагласи защита</value>
   </data>
-  <data name="rememberLb" xml:space="preserve">
-    <value>Запомни ме</value>
+  <data name="thesisDefenseTxt" xml:space="preserve">
+    <value>Дата на Защита</value>
   </data>
-  <data name="resendEmailLnk" xml:space="preserve">
-    <value>Прати отново имейл</value>
+  <data name="thesisDescriptionTxt" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="thesisGradeTxt" xml:space="preserve">
+    <value>Оценка</value>
+  </data>
+  <data name="thesisNameTxt" xml:space="preserve">
+    <value>Заглавие</value>
+  </data>
+  <data name="thesisStatusTxt" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="thesisStudentTxt" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="thesisTagsTxt" xml:space="preserve">
+    <value>Тагове</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Вход</value>
+    <value>Теми на преподавател</value>
   </data>
-  <data name="usernameLb" xml:space="preserve">
-    <value>Потребителско име</value>
+  <data name="viewRequestsBtn" xml:space="preserve">
+    <value>Заявили темата</value>
   </data>
 </root>

@@ -117,31 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="descriptionTxt" xml:space="preserve">
-    <value>Влезте със съществуващ акаунт</value>
+  <data name="backBtn" xml:space="preserve">
+    <value>Back to all</value>
   </data>
-  <data name="forgotPassLnk" xml:space="preserve">
-    <value>Забравена парола?</value>
+  <data name="createBtn" xml:space="preserve">
+    <value>Create</value>
   </data>
-  <data name="loginBtn" xml:space="preserve">
-    <value>Вход</value>
+  <data name="thesisAssignedTxt" xml:space="preserve">
+    <value>Assigned on</value>
   </data>
-  <data name="passwordLb" xml:space="preserve">
-    <value>Парола</value>
+  <data name="thesisDefenseTxt" xml:space="preserve">
+    <value>Defense date</value>
   </data>
-  <data name="registerNewLnk" xml:space="preserve">
-    <value>Регистрация на нов потребител</value>
+  <data name="thesisDegreeTxt" xml:space="preserve">
+    <value>Degree</value>
   </data>
-  <data name="rememberLb" xml:space="preserve">
-    <value>Запомни ме</value>
+  <data name="thesisDescriptionTxt" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="resendEmailLnk" xml:space="preserve">
-    <value>Прати отново имейл</value>
+  <data name="thesisGradeTxt" xml:space="preserve">
+    <value>Grade</value>
+  </data>
+  <data name="thesisNameTxt" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="thesisStatusTxt" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="thesisStudentTxt" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="thesisTagsTxt" xml:space="preserve">
+    <value>Tags</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Вход</value>
+    <value>Create</value>
   </data>
-  <data name="usernameLb" xml:space="preserve">
-    <value>Потребителско име</value>
+  <data name="titleTxt" xml:space="preserve">
+    <value>Create a new thesis</value>
   </data>
 </root>

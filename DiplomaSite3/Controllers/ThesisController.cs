@@ -38,11 +38,15 @@ namespace DiplomaSite3.Controllers
             var thesesQuerry = from d in theses
                                select d;
 
+            
+            // if anonymous show only not assigned theses
+            if (!User.Claims.ToList().Any()) onlyposted = true;
+
+            // filter based on form values
             if (!string.IsNullOrEmpty(searchString))
             {
                 thesesQuerry = thesesQuerry.Where(d => d.Thesis.Title.Contains(searchString));
             }
-
             if (onlyposted)
             {
                 thesesQuerry = thesesQuerry.Where(d => d.Thesis.Status.Equals(StatusEnum.Posted));
@@ -53,7 +57,7 @@ namespace DiplomaSite3.Controllers
 
             foreach (var item in viewModel.ThesesList)
             {
-                _ = LinkAssignedThesisData(item);
+                LinkAssignedThesisData(item);
             }
 
             return View(viewModel);
@@ -122,14 +126,14 @@ namespace DiplomaSite3.Controllers
             else thesisModel = thesisQuerry.First();
 
             // linking the view models with data from db
-            _ = LinkAssignedThesisData(thesisModel);
+            thesisModel = LinkAssignedThesisData(thesisModel);
 
             return View(thesisModel);
         }
 
         // GET: Diplomas/Create
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Teacher")]
         public IActionResult Create()
         {
             PopulateTeachersDropDownList();
@@ -153,7 +157,7 @@ namespace DiplomaSite3.Controllers
                     TeacherID = null,
                 };
 
-                _ = LinkAssignedThesisData(assigned);
+                assigned = LinkAssignedThesisData(assigned);
 
                 _context.AssignedThesesDBS.Add(assigned);
                 await _context.SaveChangesAsync();
@@ -237,7 +241,7 @@ namespace DiplomaSite3.Controllers
                 return NotFound();
             }
 
-            _ = LinkAssignedThesisData(thesisModel);
+            thesisModel = LinkAssignedThesisData(thesisModel);
 
             return View(thesisModel);
         }
@@ -290,7 +294,7 @@ namespace DiplomaSite3.Controllers
 
             if (ModelState.IsValid && thesis.Status == StatusEnum.Posted)
             {
-                RequestedThesisModel requested = new RequestedThesisModel
+                RequestedThesesModel requested = new RequestedThesesModel
                 {
                     ThesisID = thesis.ThesisID,
                     StudentID = student.Id,
@@ -351,14 +355,16 @@ namespace DiplomaSite3.Controllers
             ViewBag.DegreeList = new SelectList(degreesQuerry.AsNoTracking(), "Id", "DegreeName", selectedDegree);
         }
 
-        private async Task LinkAssignedThesisData(AssignedThesisModel thesisModel)
+        private AssignedThesisModel LinkAssignedThesisData(AssignedThesisModel thesisModel)
         {
             if (thesisModel.ThesisID != Guid.Empty)
-                thesisModel.Thesis = await _context.ThesisDBS.FindAsync(thesisModel.ThesisID);
+                thesisModel.Thesis =  _context.ThesisDBS.Find(thesisModel.ThesisID);
             if (thesisModel.StudentID != Guid.Empty)
-                thesisModel.Student = await _context.StudentsDBS.FindAsync(thesisModel.StudentID);
+                thesisModel.Student = _context.StudentsDBS.Find(thesisModel.StudentID);
             if (thesisModel.TeacherID != Guid.Empty)
-                thesisModel.Teacher = await _context.TeachersDBS.FindAsync(thesisModel.TeacherID);
+                thesisModel.Teacher = _context.TeachersDBS.Find(thesisModel.TeacherID);
+
+            return thesisModel;
         }
     }
 }

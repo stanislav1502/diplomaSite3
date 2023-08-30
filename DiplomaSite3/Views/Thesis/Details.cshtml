@@ -83,9 +83,15 @@
     </dl>
 </div>
 <div>
-    @if(User.IsInRole("Admin") || User.IsInRole("Teacher"))
+	<a class="btn thesisbtn m-1" asp-action="Index">@Localizer["backBtn"]</a>
+
+    @if (User.IsInRole("Teacher"))
     {
-        <a asp-action="Edit" asp-route-id="@Model.ThesisModel!.ThesisID">@Localizer["editBtn"]</a> <span>|</span>
+        <a class="btn thesisbtn m-1" asp-action="Edit" asp-controller="TeacherTheses" asp-route-id="@Model.ThesisModel.ThesisID">@Localizer["editBtn"]</a>
     }
-    <a asp-action="Index">@Localizer["backBtn"]</a>
+    @if(User.IsInRole("Admin"))
+    {
+        <a class="btn thesisbtn m-1" asp-action="Edit" asp-route-id="@Model.ThesisModel!.ThesisID">@Localizer["editBtn"]</a>
+    }
+    
 </div>

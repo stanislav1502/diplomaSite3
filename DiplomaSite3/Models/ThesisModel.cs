@@ -53,5 +53,6 @@ namespace DiplomaSite3.Models
         
         public AssignedThesisModel Assigned { get; set; }
 
+        public ICollection<RequestedThesesModel> StudentRequests { get; set; }
     }
 }

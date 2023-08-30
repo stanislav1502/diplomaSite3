@@ -117,31 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="descriptionTxt" xml:space="preserve">
-    <value>Влезте със съществуващ акаунт</value>
+  <data name="deleteBtn" xml:space="preserve">
+    <value>Изтрий</value>
   </data>
-  <data name="forgotPassLnk" xml:space="preserve">
-    <value>Забравена парола?</value>
+  <data name="detailsBtn" xml:space="preserve">
+    <value>Детайли</value>
   </data>
-  <data name="loginBtn" xml:space="preserve">
-    <value>Вход</value>
+  <data name="emailTxt" xml:space="preserve">
+    <value>Имейл</value>
   </data>
-  <data name="passwordLb" xml:space="preserve">
-    <value>Парола</value>
+  <data name="fullNameTxt" xml:space="preserve">
+    <value>Лично име</value>
   </data>
-  <data name="registerNewLnk" xml:space="preserve">
-    <value>Регистрация на нов потребител</value>
+  <data name="phoneNumberTxt" xml:space="preserve">
+    <value>Телефонен номер</value>
   </data>
-  <data name="rememberLb" xml:space="preserve">
-    <value>Запомни ме</value>
+  <data name="teachersTxt" xml:space="preserve">
+    <value>Преподаватели</value>
   </data>
-  <data name="resendEmailLnk" xml:space="preserve">
-    <value>Прати отново имейл</value>
+  <data name="userIdTxt" xml:space="preserve">
+    <value>ID</value>
   </data>
-  <data name="title" xml:space="preserve">
-    <value>Вход</value>
-  </data>
-  <data name="usernameLb" xml:space="preserve">
+  <data name="usernameTxt" xml:space="preserve">
     <value>Потребителско име</value>
   </data>
 </root>
