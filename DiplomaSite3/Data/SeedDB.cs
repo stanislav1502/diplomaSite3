@@ -369,6 +369,7 @@ public static class SeedDB
         await roleManager.CreateAsync(new IdentityRole<Guid>(MyRolesEnum.Admin.ToString()));
     }
 
+
     public static async Task AssignRolesAsync(DiplomaSite3Context context, UserManager<UserModel> userManager)
     {
         var admins = await context.AdminsDBS.ToListAsync();

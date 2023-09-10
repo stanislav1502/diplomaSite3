@@ -5,6 +5,7 @@ using DiplomaSite3.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -76,27 +77,81 @@ namespace DiplomaSite3.Controllers
 			return View(viewModel);
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var viewModel = new AdminThesisVM();
+            PopulateDegreesDropDownList();
+            return View(viewModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AssignedThesisModel model)
+        public async Task<IActionResult> Create(AdminThesisVM adminThesisModel)
         {
-
+            
             if (ModelState.IsValid)
             {
-                model.Thesis.ThesisID = Guid.NewGuid();
-
-                _context.ThesisDBS.Add(model.Thesis); 
+                var thesis = adminThesisModel.ThesisModel.Thesis;
+                thesis.ThesisID = Guid.NewGuid();
+                _context.ThesisDBS.Add(thesis); 
                 
+                AssignedThesisModel assigned = new AssignedThesisModel
+                {
+                    ThesisID = thesis.ThesisID,
+                    StudentID = null,
+                    TeacherID = null,
+                };
+
                 var userID = new Guid(User.Claims.First().Value);
                 var teacher = _context.TeachersDBS.Where(d => d.Id.Equals(userID)).First();
-                model.Teacher = teacher;
+                assigned.TeacherID = teacher.Id;
 
-                _context.AssignedThesesDBS.Add(model);
-                
+                assigned = LinkAssignedThesisData(assigned);
+
+                _context.AssignedThesesDBS.Add(assigned);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), thesis.ThesisID);
             }
-            return View(model);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null || _context.ThesisDBS == null)
+            {
+                return NotFound();
+            }
+            var viewModel = new AdminThesisVM();
+
+            var thesisModel = await _context.AssignedThesesDBS
+                .FirstOrDefaultAsync(m => m.ThesisID == id);
+            if (thesisModel == null)
+            {
+                return NotFound();
+            }
+            viewModel.ThesisModel = thesisModel;
+
+            if (thesisModel.ThesisID != Guid.Empty)
+                thesisModel.Thesis = _context.ThesisDBS.FindAsync(thesisModel.ThesisID).Result;
+            if (thesisModel.StudentID != Guid.Empty)
+                thesisModel.Student = _context.StudentsDBS.FindAsync(thesisModel.StudentID).Result;
+            if (thesisModel.TeacherID != Guid.Empty)
+                thesisModel.Teacher = _context.TeachersDBS.FindAsync(thesisModel.TeacherID).Result;
+
+            // does current user have a thesis
+            var stringID = User.Claims.First().Value;
+            if (stringID == null || _context.StudentsDBS == null)
+            {
+                return NotFound();
+            }
+            Guid userID = new Guid(stringID);
+            var studentQuerry = _context.AssignedThesesDBS.FromSqlRaw("SELECT * FROM AssignedTheses WHERE StudentID = {0}", userID).AsNoTracking();
+
+            viewModel.hasThesis = studentQuerry.Any();
+
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -165,7 +220,7 @@ namespace DiplomaSite3.Controllers
             var student = await _context.StudentsDBS.FindAsync(new Guid(studentID));
 
             var assignedThesis = await _context.AssignedThesesDBS.FindAsync(new Guid(thesisID));
-            var requestedThesisModel = await _context.RequestedThesesDBS.FirstAsync(r => r.Thesis == assignedThesis.Thesis );
+            var requestedThesisModel = await _context.RequestedThesesDBS.FirstAsync(r => r.Thesis == assignedThesis.Thesis);
 
             // check student and thesis exist
             if (assignedThesis is null || teacher is null || requestedThesisModel is null || student is null)
@@ -178,7 +233,7 @@ namespace DiplomaSite3.Controllers
             {
                 thesis.Status = StatusEnum.WIP;
                 thesis.Assigned = assignedThesis;
-
+                thesis.AssignDate = DateTime.UtcNow;
                 assignedThesis.StudentID = student.Id;
                 assignedThesis.Student = student;
 
@@ -187,7 +242,13 @@ namespace DiplomaSite3.Controllers
                 _context.ThesisDBS.Update(thesis);
                 _context.StudentsDBS.Update(student);
                 _context.AssignedThesesDBS.Update(assignedThesis);
-                _context.RequestedThesesDBS.Remove(requestedThesisModel);
+
+                do
+                {
+                    _context.RequestedThesesDBS.Remove(requestedThesisModel);
+                    requestedThesisModel = await _context.RequestedThesesDBS.FirstAsync(r => r.Thesis == assignedThesis.Thesis);
+                } 
+                while (_context.RequestedThesesDBS.Contains(requestedThesisModel));
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -196,5 +257,87 @@ namespace DiplomaSite3.Controllers
             return RedirectToAction(nameof(Index), nameof(ThesisController));
         }
 
+        [HttpGet, ActionName("SetDefense")]
+        public async Task<IActionResult> SetDefense(Guid? id)
+        {
+            if (id == null || _context.ThesisDBS == null)
+            {
+                return NotFound();
+            }
+
+            var thesisModel = await _context.AssignedThesesDBS
+                .FirstOrDefaultAsync(m => m.ThesisID == id);
+            if (thesisModel == null)
+            {
+                return NotFound();
+            }
+
+            thesisModel = LinkAssignedThesisData(thesisModel);
+
+            return View(thesisModel);
+        }
+
+        [HttpPost, ActionName("SetDefense")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetDefense(IFormCollection collection)
+        {
+            // check Post has data
+            string thesisID = collection["ThesisID"];
+            string defenseDate = collection["DefenseValue"];
+
+            if (thesisID.IsNullOrEmpty() || defenseDate.IsNullOrEmpty())
+                return Problem("Invalid request form.");
+
+            if (_context.ThesisDBS is null)
+                return Problem("Thesis Set is null.");
+
+            var thesis = await _context.ThesisDBS.FindAsync(new Guid(thesisID));
+            var date = DateTime.Parse(defenseDate);
+
+            if (thesis != null)
+            {
+                if (date != null)
+                    thesis.DefendDate = date;
+                else thesis.DefendDate = DateTime.Now.AddDays(7.0);
+
+                thesis.Status = StatusEnum.InAppraisal;
+
+                _context.ThesisDBS.Update(thesis);
+                await _context.SaveChangesAsync();
+            }
+            else return Problem("Thesis not found");
+
+            return RedirectToAction("Index", "TeacherTheses");
+        }
+
+        private AssignedThesisModel LinkAssignedThesisData(AssignedThesisModel thesisModel)
+        {
+            if (thesisModel.ThesisID != Guid.Empty)
+                thesisModel.Thesis = _context.ThesisDBS.Find(thesisModel.ThesisID);
+            if (thesisModel.StudentID != Guid.Empty)
+                thesisModel.Student = _context.StudentsDBS.Find(thesisModel.StudentID);
+            if (thesisModel.TeacherID != Guid.Empty)
+                thesisModel.Teacher = _context.TeachersDBS.Find(thesisModel.TeacherID);
+
+            return thesisModel;
+        }
+
+        private void PopulateDegreesDropDownList(object selected = null)
+        {
+            var facultyQuery = from f in _context.FacultiesDBS
+                               orderby f.FacultyName
+                               select f;
+            var departmentQuery = from d in _context.DepartmentsDBS
+                                  orderby d.DepartmentName
+                                  select d;
+            var programmeQuery = from p in _context.ProgrammesDBS
+                                 orderby p.ProgrammeName
+                                 select p;
+
+            ViewBag.FacultyList = new SelectList(facultyQuery, "Id", "FacultyName", selected);
+            ViewBag.DepartmentList = new SelectList(departmentQuery, "Id", "DepartmentName", selected);
+            ViewBag.ProgrammeList = new SelectList(programmeQuery, "Id", "ProgrammeName", selected);
+
+        }
     }
 }

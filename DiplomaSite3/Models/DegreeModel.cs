@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DiplomaSite3.Enums;
+using Humanizer;
 
 namespace DiplomaSite3.Models
 {
@@ -11,21 +12,20 @@ namespace DiplomaSite3.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(100)]
+        public FacultyModel? Faculty { get; set; }
+        public int? FacultyId { get; set; }
+
+        public DepartmentModel? Department { get; set; }
+        public int? DepartmentId { get; set; }
+
         public ProgrammeModel? Programme { get; set; }
         public int? ProgrammeId { get; set; }
 
-        public DegreeEnum Degree { get; set; }
 
+        public DegreeEnum Degree { get; set; }
 
         public ICollection<ThesisModel>? Thesis { get; set; }
 
-        public override string ToString()
-        {
-            var str = "";
-            str += Programme!.ToString();
-            return str;
-        }
 
     }
 }

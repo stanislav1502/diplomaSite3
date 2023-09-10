@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualStudio.Web.CodeGeneration.Design;
 using NuGet.Versioning;
 using System.Collections.Generic;
 
@@ -121,7 +122,7 @@ namespace DiplomaSite3.Controllers
             var thesisModel = new AssignedThesisModel();
             if (!thesisQuerry.Any())
             {
-                return NotFound();
+                return Problem("no assigned thesis");
             }
             else thesisModel = thesisQuerry.First();
 
@@ -133,12 +134,13 @@ namespace DiplomaSite3.Controllers
 
         // GET: Diplomas/Create
         [HttpGet]
-        [Authorize(Roles = "Admin, Teacher")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
+            var viewModel = new AdminThesisVM();
             PopulateTeachersDropDownList();
-            PopulateProgrammesDropDownList();
-            return View();
+            PopulateDegreesDropDownList();
+            return View(viewModel);
         }
 
         // POST: Diplomas/Create
@@ -294,15 +296,15 @@ namespace DiplomaSite3.Controllers
 
             if (ModelState.IsValid && thesis.Status == StatusEnum.Posted)
             {
+
                 RequestedThesesModel requested = new RequestedThesesModel
                 {
                     ThesisID = thesis.ThesisID,
                     StudentID = student.Id,
                 };
-
-                requestedThesesDB.Add(requested);
+                if (requestedThesesDB.Contains(requested)) { ; }
+                else requestedThesesDB.Add(requested);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
 
             return RedirectToAction(nameof(Index), nameof(ThesisController));
@@ -321,6 +323,8 @@ namespace DiplomaSite3.Controllers
             }
 
             var thesisModel = await _context.AssignedThesesDBS.FindAsync(id);
+            thesisModel = LinkAssignedThesisData(thesisModel);
+
             if (thesisModel != null)
             {
                 if (User.Claims.FirstOrDefault().Value.Equals(thesisModel.Student.Id.ToString()))
@@ -348,11 +352,22 @@ namespace DiplomaSite3.Controllers
             ViewBag.TeacherList = new SelectList(teachersQuery.AsNoTracking(), "Id", "FullName", selectedTeacher);
         }
 
-        private void PopulateProgrammesDropDownList(object selectedDegree = null)
+        private void PopulateDegreesDropDownList(object selected = null)
         {
-            var degreesQuerry = from t in _context.DegreesDBS
-                                select t;
-            ViewBag.DegreeList = new SelectList(degreesQuerry.AsNoTracking(), "Id", "DegreeName", selectedDegree);
+            var facultyQuery = from f in _context.FacultiesDBS
+                               orderby f.FacultyName
+                               select f;
+            var departmentQuery = from d in _context.DepartmentsDBS
+                               orderby d.DepartmentName
+                               select d;
+            var programmeQuery = from p in _context.ProgrammesDBS
+                                 orderby p.ProgrammeName
+                                 select p;
+            
+            ViewBag.FacultyList = new SelectList(facultyQuery, "Id", "FacultyName", selected);
+            ViewBag.DepartmentList = new SelectList(departmentQuery, "Id", "DepartmentName", selected);
+            ViewBag.ProgrammeList = new SelectList(programmeQuery, "Id", "ProgrammeName", selected);
+            
         }
 
         private AssignedThesisModel LinkAssignedThesisData(AssignedThesisModel thesisModel)
@@ -366,5 +381,18 @@ namespace DiplomaSite3.Controllers
 
             return thesisModel;
         }
+
+        private DegreeModel LinkDegreeData(DegreeModel degreeModel)
+        {
+            if (degreeModel.FacultyId != null)
+                degreeModel.Faculty = _context.FacultiesDBS.Find(degreeModel.FacultyId);
+            if (degreeModel.DepartmentId != null)
+                degreeModel.Department = _context.DepartmentsDBS.Find(degreeModel.DepartmentId);
+            if (degreeModel.Programme != null)
+                degreeModel.Programme = _context.ProgrammesDBS.Find(degreeModel.ProgrammeId);
+
+            return degreeModel;
+        }
+
     }
 }

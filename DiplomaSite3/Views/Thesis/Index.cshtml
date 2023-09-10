@@ -95,7 +95,10 @@
                     @Html.DisplayFor(modelItem => item.Thesis.Tags)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.Status)
+                    @{
+                        var status = item.Thesis.Status.ToString();
+                     }   
+                     @Localizer[status]      
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Teacher!.FullName)

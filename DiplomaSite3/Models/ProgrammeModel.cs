@@ -19,11 +19,5 @@ namespace DiplomaSite3.Models
 
         public ICollection<DegreeModel> ?Degrees { get; set; }
 
-        public override string ToString()
-        {
-            var str = "";
-            str += Department!.ToString() +" "+ ProgrammeName;
-            return str;
-        }
     }
 }

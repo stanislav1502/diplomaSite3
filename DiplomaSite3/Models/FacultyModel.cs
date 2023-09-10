@@ -15,9 +15,5 @@ namespace DiplomaSite3.Models
 
         public ICollection<DepartmentModel> ?Departments { get; set; }
 
-        public override string ToString()
-        {
-            return FacultyName;
-        }
     }
 }

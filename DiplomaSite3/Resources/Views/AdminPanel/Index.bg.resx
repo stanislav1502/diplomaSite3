@@ -117,22 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="createBtn" xml:space="preserve">
-    <value>Добави нов</value>
-  </data>
-  <data name="editBtn" xml:space="preserve">
-    <value>Промени</value>
-  </data>
-  <data name="emailConfirmTxt" xml:space="preserve">
-    <value>Потвърди имейл</value>
-  </data>
-  <data name="emailTxt" xml:space="preserve">
-    <value>Имейл</value>
-  </data>
   <data name="filterBtn" xml:space="preserve">
     <value>Филтрирай</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Администраторски Панел</value>
+  </data>
+  <data name="usernameTxt" xml:space="preserve">
+    <value>Потребителско име</value>
   </data>
 </root>

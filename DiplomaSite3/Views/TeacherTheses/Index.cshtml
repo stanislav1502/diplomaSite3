@@ -13,7 +13,7 @@
 <p>
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Teacher"))
     {
-        <a class="btn thesisbtn m-1" asp-controller="Thesis" asp-action="Create">@Localizer["createBtn"]</a>
+        <a class="btn thesisbtn m-1" asp-controller="TeacherTheses" asp-action="Create">@Localizer["createBtn"]</a>
     }
 </p>
 
@@ -70,7 +70,7 @@
                 {
                     if (item.Thesis.Status == StatusEnum.Done)
                     {
-                        <a asp-action="SetDefense" asp-route-id="@item.ThesisID" method="post">@Localizer["setDefenseBtn"]</a>
+                            <a class="btn thesisbtn m-1" asp-controller="TeacherTheses" asp-action="SetDefense" asp-route-id="@item.ThesisID" method="get">@Localizer["setDefenseBtn"]</a>
                     }
                 }
             </td>
@@ -86,7 +86,7 @@
             <td>
             @if (item.Student == null && item.Thesis.Status == StatusEnum.Posted)
             {
-                    <a class="btn thesisbtn m-1" asp-action="ViewRequests" asp-controller="TeacherTheses" asp-route-id="@item.ThesisID"> @Localizer["viewRequestsBtn"]</a>
+			    <a class="btn thesisbtn m-1" asp-controller="TeacherTheses" asp-action="ViewRequests" asp-route-id="@item.ThesisID"> @Localizer["viewRequestsBtn"]</a>
             }
             else
             {
@@ -98,7 +98,7 @@
             {
                 if(User.IsInRole("Teacher"))
                 {
-                    <a class="btn thesisbtn m-1" asp-action="Details" asp-controller="Thesis" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
+                    <a class="btn thesisbtn m-1" asp-action="Details" asp-controller="TeacherTheses" asp-route-id="@item.ThesisID">@Localizer["detailsBtn"]</a>
                 }
             } 
             </td>

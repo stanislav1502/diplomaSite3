@@ -12,13 +12,13 @@ namespace DiplomaSite3.Models
 
         // 1 diploma - by 1 assigner
         [Display(Name = "Teacher")]
-        [DisplayFormat(NullDisplayText = "Missing teacher")]
+        [DisplayFormat(NullDisplayText = "---")]
         public Guid? TeacherID { get; set; }
         public TeacherModel? Teacher { get; set; }
 
         // 1 diploma - to 1 assignee
         [Display(Name = "Student")]
-        [DisplayFormat(NullDisplayText = "No assigned student")]
+        [DisplayFormat(NullDisplayText = "---")]
         public Guid? StudentID { get; set; }
         public StudentModel? Student { get; set; }
     }

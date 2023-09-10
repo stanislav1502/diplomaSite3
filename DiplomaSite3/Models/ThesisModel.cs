@@ -26,20 +26,20 @@ namespace DiplomaSite3.Models
 
         [Display(Name = "Assigned on")]
         [DataType(DataType.Date)]
-        [DisplayFormat(NullDisplayText = "Not assigned")]
+        [DisplayFormat(NullDisplayText = "---")]
         public DateTime? AssignDate { get; set; }
 
         [Display(Name = "Defense on")]
         [DataType(DataType.Date)]
-        [DisplayFormat(NullDisplayText = "No defense ")]
+        [DisplayFormat(NullDisplayText = "---")]
         public DateTime? DefendDate { get; set; }
 
         [Precision(5, 3)]
-        [DisplayFormat(NullDisplayText = "No grade")]
+        [DisplayFormat(NullDisplayText = "---")]
         public decimal? Grade { get; set; }
 
         [StringLength(50)]
-        [DisplayFormat(NullDisplayText = "No tags")]
+        [DisplayFormat(NullDisplayText = "---")]
         public string? Tags { get; set; }
 
         [Required]
@@ -51,8 +51,8 @@ namespace DiplomaSite3.Models
         public int DegreeId { get; set; }
         public DegreeModel Degree { get; set; }
         
-        public AssignedThesisModel Assigned { get; set; }
+        public AssignedThesisModel? Assigned { get; set; }
 
-        public ICollection<RequestedThesesModel> StudentRequests { get; set; }
+        public ICollection<RequestedThesesModel>? StudentRequests { get; set; }
     }
 }

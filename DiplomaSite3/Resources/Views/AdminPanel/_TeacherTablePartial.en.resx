@@ -123,6 +123,9 @@
   <data name="detailsBtn" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="emailConfirmBtn" xml:space="preserve">
+    <value>Confirm Email</value>
+  </data>
   <data name="emailTxt" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -140,5 +143,8 @@
   </data>
   <data name="usernameTxt" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="verifiedTxt" xml:space="preserve">
+    <value>Verified</value>
   </data>
 </root>

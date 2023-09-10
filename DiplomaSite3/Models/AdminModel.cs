@@ -6,7 +6,7 @@ namespace DiplomaSite3.Models
     public class AdminModel : UserModel 
     {
         [Required]
-        public bool Verified { get; set; }
+        public bool Verified { get; set; } = false;
 
     }
 }

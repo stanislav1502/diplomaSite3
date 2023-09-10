@@ -123,6 +123,9 @@
   <data name="detailsBtn" xml:space="preserve">
     <value>Детайли</value>
   </data>
+  <data name="emailConfirmBtn" xml:space="preserve">
+    <value>Потвърди Имейл</value>
+  </data>
   <data name="emailTxt" xml:space="preserve">
     <value>Имейл</value>
   </data>

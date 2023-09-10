@@ -117,37 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="adminsTxt" xml:space="preserve">
-    <value>Администратори</value>
+  <data name="backBtn" xml:space="preserve">
+    <value>Назад</value>
   </data>
-  <data name="deleteBtn" xml:space="preserve">
-    <value>Изтрий</value>
+  <data name="editBtn" xml:space="preserve">
+    <value>Промени</value>
   </data>
-  <data name="detailsBtn" xml:space="preserve">
+  <data name="giveThesisBtn" xml:space="preserve">
+    <value>Задай тема</value>
+  </data>
+  <data name="requestThesisBtn" xml:space="preserve">
+    <value>Поискай тема</value>
+  </data>
+  <data name="thesisAssignedTxt" xml:space="preserve">
+    <value>Получена на</value>
+  </data>
+  <data name="thesisDefenseTxt" xml:space="preserve">
+    <value>Защита на</value>
+  </data>
+  <data name="thesisDescriptionTxt" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="thesisGradeTxt" xml:space="preserve">
+    <value>Оценка</value>
+  </data>
+  <data name="thesisNameTxt" xml:space="preserve">
+    <value>Заглавие</value>
+  </data>
+  <data name="thesisStatusTxt" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="thesisStudentTxt" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="thesisTagsTxt" xml:space="preserve">
+    <value>Тагове</value>
+  </data>
+  <data name="thesisTeacherTxt" xml:space="preserve">
+    <value>Преподавател</value>
+  </data>
+  <data name="title" xml:space="preserve">
     <value>Детайли</value>
-  </data>
-  <data name="emailConfirmBtn" xml:space="preserve">
-    <value>Потвърди Имейл</value>
-  </data>
-  <data name="emailTxt" xml:space="preserve">
-    <value>Имейл</value>
-  </data>
-  <data name="fullNameTxt" xml:space="preserve">
-    <value>Лично име</value>
-  </data>
-  <data name="phoneNumberTxt" xml:space="preserve">
-    <value>Телефонен номер</value>
-  </data>
-  <data name="userIdTxt" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="usernameTxt" xml:space="preserve">
-    <value>Потребителско име</value>
-  </data>
-  <data name="userTypeTxt" xml:space="preserve">
-    <value>Тип</value>
-  </data>
-  <data name="verifiedTxt" xml:space="preserve">
-    <value>Потвърден</value>
   </data>
 </root>

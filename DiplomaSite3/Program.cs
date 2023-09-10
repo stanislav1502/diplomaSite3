@@ -1,4 +1,4 @@
-
+﻿
 using DiplomaSite3.Data;
 using DiplomaSite3.Models;
 using DiplomaSite3.Services;
@@ -34,6 +34,9 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred seeding the DB.");
     }
 }
+
+// генериране на word.doc 
+// https://www.add-in-express.com/creating-addins-blog/working-with-word-templates/.
 
 // configuring localization 
 var supportedCultures = new[] { "bg", "en" };

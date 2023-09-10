@@ -178,7 +178,7 @@ namespace DiplomaSite3.Controllers
 
         public async Task<IActionResult> EmailConfirm(Guid id)
         {
-            if (id == null || _context.UsersDBS == null)
+            if (id == Guid.Empty || _context.UsersDBS == null)
             {
                 return Problem("No entities for operation");
             }
@@ -194,7 +194,7 @@ namespace DiplomaSite3.Controllers
             _context.UsersDBS.Update(userModel);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(Index), nameof(AdminPanelController));
+            return RedirectToAction("Index","AdminPanel");
         }
 
         //// POST: Diplomas/Edit/5
