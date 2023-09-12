@@ -132,6 +132,9 @@
   <data name="setDefenseBtn" xml:space="preserve">
     <value>Нагласи защита</value>
   </data>
+  <data name="setGradeBtn" xml:space="preserve">
+    <value>Оцени и архивирай</value>
+  </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Дата на Защита</value>
   </data>

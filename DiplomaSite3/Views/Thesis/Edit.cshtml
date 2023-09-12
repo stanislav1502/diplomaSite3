@@ -2,12 +2,12 @@
 @model AdminThesisVM
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<h1>Edit</h1>
+<h1>@Localizer["title"]</h1>
 
-<h4>DiplomaModel</h4>
+<h4>@Localizer["titleTxt"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,41 +15,68 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ThesisModel.ThesisID" />
             <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.Title" class="control-label"></label>
+                <label asp-for="ThesisModel.Thesis.Title" class="control-label">@Localizer["thesisNameTxt"]</label>
                 <input asp-for="ThesisModel.Thesis.Title" class="form-control" />
                 <span asp-validation-for="ThesisModel.Thesis.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.Description" class="control-label"></label>
+                <label asp-for="ThesisModel.Thesis.Description" class="control-label">@Localizer["thesisDescriptionTxt"]</label>
                 <input asp-for="ThesisModel.Thesis.Description" class="form-control" />
                 <span asp-validation-for="ThesisModel.Thesis.Description" class="text-danger"></span>
             </div>
+             @if(User.IsInRole("Admin"))
+            {
             <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.AssignDate" class="control-label"></label>
+                    <label asp-for="ThesisModel.Thesis.AssignDate" class="control-label">@Localizer["thesisAssignedTxt"]</label>
                 <input asp-for="ThesisModel.Thesis.AssignDate" class="form-control" />
                 <span asp-validation-for="ThesisModel.Thesis.AssignDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.DefendDate" class="control-label"></label>
+                    <label asp-for="ThesisModel.Thesis.DefendDate" class="control-label">@Localizer["thesisDefenceTxt"]</label>
                 <input asp-for="ThesisModel.Thesis.DefendDate" class="form-control" />
                 <span asp-validation-for="ThesisModel.Thesis.DefendDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.Grade" class="control-label"></label>
+                <div class="form-group">
+                    <label asp-for="ThesisModel.Thesis.Grade" class="control-label">@Localizer["thesisGradeTxt"]</label>
                 <input asp-for="ThesisModel.Thesis.Grade" class="form-control" />
                 <span asp-validation-for="ThesisModel.Thesis.Grade" class="text-danger"></span>
             </div>
+            }
             <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.Tags" class="control-label"></label>
+                <label asp-for="ThesisModel.Thesis.Tags" class="control-label">@Localizer["thesisTagsTxt"]</label>
                 <input asp-for="ThesisModel.Thesis.Tags" class="form-control" />
                 <span asp-validation-for="ThesisModel.Thesis.Tags" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.Status" class="control-label"></label>
+                <label asp-for="ThesisModel!.Thesis.Degree.Faculty" class="control-label">@Localizer["thesisFacultyTxt"]</label>
+                <select asp-for="ThesisModel!.Thesis.Degree.Faculty" class="form-control" asp-items=ViewBag.FacultyList> </select>
+                <span asp-validation-for="ThesisModel!.Thesis.Degree.Faculty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThesisModel!.Thesis.Degree.Department" class="control-label">@Localizer["thesisDepartmentTxt"]</label>
+                <select asp-for="ThesisModel!.Thesis.Degree.Department" class="form-control" asp-items=ViewBag.DepartmentList> </select>
+                <span asp-validation-for="ThesisModel!.Thesis.Degree.Department" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThesisModel!.Thesis.Degree.Programme" class="control-label">@Localizer["thesisProgrammeTxt"]</label>
+                <select asp-for="ThesisModel!.Thesis.Degree.Programme" class="form-control" asp-items=ViewBag.ProgrammeList> </select>
+                <span asp-validation-for="ThesisModel!.Thesis.Degree.Programme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThesisModel!.Thesis.Degree.Degree" class="control-label">@Localizer["thesisDegreeTxt"]</label>
+                <select asp-for="ThesisModel!.Thesis.Degree.Degree" class="form-control" asp-items="Html.GetEnumSelectList<DegreeEnum>()"> </select>
+                <span asp-validation-for="ThesisModel!.Thesis.Degree.Degree" class="text-danger"></span>
+            </div>
+
+            @if(User.IsInRole("Admin"))
+            {
+            <div class="form-group">
+                    <label asp-for="ThesisModel.Thesis.Status" class="control-label">@Localizer["thesisStatusTxt"]</label>
                 <select asp-for="ThesisModel.Thesis.Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()"></select>
                 <span asp-validation-for="ThesisModel.Thesis.Status" class="text-danger"></span>
             </div>
-           
+            }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -58,7 +85,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn thesisbtn m-1" asp-action="Index">@Localizer["backBtn"]</a>
 </div>
 
 @section Scripts {

@@ -122,7 +122,7 @@ namespace DiplomaSite3.Controllers
             var thesisModel = new AssignedThesisModel();
             if (!thesisQuerry.Any())
             {
-                return Problem("no assigned thesis");
+                return Redirect("../Thesis?Search=&OnlyPosted=true");
             }
             else thesisModel = thesisQuerry.First();
 
@@ -184,9 +184,11 @@ namespace DiplomaSite3.Controllers
             {
                 return NotFound();
             }
-
+            
+            PopulateTeachersDropDownList();
+            PopulateDegreesDropDownList();
+            
             viewModel.ThesisModel.Thesis = thesisModel;
-
             return View(viewModel);
         }
 

@@ -57,8 +57,8 @@
             </div>
                  
 
-            <div class="form-floating mb-3" id="faculy-number-field" style="visibility:visible">
-                <input asp-for="Input.FacultyNumber" class="form-control" placeholder="123456" />
+            <div class="form-floating mb-3" id="faculy-number-field" style="visibility:visible" >
+                    <input asp-for="Input.FacultyNumber" id="faculy-number-input" class="form-control" placeholder="123456" required="true" />
                 <label asp-for="Input.FacultyNumber">@Localizer["fnLb"]</label>
                 <span asp-validation-for="Input.FacultyNumber" class="text-danger"></span>
             </div>
@@ -91,17 +91,19 @@
             let selectInput = document.querySelector('select#user-type');
             let student = 0;
             let teacher = 1;
-            let admin = 2;
 
             let fnField = document.querySelector('div#faculy-number-field');
+            let fnInput = document.querySelector('div#faculy-number-input');
             var value = selectInput.value;
 
             if ( value == student ) {
                 fnField.style.visibility = 'visible';
+                fnInput.required = true;
             }
             else if ( value == teacher)
             {
                 fnField.style.visibility = 'collapse';
+                fnInput.required = false;
             }
         }
 

@@ -2,28 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using DiplomaSite3.Enums;
 using DiplomaSite3.Models;
-using Microsoft.AspNetCore.Authentication;
+using DiplomaSite3.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
-using NuGet.Common;
-using NuGet.DependencyResolver;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace DiplomaSite3.Areas.Identity.Pages.Account
 {
@@ -35,14 +25,14 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
         private readonly IUserStore<UserModel> _userStore;
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailSender;
 
         public RegisterModel(
             UserManager<UserModel> userManager,
             IUserStore<UserModel> userStore,
             SignInManager<UserModel> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailService emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -76,7 +66,6 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
             [Required]
             [StringLength(20, MinimumLength = 1)]
             public string LastName { get; set; }
-
 
             public string? FacultyNumber { get; set; } = null;
 
@@ -117,6 +106,8 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.UserType = Input.UserType;
+                if (Input.FacultyNumber == null)
+                    throw new InvalidOperationException($"Can't create an instance of '{nameof(StudentModel)} - empty Faculty number'. ");
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -135,8 +126,14 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    MailData mailData = new MailData() {
+                        EmailToId = _userManager.GetEmailAsync(user).Result.ToString(),
+                        EmailToName = _userManager.GetUserNameAsync(user).Result.ToString(),
+                        EmailSubject = "Confirm your email",
+                        EmailBody = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."
+                    };
+
+                    await _emailSender.SendMailAsync(mailData, new CancellationToken());
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -166,6 +163,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
                 {
                     case MyRolesEnum.Student:
                     var stresult = Activator.CreateInstance<StudentModel>();
+                       
                         stresult.FacultyNumber = Input.FacultyNumber;
                         return stresult;
                     case MyRolesEnum.Teacher:

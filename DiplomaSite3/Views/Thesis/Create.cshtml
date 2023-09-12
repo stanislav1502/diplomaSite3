@@ -3,12 +3,11 @@
 
 @{
     ViewData["Title"] = Localizer["title"];
-    var controler = "";
 }
 
-<h1>@Localizer["titleTxt"]</h1>
+<h1>@Localizer["title"]</h1>
 
-<h4>@Localizer["thesisTxt"]</h4>
+<h4>@Localizer["titleTxt"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,6 +19,7 @@
                 <input asp-for="ThesisModel!.Thesis.Title" class="form-control" />
                 <span asp-validation-for="ThesisModel!.Thesis.Title" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="ThesisModel!.Thesis.Degree.Faculty" class="control-label">@Localizer["thesisFacultyTxt"]</label>
                 <select asp-for="ThesisModel!.Thesis.Degree.Faculty" class="form-control" asp-items=ViewBag.FacultyList> </select>

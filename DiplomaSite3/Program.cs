@@ -3,9 +3,9 @@ using DiplomaSite3.Data;
 using DiplomaSite3.Models;
 using DiplomaSite3.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,10 +88,18 @@ void AddServices(IServiceCollection services)
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<DiplomaSite3Context>();
 
-    services.AddTransient<IEmailSender, EmailSender>();
+    // email sending
+    services.Configure<MailSettings>(builder.Configuration.GetSection("mailSenderSettings"));
+    services.AddTransient<IEmailService, MyEmailSender>();
 
-    services.AddAuthorization()
-        .AddAuthentication();
+    services.AddAuthorization();
+    services.AddAuthentication().AddGoogle(options =>
+   {
+       IConfigurationSection googleAuthNSection =
+       builder.Configuration.GetSection("Authentication:Google");
+       options.ClientId = googleAuthNSection["ClientId"];
+       options.ClientSecret = googleAuthNSection["ClientSecret"];
+   });
 
     // password hashing
     services.AddScoped<IPasswordHasher<UserModel>, MyPassHashing>();
@@ -101,7 +109,7 @@ void AddServices(IServiceCollection services)
     services.ConfigureApplicationCookie(options =>
     {
         options.Cookie.HttpOnly = true;
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
         
         options.LoginPath = "/Identity/Account/Login";
         options.AccessDeniedPath = "/Identity/Account/AccessDenied";

@@ -257,7 +257,7 @@ namespace DiplomaSite3.Controllers
             return RedirectToAction(nameof(Index), nameof(ThesisController));
         }
 
-        [HttpGet, ActionName("SetDefense")]
+        [HttpGet]
         public async Task<IActionResult> SetDefense(Guid? id)
         {
             if (id == null || _context.ThesisDBS == null)
@@ -277,7 +277,7 @@ namespace DiplomaSite3.Controllers
             return View(thesisModel);
         }
 
-        [HttpPost, ActionName("SetDefense")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetDefense(IFormCollection collection)
         {
@@ -309,6 +309,63 @@ namespace DiplomaSite3.Controllers
 
             return RedirectToAction("Index", "TeacherTheses");
         }
+
+        
+             [HttpGet]
+        public async Task<IActionResult> SetGrade(Guid? id)
+        {
+            if (id == null || _context.ThesisDBS == null)
+            {
+                return NotFound();
+            }
+
+            var thesisModel = await _context.AssignedThesesDBS
+                .FirstOrDefaultAsync(m => m.ThesisID == id);
+            if (thesisModel == null)
+            {
+                return NotFound();
+            }
+
+            thesisModel = LinkAssignedThesisData(thesisModel);
+
+            return View(thesisModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetGrade(IFormCollection collection)
+        {
+            // check Post has data
+            string thesisID = collection["ThesisID"];
+            string gradeValue = collection["GradeValue"];
+
+            if (thesisID.IsNullOrEmpty() || gradeValue.IsNullOrEmpty())
+                return Problem("Invalid request form.");
+
+            if (_context.ThesisDBS is null)
+                return Problem("Thesis Set is null.");
+
+            var thesis = await _context.ThesisDBS.FindAsync(new Guid(thesisID));
+            gradeValue= gradeValue.Normalize().Replace('.', ',');
+
+            var grade = float.Parse(gradeValue);
+
+            if (thesis != null)
+            {
+                if (grade != null)
+                    thesis.Grade = (decimal)grade;
+                else thesis.Grade = (decimal)1.0;
+
+                thesis.Status = StatusEnum.Archived;
+
+                _context.ThesisDBS.Update(thesis);
+                await _context.SaveChangesAsync();
+            }
+            else return Problem("Thesis not found");
+
+            return RedirectToAction("Index", "TeacherTheses");
+        }
+
 
         private AssignedThesisModel LinkAssignedThesisData(AssignedThesisModel thesisModel)
         {

@@ -85,7 +85,7 @@
         if (Model.ThesisModel.Thesis.Status == StatusEnum.Archived)
             classStyle += " disabled";
 
-        <a class=@classStyle asp-action="Edit" asp-controller="TeacherTheses" asp-route-id="@Model.ThesisModel.ThesisID">@Localizer["editBtn"]</a>
+        <a class=@classStyle asp-action="Edit" asp-controller="Thesis" asp-route-id="@Model.ThesisModel.ThesisID">@Localizer["editBtn"]</a>
     }
     
 </div>

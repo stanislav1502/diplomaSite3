@@ -32,6 +32,7 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
         public string ReturnUrl { get; set; }
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -63,6 +64,8 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
         }
@@ -71,6 +74,8 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {

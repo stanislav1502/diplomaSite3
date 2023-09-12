@@ -117,23 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="createBtn" xml:space="preserve">
-    <value>Create New</value>
+  <data name="backBtn" xml:space="preserve">
+    <value>Back to all</value>
   </data>
-  <data name="detailsBtn" xml:space="preserve">
-    <value>Details</value>
+  <data name="gradeBtn" xml:space="preserve">
+    <value>Set</value>
   </data>
-  <data name="editBtn" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="filterBtn" xml:space="preserve">
-    <value>Filter</value>
-  </data>
-  <data name="setDefenseBtn" xml:space="preserve">
-    <value>Set defense</value>
-  </data>
-  <data name="setGradeBtn" xml:space="preserve">
-    <value>Grade and archive</value>
+  <data name="thesisAssignedTxt" xml:space="preserve">
+    <value>Assigned on</value>
   </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Defense date</value>
@@ -156,10 +147,10 @@
   <data name="thesisTagsTxt" xml:space="preserve">
     <value>Tags</value>
   </data>
-  <data name="title" xml:space="preserve">
-    <value>Teacher theses</value>
+  <data name="thesisTeacherTxt" xml:space="preserve">
+    <value>Teacher</value>
   </data>
-  <data name="viewRequestsBtn" xml:space="preserve">
-    <value>Requested thesis</value>
+  <data name="title" xml:space="preserve">
+    <value>Grade thesis</value>
   </data>
 </root>
