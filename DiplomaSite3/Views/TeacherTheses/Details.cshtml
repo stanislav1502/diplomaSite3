@@ -88,4 +88,9 @@
         <a class=@classStyle asp-action="Edit" asp-controller="Thesis" asp-route-id="@Model.ThesisModel.ThesisID">@Localizer["editBtn"]</a>
     }
     
+    <form asp-controller="Thesis" asp-action="DownloadAsDoc" method="post">
+        <input type="hidden" asp-for="@Model.ThesisModel.ThesisID" name="ThesisID" value="@Model.ThesisModel.ThesisID" />
+        <input type="submit" value="@Localizer["downloadBtn"]" class="btn btnreq m-1" />
+    </form>
+
 </div>

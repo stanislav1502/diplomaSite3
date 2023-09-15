@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Archived" xml:space="preserve">
-    <value>Архив</value>
+    <value>Архивирана</value>
   </data>
   <data name="createBtn" xml:space="preserve">
-    <value>Създай Нова</value>
+    <value>+ Нова</value>
   </data>
   <data name="deleteBtn" xml:space="preserve">
     <value>Изтрий</value>
@@ -148,7 +148,7 @@
     <value>Свободна</value>
   </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
-    <value>Дата на Защита</value>
+    <value>Дата на защита</value>
   </data>
   <data name="thesisDescriptionTxt" xml:space="preserve">
     <value>Описание</value>

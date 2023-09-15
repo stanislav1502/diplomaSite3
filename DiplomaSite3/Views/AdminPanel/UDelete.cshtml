@@ -2,51 +2,54 @@
 @model DiplomaSite3.Models.UserModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>DiplomaModel</h4>
+    <hr />
+    <h2>@Localizer["areYouSureTxt"]</h2>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+
+
+        <dt class="col-sm-2">
+            @Localizer["userIdTxt"]
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+
+        <dt class="col-sm-2">
+            @Localizer["userUsername"]
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+        <dt class="col-sm-2">
+            @Localizer["userFullname"]
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["userType"]
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserType)
+        </dd>
+        <dt class="col-sm-2">
+            @Localizer["userPhone"]
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
+
     </dl>
     
     <form asp-action="UDelete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger m-1" />
-        <a asp-action="Index" class="btn thesisbtn m-1">Back to List</a>
+        <input type="submit" value="@Localizer["deleteBtn"]"  class="btn btn-danger " />
+        <a asp-action="Index" class="btn navbtn m-1">@Localizer["backBtn"]</a>
     </form>
 </div>

@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="backBtn" xml:space="preserve">
-    <value>Назад към Всички</value>
+    <value>Назад</value>
+  </data>
+  <data name="downloadBtn" xml:space="preserve">
+    <value>Изтегли като Word .docx</value>
   </data>
   <data name="editBtn" xml:space="preserve">
     <value>Промени</value>
   </data>
   <data name="markDoneBtn" xml:space="preserve">
-    <value>Отбележи Завършена</value>
+    <value>Отбележи завършена</value>
   </data>
   <data name="thesisAssignedTxt" xml:space="preserve">
     <value>Получена на</value>
@@ -154,6 +157,6 @@
     <value>Преподавател</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Моята Тема</value>
+    <value>Моята тема</value>
   </data>
 </root>

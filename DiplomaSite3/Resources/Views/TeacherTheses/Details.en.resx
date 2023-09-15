@@ -127,7 +127,7 @@
     <value>Give thesis</value>
   </data>
   <data name="requestThesisBtn" xml:space="preserve">
-    <value>Request Thesis</value>
+    <value>Request thesis</value>
   </data>
   <data name="thesisAssignedTxt" xml:space="preserve">
     <value>Assigned on</value>
@@ -135,14 +135,26 @@
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Defense date</value>
   </data>
+  <data name="thesisDegreeTxt" xml:space="preserve">
+    <value>Degree</value>
+  </data>
+  <data name="thesisDepartmentTxt" xml:space="preserve">
+    <value>Department</value>
+  </data>
   <data name="thesisDescriptionTxt" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="thesisFacultyTxt" xml:space="preserve">
+    <value>Faculty</value>
   </data>
   <data name="thesisGradeTxt" xml:space="preserve">
     <value>Grade</value>
   </data>
   <data name="thesisNameTxt" xml:space="preserve">
     <value>Title</value>
+  </data>
+  <data name="thesisProgrammeTxt" xml:space="preserve">
+    <value>Programme</value>
   </data>
   <data name="thesisStatusTxt" xml:space="preserve">
     <value>Status</value>

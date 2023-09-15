@@ -117,52 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="areYouSureTxt" xml:space="preserve">
+    <value>Сигурни ли сте че искате да изтриете потребителя?</value>
+  </data>
   <data name="backBtn" xml:space="preserve">
-    <value>Back</value>
+    <value>Назад</value>
   </data>
-  <data name="createBtn" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="thesisAssignedTxt" xml:space="preserve">
-    <value>Assigned on</value>
-  </data>
-  <data name="thesisDefenseTxt" xml:space="preserve">
-    <value>Defense date</value>
-  </data>
-  <data name="thesisDegreeTxt" xml:space="preserve">
-    <value>Degree</value>
-  </data>
-  <data name="thesisDepartmentTxt" xml:space="preserve">
-    <value>Department</value>
-  </data>
-  <data name="thesisDescriptionTxt" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="thesisFacultyTxt" xml:space="preserve">
-    <value>Faculty</value>
-  </data>
-  <data name="thesisGradeTxt" xml:space="preserve">
-    <value>Grade</value>
-  </data>
-  <data name="thesisNameTxt" xml:space="preserve">
-    <value>Title</value>
-  </data>
-  <data name="thesisProgrammeTxt" xml:space="preserve">
-    <value>Programme</value>
-  </data>
-  <data name="thesisStatusTxt" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="thesisStudentTxt" xml:space="preserve">
-    <value>Student</value>
-  </data>
-  <data name="thesisTagsTxt" xml:space="preserve">
-    <value>Tags</value>
+  <data name="deleteBtn" xml:space="preserve">
+    <value>Изтрий</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Create</value>
+    <value>Изтрий потребител</value>
   </data>
-  <data name="titleTxt" xml:space="preserve">
-    <value>Create a new thesis</value>
+  <data name="userFullname" xml:space="preserve">
+    <value>Имена</value>
+  </data>
+  <data name="userId" xml:space="preserve">
+    <value>GUID</value>
+  </data>
+  <data name="userPhone" xml:space="preserve">
+    <value>Телефонен номер</value>
+  </data>
+  <data name="userType" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="userUsername" xml:space="preserve">
+    <value>Потребителско име</value>
   </data>
 </root>

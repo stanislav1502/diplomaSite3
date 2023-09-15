@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="descriptionTxt" xml:space="preserve">
-    <value>Уеб базирана информационна система, улесняваща процеса по дипломиране за студенти и преподаватели</value>
+    <value>Уеб базирана информационна система, за управление на процеса по дипломиране на студенти</value>
   </data>
   <data name="greetingTxt" xml:space="preserve">
     <value>Добре дошли</value>

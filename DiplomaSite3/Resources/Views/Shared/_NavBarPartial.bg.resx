@@ -124,10 +124,10 @@
     <value>Начало</value>
   </data>
   <data name="studentBtn" xml:space="preserve">
-    <value>Моята дипломна</value>
+    <value>Моята тема</value>
   </data>
   <data name="teacherBtn" xml:space="preserve">
-    <value>Моите дипломни</value>
+    <value>Моите теми</value>
   </data>
   <data name="thesesBtn" xml:space="preserve">
     <value>Дипломни теми</value>

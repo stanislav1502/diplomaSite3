@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="descriptionTxt" xml:space="preserve">
-    <value>Влезте със съществуващ акаунт</value>
+    <value>Влезте със съществуващ профил</value>
   </data>
   <data name="forgotPassLnk" xml:space="preserve">
     <value>Забравена парола?</value>
@@ -130,13 +130,13 @@
     <value>Парола</value>
   </data>
   <data name="registerNewLnk" xml:space="preserve">
-    <value>Регистрация на нов потребител</value>
+    <value>Нямате профил?</value>
   </data>
   <data name="rememberLb" xml:space="preserve">
     <value>Запомни ме</value>
   </data>
   <data name="resendEmailLnk" xml:space="preserve">
-    <value>Прати отново имейл</value>
+    <value>Изпрати имейл за потвърждение</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Вход</value>

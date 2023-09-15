@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="descriptionTxt" xml:space="preserve">
-    <value>Web-based information system optimizing the thesis proccess for students and proffesors</value>
+    <value>Web-based information system for managing the theses of graduating students</value>
   </data>
   <data name="greetingTxt" xml:space="preserve">
     <value>Welcome</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Home Page</value>
+    <value>Home</value>
   </data>
 </root>

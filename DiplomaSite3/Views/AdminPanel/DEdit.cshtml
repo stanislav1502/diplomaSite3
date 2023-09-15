@@ -3,12 +3,10 @@
 @model DiplomaSite3.Models.ThesisModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<h1>Edit</h1>
-
-<h4>DiplomaModel</h4>
+<h2>@Localizer["titleTxt"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,44 +14,70 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ThesisID" />
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+                <label asp-for="Title" class="control-label">@Localizer["thesisNameTxt"]</label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">@Localizer["thesisDescriptionTxt"]</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DefendDate" class="control-label"></label>
+                <label asp-for="AssignDate" class="control-label">@Localizer["thesisAssignedTxt"]</label>
+                <input asp-for="AssignDate" class="form-control" />
+                <span asp-validation-for="AssignDate" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="DefendDate" class="control-label">@Localizer["thesisDefenceTxt"]</label>
                 <input asp-for="DefendDate" class="form-control" />
                 <span asp-validation-for="DefendDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Grade" class="control-label"></label>
+                <label asp-for="Grade" class="control-label">@Localizer["thesisGradeTxt"]</label>
                 <input asp-for="Grade" class="form-control" />
                 <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
+                <label asp-for="Tags" class="control-label">@Localizer["thesisTagsTxt"]</label>
                 <input asp-for="Tags" class="form-control" />
                 <span asp-validation-for="Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
+                <label asp-for="Status" class="control-label">@Localizer["thesisStatus"]</label>
                 <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="Degree.Faculty" class="control-label">@Localizer["thesisFacultyTxt"]</label>
+                <select asp-for="Degree.Faculty" class="form-control" asp-items=ViewBag.FacultyList> </select>
+                <span asp-validation-for="Degree.Faculty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Degree.Department" class="control-label">@Localizer["thesisDepartmentTxt"]</label>
+                <select asp-for="Degree.Department" class="form-control" asp-items=ViewBag.DepartmentList> </select>
+                <span asp-validation-for="Degree.Department" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Degree.Programme" class="control-label">@Localizer["thesisProgrammeTxt"]</label>
+                <select asp-for="Degree.Programme" class="form-control" asp-items=ViewBag.ProgrammeList> </select>
+                <span asp-validation-for="Degree.Programme" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Degree.Degree" class="control-label">@Localizer["thesisDegreeTxt"]</label>
+                <select asp-for="Degree.Degree" class="form-control" asp-items="Html.GetEnumSelectList<DegreeEnum>()"> </select>
+                <span asp-validation-for="Degree.Degree" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value=@Localizer["editBtn"] class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a class="btn thesisbtn m-1" asp-action="Index">Back to List</a>
+    <a class="btn navbtn m-1" asp-action="Index">@Localizer["backBtn"]</a>
 </div>
 
 @section Scripts {

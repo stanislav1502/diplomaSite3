@@ -54,6 +54,7 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Thesis.Status)
+            <div style="flex-direction:row-reverse">
             @if (Model.Thesis.Status == DiplomaSite3.Enums.StatusEnum.WIP)
             {
                 <form asp-controller="Thesis" asp-action="MarkDone" method="post">
@@ -61,6 +62,7 @@
                     <input type="submit" value="@Localizer["markDoneBtn"]" class ="btn btnreq mx-1" />
                 </form>
             }
+            </div>
         </dd>
         <dt class = "col-sm-2">
             @Localizer["thesisTeacherTxt"]
@@ -78,4 +80,9 @@
 </div>
 <div>
     <a class="btn thesisbtn m-1" asp-action="Index">@Localizer["backBtn"]</a>
+    
+    <form asp-controller="Thesis" asp-action="DownloadAsDoc" method="post">
+        <input type="hidden" asp-for="@Model.ThesisID" name="ThesisID" value="@Model?.ThesisID" />
+        <input type="submit" value="@Localizer["downloadBtn"]" class="btn btnreq m-1" />
+    </form>
 </div>

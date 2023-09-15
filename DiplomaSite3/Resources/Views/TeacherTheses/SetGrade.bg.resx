@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="backBtn" xml:space="preserve">
-    <value>Назад към Всички</value>
+    <value>Назад</value>
   </data>
   <data name="gradeBtn" xml:space="preserve">
     <value>Оцени</value>

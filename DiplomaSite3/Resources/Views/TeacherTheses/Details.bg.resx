@@ -135,14 +135,26 @@
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Защита на</value>
   </data>
+  <data name="thesisDegreeTxt" xml:space="preserve">
+    <value>Степен</value>
+  </data>
+  <data name="thesisDepartmentTxt" xml:space="preserve">
+    <value>Катедра</value>
+  </data>
   <data name="thesisDescriptionTxt" xml:space="preserve">
     <value>Описание</value>
+  </data>
+  <data name="thesisFacultyTxt" xml:space="preserve">
+    <value>Факултет</value>
   </data>
   <data name="thesisGradeTxt" xml:space="preserve">
     <value>Оценка</value>
   </data>
   <data name="thesisNameTxt" xml:space="preserve">
     <value>Заглавие</value>
+  </data>
+  <data name="thesisProgrammeTxt" xml:space="preserve">
+    <value>Специалност</value>
   </data>
   <data name="thesisStatusTxt" xml:space="preserve">
     <value>Статус</value>

@@ -117,10 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="bgBtn" xml:space="preserve">
-    <value>BG</value>
+  <data name="areYouSureTxt" xml:space="preserve">
+    <value>Сигурни ли сте че искате да изтриете темата?</value>
   </data>
-  <data name="enBtn" xml:space="preserve">
-    <value>EN</value>
+  <data name="backBtn" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="deleteBtn" xml:space="preserve">
+    <value>Изтрий</value>
+  </data>
+  <data name="thesisAssignedTxt" xml:space="preserve">
+    <value>Получена на</value>
+  </data>
+  <data name="thesisDefenseTxt" xml:space="preserve">
+    <value>Защита на</value>
+  </data>
+  <data name="thesisDegreeTxt" xml:space="preserve">
+    <value>Степен</value>
+  </data>
+  <data name="thesisDepartmentTxt" xml:space="preserve">
+    <value>Катедра</value>
+  </data>
+  <data name="thesisDescriptionTxt" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="thesisFacultyTxt" xml:space="preserve">
+    <value>Факултет</value>
+  </data>
+  <data name="thesisGradeTxt" xml:space="preserve">
+    <value>Оценка</value>
+  </data>
+  <data name="thesisNameTxt" xml:space="preserve">
+    <value>Заглавие</value>
+  </data>
+  <data name="thesisProgrammeTxt" xml:space="preserve">
+    <value>Специалност</value>
+  </data>
+  <data name="thesisStatusTxt" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="thesisStudentTxt" xml:space="preserve">
+    <value>Студент</value>
+  </data>
+  <data name="thesisTagsTxt" xml:space="preserve">
+    <value>Тагове</value>
+  </data>
+  <data name="thesisTeacherTxt" xml:space="preserve">
+    <value>Преподавател</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>Изтрий тема</value>
   </data>
 </root>

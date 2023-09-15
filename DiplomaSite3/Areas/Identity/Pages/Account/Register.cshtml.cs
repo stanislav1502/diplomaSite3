@@ -106,8 +106,8 @@ namespace DiplomaSite3.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.UserType = Input.UserType;
-                if (Input.FacultyNumber == null)
-                    throw new InvalidOperationException($"Can't create an instance of '{nameof(StudentModel)} - empty Faculty number'. ");
+                if (Input.FacultyNumber == null && Input.UserType==MyRolesEnum.Student)
+                   return Page();
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

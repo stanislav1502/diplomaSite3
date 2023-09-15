@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="backBtn" xml:space="preserve">
-    <value>Back to all</value>
+    <value>Back</value>
+  </data>
+  <data name="downloadBtn" xml:space="preserve">
+    <value>Download as Word .docx</value>
   </data>
   <data name="editBtn" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="markDoneBtn" xml:space="preserve">
-    <value>Mark Done</value>
+    <value>Mark done</value>
   </data>
   <data name="thesisAssignedTxt" xml:space="preserve">
     <value>Assigned on</value>
@@ -154,6 +157,6 @@
     <value>Teacher</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>My Тhesis</value>
+    <value>My thesis</value>
   </data>
 </root>

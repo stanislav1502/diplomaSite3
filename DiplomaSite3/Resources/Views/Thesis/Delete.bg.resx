@@ -121,7 +121,7 @@
     <value>Сигурни ли сте че искате да изтриете темата?</value>
   </data>
   <data name="backBtn" xml:space="preserve">
-    <value>Назад към Всички</value>
+    <value>Назад</value>
   </data>
   <data name="deleteBtn" xml:space="preserve">
     <value>Изтрий</value>

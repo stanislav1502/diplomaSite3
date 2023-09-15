@@ -121,7 +121,7 @@
     <value>Archived</value>
   </data>
   <data name="createBtn" xml:space="preserve">
-    <value>Create New</value>
+    <value>+ New</value>
   </data>
   <data name="deleteBtn" xml:space="preserve">
     <value>Delete</value>

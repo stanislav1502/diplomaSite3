@@ -93,13 +93,7 @@ void AddServices(IServiceCollection services)
     services.AddTransient<IEmailService, MyEmailSender>();
 
     services.AddAuthorization();
-    services.AddAuthentication().AddGoogle(options =>
-   {
-       IConfigurationSection googleAuthNSection =
-       builder.Configuration.GetSection("Authentication:Google");
-       options.ClientId = googleAuthNSection["ClientId"];
-       options.ClientSecret = googleAuthNSection["ClientSecret"];
-   });
+    services.AddAuthentication();
 
     // password hashing
     services.AddScoped<IPasswordHasher<UserModel>, MyPassHashing>();

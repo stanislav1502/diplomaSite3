@@ -15,11 +15,15 @@
 <div class="btn-group-vertical">
     <form asp-controller="Home" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
           method="post">
-        <button class="btn langbtn my-1" name="culture" onclick="this.form.submit();" value="bg"> @Localizer["bgBtn"] </button>
+        <button class="btn langbtn" name="culture" onclick="this.form.submit();" value="bg">
+            🇧🇬
+        </button>
     </form>
     <form asp-controller="Home" asp-action="SetLanguage" asp-route-returnUrl="@returnUrl"
           method="post">
-        <button class="btn langbtn my-1" name="culture" onclick="this.form.submit();" value="en">  @Localizer["enBtn"] </button>
+        <button class="btn langbtn" name="culture" onclick="this.form.submit();" value="en"> 
+            🇬🇧
+        </button>
     </form>
 
 </div>

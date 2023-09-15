@@ -2,48 +2,49 @@
 @model DiplomaSite3.Models.UserModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>DiplomaModel</h4>
+    <hr />
+    <h2>@Localizer["descriptionTxt"]</h2>
     <hr />
     <dl class="row">
+
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Localizer["userIdTxt"]
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+        
+		<dt class="col-sm-2">
+			@Localizer["userUsername"]
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UserName)
+		</dd>
+		<dt class="col-sm-2">
+            @Localizer["userFullname"]
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.FullName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserType)
+            @Localizer["userType"]
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserType)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Localizer["userPhone"]
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
+
     </dl>
 </div>
 <div>
-    <a asp-action="UEdit" class="btn thesisbtn m-1" asp-route-id="@Model?.Id">Edit</a>
-    <a asp-action="Index" class="btn thesisbtn m-1">Back to List</a>
+    <a asp-action="Index" class="btn navbtn m-1">@Localizer["backBtn"]</a>
 </div>

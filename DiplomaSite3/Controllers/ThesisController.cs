@@ -3,15 +3,14 @@
 using DiplomaSite3.Data;
 using DiplomaSite3.Enums;
 using DiplomaSite3.Models;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGeneration.Design;
-using NuGet.Versioning;
-using System.Collections.Generic;
 
 namespace DiplomaSite3.Controllers
 {
@@ -39,7 +38,7 @@ namespace DiplomaSite3.Controllers
             var thesesQuerry = from d in theses
                                select d;
 
-            
+
             // if anonymous show only not assigned theses
             if (!User.Claims.ToList().Any()) onlyposted = true;
 
@@ -81,14 +80,11 @@ namespace DiplomaSite3.Controllers
             {
                 return NotFound();
             }
-            viewModel.ThesisModel = thesisModel;
+            
+            thesisModel = LinkAssignedThesisData(thesisModel);
+            thesisModel.Thesis.Degree = LinkDegreeData(thesisModel.Thesis.Degree);
 
-            if (thesisModel.ThesisID != Guid.Empty)
-                thesisModel.Thesis = _context.ThesisDBS.FindAsync(thesisModel.ThesisID).Result;
-            if (thesisModel.StudentID != Guid.Empty)
-                thesisModel.Student = _context.StudentsDBS.FindAsync(thesisModel.StudentID).Result;
-            if (thesisModel.TeacherID != Guid.Empty)
-                thesisModel.Teacher = _context.TeachersDBS.FindAsync(thesisModel.TeacherID).Result;
+            viewModel.ThesisModel = thesisModel;
 
             // does current user have a thesis
             var stringID = User.Claims.First().Value;
@@ -153,7 +149,8 @@ namespace DiplomaSite3.Controllers
             {
                 thesisModel.ThesisID = Guid.NewGuid();
                 _context.ThesisDBS.Add(thesisModel);
-                AssignedThesisModel assigned = new AssignedThesisModel {
+                AssignedThesisModel assigned = new AssignedThesisModel
+                {
                     ThesisID = thesisModel.ThesisID,
                     StudentID = null,
                     TeacherID = null,
@@ -184,10 +181,10 @@ namespace DiplomaSite3.Controllers
             {
                 return NotFound();
             }
-            
+
             PopulateTeachersDropDownList();
             PopulateDegreesDropDownList();
-            
+
             viewModel.ThesisModel.Thesis = thesisModel;
             return View(viewModel);
         }
@@ -304,7 +301,7 @@ namespace DiplomaSite3.Controllers
                     ThesisID = thesis.ThesisID,
                     StudentID = student.Id,
                 };
-                if (requestedThesesDB.Contains(requested)) { ; }
+                if (requestedThesesDB.Contains(requested)) {; }
                 else requestedThesesDB.Add(requested);
                 await _context.SaveChangesAsync();
             }
@@ -334,23 +331,143 @@ namespace DiplomaSite3.Controllers
                     thesisModel.Thesis.Status = StatusEnum.Done;
                     _context.AssignedThesesDBS.Update(thesisModel);
                     _context.ThesisDBS.Update(thesisModel.Thesis);
-                } 
+                }
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction("MyThesis");
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DownloadAsDoc(IFormCollection collection)
+        {
+            string diploma = collection["ThesisID"];
+            Guid id = new Guid(diploma);
+
+            WordprocessingDocument document;
+
+            // find the the thesis in the DB
+            if (id == null || _context.ThesisDBS == null)
+            {
+                return RedirectToAction("MyThesis");
+            }
+            var thesisModel = await _context.AssignedThesesDBS
+                .FirstOrDefaultAsync(m => m.ThesisID == id);
+            if (thesisModel == null)
+            {
+                return RedirectToAction("MyThesis");
+            }
+
+            // data for filling the Docx with
+            thesisModel = LinkAssignedThesisData(thesisModel);
+            string thesisName = thesisModel.Thesis is null ? "няма тема" : thesisModel.Thesis.Title;
+            string thesisStudent = thesisModel.Student is null ? "няма студент" : thesisModel.Student.FullName;
+            string studentFN = thesisModel.Student is null ? "няма ФН" : thesisModel.Student.FacultyNumber;
+            string thesisTeacher = thesisModel.Teacher is null ? "няма преподавател" : thesisModel.Teacher.FullName;
+            string thesisProgramme = thesisModel.Thesis.Degree is null ? "няма специалност" : thesisModel.Thesis.Degree.Programme.ToString();
+            string thesisDegree = thesisModel.Thesis.Degree is null ? "няма степен" : thesisModel.Thesis.Degree.Degree.ToString();
+
+            var fileName = "ZadanieTemplate.docx";
+            var contentType = "";
+            new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
+
+            var rootpath = (AppDomain.CurrentDomain.BaseDirectory).Replace("bin\\Debug\\net7.0-windows\\", "wwwroot\\");
+            string filepath = Path.Combine(rootpath, "files\\", fileName);
+
+            //Read the File data into Byte Array.
+            byte[] contents = System.IO.File.ReadAllBytes(filepath);
+            byte[] file;
+
+            using (MemoryStream mem = new MemoryStream())
+            {
+                // load the template 
+                mem.Write(contents, 0, (int)contents.Length);
+                using (document = WordprocessingDocument.Open(mem, true))
+                {
+                    //open the template
+                    var body = document.MainDocumentPart.Document.Body;
+                    var paragraphs = body.Elements<Paragraph>();
+
+                    // replace template with data
+                    foreach (var para in paragraphs)
+                    {
+                        if (para.InnerText.Contains('☼'))
+                        {
+                            while (para.InnerText.Contains('☼'))
+                            {
+                                var replaceElement = para.InnerText.Substring(para.InnerText.IndexOf('☼'), para.InnerText.IndexOf('☼', para.InnerText.IndexOf('☼') + 1) - para.InnerText.IndexOf('☼') + 1);
+
+                                var replaceWith = "";
+                                switch (replaceElement)
+                                {
+                                    case "☼thesisname☼":
+                                        replaceWith = thesisName;
+                                        break;
+                                    case "☼thesisstudent☼":
+                                        replaceWith = thesisStudent;
+                                        break;
+                                    case "☼thesisteacher☼":
+                                        replaceWith = thesisTeacher;
+                                        break;
+                                    case "☼studentfn☼":
+                                        replaceWith = studentFN;
+                                        break;
+                                    case "☼thesisprogramme☼":
+                                        replaceWith = thesisProgramme;
+                                        break;
+                                    case "☼thesisdegree☼":
+                                        replaceWith = thesisDegree;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                // find the special symbol fields
+                                var replaceFrom = para.Elements<Run>().First(r=>r.InnerText.Contains('☼'));
+                                var replaceText = replaceFrom.NextSibling();
+                                var replaceTo = replaceFrom.ElementsAfter().First(r => r.InnerText.Contains('☼'));
+
+                                // replacing the template text without changing styles
+                                var newText = (Run)replaceText.Clone() ;
+                                foreach (var text in newText.Elements<Text>())
+                                {
+                                    if (text.Text.Contains(replaceText.InnerText))
+                                    {
+                                        text.Text = replaceWith;
+                                    }
+                                }
+                                
+                                para.RemoveChild(replaceFrom); 
+                                para.ReplaceChild(newText,replaceText); 
+                                para.RemoveChild(replaceTo);
+
+                            }
+
+                        }
+                    }
+
+                    document.Dispose();
+                }
+                file = mem.ToArray();
+                mem.Dispose();
+            }
+            
+            //Send the File to user.
+            Response.Headers.Add("Content-Disposition", $"attachment; filename=Thesis-{thesisModel.Student.FacultyNumber}.docx");
+            return new FileContentResult(file, contentType);
+        }
+
         private bool ThesisModelExists(Guid id)
         {
-          return (_context.ThesisDBS?.Any(e => e.ThesisID == id)).GetValueOrDefault();
+            return (_context.ThesisDBS?.Any(e => e.ThesisID == id)).GetValueOrDefault();
         }
 
         private void PopulateTeachersDropDownList(object selectedTeacher = null)
         {
             var teachersQuery = from t in _context.TeachersDBS
-                                   orderby t.FullName
-                                   select t;
+                                orderby t.FullName
+                                select t;
             ViewBag.TeacherList = new SelectList(teachersQuery.AsNoTracking(), "Id", "FullName", selectedTeacher);
         }
 
@@ -360,32 +477,35 @@ namespace DiplomaSite3.Controllers
                                orderby f.FacultyName
                                select f;
             var departmentQuery = from d in _context.DepartmentsDBS
-                               orderby d.DepartmentName
-                               select d;
+                                  orderby d.DepartmentName
+                                  select d;
             var programmeQuery = from p in _context.ProgrammesDBS
                                  orderby p.ProgrammeName
                                  select p;
-            
+
             ViewBag.FacultyList = new SelectList(facultyQuery, "Id", "FacultyName", selected);
             ViewBag.DepartmentList = new SelectList(departmentQuery, "Id", "DepartmentName", selected);
             ViewBag.ProgrammeList = new SelectList(programmeQuery, "Id", "ProgrammeName", selected);
-            
+
         }
 
         private AssignedThesisModel LinkAssignedThesisData(AssignedThesisModel thesisModel)
         {
             if (thesisModel.ThesisID != Guid.Empty)
-                thesisModel.Thesis =  _context.ThesisDBS.Find(thesisModel.ThesisID);
+                thesisModel.Thesis = _context.ThesisDBS.Find(thesisModel.ThesisID);
             if (thesisModel.StudentID != Guid.Empty)
                 thesisModel.Student = _context.StudentsDBS.Find(thesisModel.StudentID);
             if (thesisModel.TeacherID != Guid.Empty)
                 thesisModel.Teacher = _context.TeachersDBS.Find(thesisModel.TeacherID);
+            if (thesisModel.Thesis.DegreeId != 0)
+                thesisModel.Thesis.Degree = _context.DegreesDBS.Find(thesisModel.Thesis.DegreeId);
 
             return thesisModel;
         }
 
         private DegreeModel LinkDegreeData(DegreeModel degreeModel)
         {
+
             if (degreeModel.FacultyId != null)
                 degreeModel.Faculty = _context.FacultiesDBS.Find(degreeModel.FacultyId);
             if (degreeModel.DepartmentId != null)

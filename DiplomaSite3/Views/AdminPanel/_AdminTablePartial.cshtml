@@ -8,9 +8,6 @@
         <thead>
             <tr>
                 <th>
-                    @Localizer["userIdTxt"]
-                </th>
-                <th>
                     @Localizer["usernameTxt"]
                 </th>
                 <th>
@@ -26,7 +23,7 @@
                     @Localizer["verifiedTxt"]
                 </th>
                 <th>
-
+                    @* buttons *@
                 </th>
             </tr>
         </thead>
@@ -35,9 +32,6 @@
             @foreach (var item in Model.AdminsList!)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>

@@ -7,37 +7,31 @@
 <ul class="navbar-nav">
 
     <li class="nav-item">
-        <a class="nav-link  btn navbtn mx-1" asp-controller="Home" asp-action="Index">@Localizer["homeBtn"]</a>
+        <a class="nav-link  btn navbtn mx-1" id="navHomeBtn" style="visibility:hidden" asp-controller="Home" asp-action="Index" >@Localizer["homeBtn"]</a>
     </li>
    
     @if (SignInManager.IsSignedIn(User))
     {
-        
         <li class="nav-item">
-            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index">@Localizer["thesesBtn"]</a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index" onloa="">@Localizer["thesesBtn"]</a>
         </li>
-
         @if (User.IsInRole("Student"))
         {
             <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="MyThesis">@Localizer["studentBtn"]</a>
         }
-
         @if (User.IsInRole("Teacher"))
         {
-            <a class="nav-link  btn navbtn mx-1" asp-controller="TeacherTheses" asp-action="Index">@Localizer["teacherBtn"] </a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="TeacherTheses" asp-action="Index" >@Localizer["teacherBtn"] </a>
         }
-        
         @if (User.IsInRole("Admin"))
         {
-            <a class="nav-link  btn navbtn mx-1" asp-controller="AdminPanel" asp-action="Index">@Localizer["adminBtn"]</a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="AdminPanel" asp-action="Index" >@Localizer["adminBtn"]</a>
         }
-
     }
     else
     {
-
         <li class="nav-item">
-            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index">@Localizer["thesesBtn"]</a>
+            <a class="nav-link  btn navbtn mx-1" asp-controller="Thesis" asp-action="Index" >@Localizer["thesesBtn"]</a>
         </li>
     }
 </ul>

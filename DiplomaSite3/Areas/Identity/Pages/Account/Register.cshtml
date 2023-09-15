@@ -6,11 +6,11 @@
     ViewData["Title"] = Localizer["title"];
 }
 
-<h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <hr />
             <h2>@Localizer["description"]</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -93,7 +93,7 @@
             let teacher = 1;
 
             let fnField = document.querySelector('div#faculy-number-field');
-            let fnInput = document.querySelector('div#faculy-number-input');
+            let fnInput = document.getElementById('faculy-number-input');
             var value = selectInput.value;
 
             if ( value == student ) {

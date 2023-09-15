@@ -14,9 +14,13 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container-fluid">
+
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-grow-0">
+                <img src="~/images/ru-logo-125x140.png" style="max-height:50px" >
                 <a class="navbar-brand mx-1" asp-controller="Home" asp-action="Index">@Localizer["siteTitle"]</a>
-                
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex ">
                     <ul class="navbar-nav flex-grow-1">
                         <partial name ="_NavBarPartial" />
                     </ul>
@@ -31,7 +35,6 @@
                         <partial name="_LanguagePartial" />
                     </ul>
                 </div>
-
 
             </div>
             

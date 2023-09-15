@@ -121,7 +121,7 @@
     <value>Are you sure you want to delete this?</value>
   </data>
   <data name="backBtn" xml:space="preserve">
-    <value>Back to all</value>
+    <value>Back</value>
   </data>
   <data name="deleteBtn" xml:space="preserve">
     <value>Delete</value>

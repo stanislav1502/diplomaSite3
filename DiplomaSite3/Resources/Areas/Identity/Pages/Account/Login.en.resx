@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="descriptionTxt" xml:space="preserve">
-    <value>Use a local account to log in.</value>
+    <value>Use a local account to log in</value>
   </data>
   <data name="forgotPassLnk" xml:space="preserve">
     <value>Forgot your password?</value>
@@ -130,13 +130,13 @@
     <value>Password</value>
   </data>
   <data name="registerNewLnk" xml:space="preserve">
-    <value>Register as a new user</value>
+    <value>Not registered?</value>
   </data>
   <data name="rememberLb" xml:space="preserve">
     <value>Remember me</value>
   </data>
   <data name="resendEmailLnk" xml:space="preserve">
-    <value>Resend email confirmation</value>
+    <value>Resend confirmation email</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Log in</value>

@@ -48,7 +48,7 @@ namespace DiplomaSite3.Models
 
         [Required]
         [Display(Name = "Degree")]
-        public int DegreeId { get; set; }
+        public int DegreeId { get; set; } = 0;
         public DegreeModel Degree { get; set; }
         
         public AssignedThesisModel? Assigned { get; set; }

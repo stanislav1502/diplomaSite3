@@ -120,8 +120,8 @@
   <data name="backBtn" xml:space="preserve">
     <value>Back</value>
   </data>
-  <data name="createBtn" xml:space="preserve">
-    <value>Create</value>
+  <data name="editBtn" xml:space="preserve">
+    <value>Edit</value>
   </data>
   <data name="thesisAssignedTxt" xml:space="preserve">
     <value>Assigned on</value>
@@ -159,10 +159,10 @@
   <data name="thesisTagsTxt" xml:space="preserve">
     <value>Tags</value>
   </data>
-  <data name="title" xml:space="preserve">
-    <value>Create</value>
+  <data name="thesisTeacherTxt" xml:space="preserve">
+    <value>Teacher</value>
   </data>
-  <data name="titleTxt" xml:space="preserve">
-    <value>Create a new thesis</value>
+  <data name="title" xml:space="preserve">
+    <value>Details</value>
   </data>
 </root>

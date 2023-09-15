@@ -118,51 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="backBtn" xml:space="preserve">
-    <value>Back</value>
+    <value>Назад</value>
   </data>
-  <data name="createBtn" xml:space="preserve">
-    <value>Create</value>
+  <data name="editBtn" xml:space="preserve">
+    <value>Запази</value>
   </data>
   <data name="thesisAssignedTxt" xml:space="preserve">
-    <value>Assigned on</value>
+    <value>Получена на</value>
   </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
-    <value>Defense date</value>
+    <value>Защита на</value>
   </data>
   <data name="thesisDegreeTxt" xml:space="preserve">
-    <value>Degree</value>
+    <value>Степен</value>
   </data>
   <data name="thesisDepartmentTxt" xml:space="preserve">
-    <value>Department</value>
+    <value>Катедра</value>
   </data>
   <data name="thesisDescriptionTxt" xml:space="preserve">
-    <value>Description</value>
+    <value>Описание</value>
   </data>
   <data name="thesisFacultyTxt" xml:space="preserve">
-    <value>Faculty</value>
+    <value>Факултет</value>
   </data>
   <data name="thesisGradeTxt" xml:space="preserve">
-    <value>Grade</value>
+    <value>Оценка</value>
   </data>
   <data name="thesisNameTxt" xml:space="preserve">
-    <value>Title</value>
+    <value>Заглавие</value>
   </data>
   <data name="thesisProgrammeTxt" xml:space="preserve">
-    <value>Programme</value>
+    <value>Специалност</value>
   </data>
   <data name="thesisStatusTxt" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="thesisStudentTxt" xml:space="preserve">
-    <value>Student</value>
+    <value>Статус</value>
   </data>
   <data name="thesisTagsTxt" xml:space="preserve">
-    <value>Tags</value>
+    <value>Тагове</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Create</value>
+    <value>Промяна</value>
   </data>
   <data name="titleTxt" xml:space="preserve">
-    <value>Create a new thesis</value>
+    <value>Промяна на тема</value>
   </data>
 </root>
