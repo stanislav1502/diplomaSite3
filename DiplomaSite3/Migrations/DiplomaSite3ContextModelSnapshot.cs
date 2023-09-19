@@ -17,7 +17,7 @@ namespace DiplomaSite3.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -47,10 +47,7 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DegreeModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Degree")
                         .HasColumnType("int");
@@ -78,10 +75,7 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DepartmentModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
@@ -100,10 +94,7 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.FacultyModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FacultyName")
                         .IsRequired()
@@ -117,10 +108,7 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.ProgrammeModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
@@ -176,8 +164,8 @@ namespace DiplomaSite3.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<decimal?>("Grade")
                         .HasPrecision(5, 3)
@@ -186,14 +174,10 @@ namespace DiplomaSite3.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Tags")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("ThesisID");
 
@@ -647,8 +631,7 @@ namespace DiplomaSite3.Migrations
 
             modelBuilder.Entity("DiplomaSite3.Models.ThesisModel", b =>
                 {
-                    b.Navigation("Assigned")
-                        .IsRequired();
+                    b.Navigation("Assigned");
 
                     b.Navigation("StudentRequests");
                 });

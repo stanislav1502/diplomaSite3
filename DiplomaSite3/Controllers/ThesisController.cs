@@ -195,7 +195,7 @@ namespace DiplomaSite3.Controllers
         [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] ThesisModel thesisModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Status,TeacherID,StudentID")] ThesisModel thesisModel)
         {
             if (id != thesisModel.ThesisID)
             {

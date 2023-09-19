@@ -56,11 +56,6 @@
                 <span asp-validation-for="ThesisModel!.Thesis.Grade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ThesisModel!.Thesis.Tags" class="control-label">@Localizer["thesisTagsTxt"]</label>
-                <input asp-for="ThesisModel!.Thesis.Tags" class="form-control" />
-                <span asp-validation-for="ThesisModel!.Thesis.Tags" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="ThesisModel!.Thesis.Status" class="control-label">@Localizer["thesisStatusTxt"]</label>
                 <select asp-for="ThesisModel!.Thesis.Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()"></select>
                 <span asp-validation-for="ThesisModel!.Thesis.Status" class="text-danger"></span>

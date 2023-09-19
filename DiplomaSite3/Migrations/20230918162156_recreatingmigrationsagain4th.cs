@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DiplomaSite3.Migrations
 {
     /// <inheritdoc />
-    public partial class RedoingMigrations3 : Migration
+    public partial class recreatingmigrationsagain4th : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,27 +29,12 @@ namespace DiplomaSite3.Migrations
                 name: "Faculties",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     FacultyName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Faculties", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RequestedTheses",
-                columns: table => new
-                {
-                    RequestId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ThesisID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RequestedTheses", x => x.RequestId);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,8 +91,7 @@ namespace DiplomaSite3.Migrations
                 name: "Departments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FacultyId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -264,8 +248,7 @@ namespace DiplomaSite3.Migrations
                 name: "Programmes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     ProgrammeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -280,41 +263,28 @@ namespace DiplomaSite3.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RequestedThesesModelStudentModel",
-                columns: table => new
-                {
-                    RequestedThesesRequestId = table.Column<int>(type: "int", nullable: false),
-                    StudentsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RequestedThesesModelStudentModel", x => new { x.RequestedThesesRequestId, x.StudentsId });
-                    table.ForeignKey(
-                        name: "FK_RequestedThesesModelStudentModel_RequestedTheses_RequestedThesesRequestId",
-                        column: x => x.RequestedThesesRequestId,
-                        principalTable: "RequestedTheses",
-                        principalColumn: "RequestId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RequestedThesesModelStudentModel_Students_StudentsId",
-                        column: x => x.StudentsId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Degrees",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    FacultyId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: true),
                     ProgrammeId = table.Column<int>(type: "int", nullable: true),
                     Degree = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Degrees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Degrees_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Degrees_Faculties_FacultyId",
+                        column: x => x.FacultyId,
+                        principalTable: "Faculties",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Degrees_Programmes_ProgrammeId",
                         column: x => x.ProgrammeId,
@@ -328,15 +298,13 @@ namespace DiplomaSite3.Migrations
                 columns: table => new
                 {
                     ThesisID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     AssignDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DefendDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Grade = table.Column<decimal>(type: "decimal(5,3)", precision: 5, scale: 3, nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    DegreeId = table.Column<int>(type: "int", nullable: false),
-                    RequestedThesesModelRequestId = table.Column<int>(type: "int", nullable: true)
+                    DegreeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -347,11 +315,6 @@ namespace DiplomaSite3.Migrations
                         principalTable: "Degrees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Thesis_RequestedTheses_RequestedThesesModelRequestId",
-                        column: x => x.RequestedThesesModelRequestId,
-                        principalTable: "RequestedTheses",
-                        principalColumn: "RequestId");
                 });
 
             migrationBuilder.CreateTable(
@@ -380,6 +343,32 @@ namespace DiplomaSite3.Migrations
                         column: x => x.ThesisID,
                         principalTable: "Thesis",
                         principalColumn: "ThesisID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestedTheses",
+                columns: table => new
+                {
+                    RequestId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ThesisID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudentID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestedTheses", x => x.RequestId);
+                    table.ForeignKey(
+                        name: "FK_RequestedTheses_Students_StudentID",
+                        column: x => x.StudentID,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RequestedTheses_Thesis_ThesisID",
+                        column: x => x.ThesisID,
+                        principalTable: "Thesis",
+                        principalColumn: "ThesisID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -422,6 +411,16 @@ namespace DiplomaSite3.Migrations
                 column: "TeacherID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Degrees_DepartmentId",
+                table: "Degrees",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Degrees_FacultyId",
+                table: "Degrees",
+                column: "FacultyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Degrees_ProgrammeId",
                 table: "Degrees",
                 column: "ProgrammeId");
@@ -437,19 +436,19 @@ namespace DiplomaSite3.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequestedThesesModelStudentModel_StudentsId",
-                table: "RequestedThesesModelStudentModel",
-                column: "StudentsId");
+                name: "IX_RequestedTheses_StudentID",
+                table: "RequestedTheses",
+                column: "StudentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestedTheses_ThesisID",
+                table: "RequestedTheses",
+                column: "ThesisID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Thesis_DegreeId",
                 table: "Thesis",
                 column: "DegreeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Thesis_RequestedThesesModelRequestId",
-                table: "Thesis",
-                column: "RequestedThesesModelRequestId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -489,7 +488,7 @@ namespace DiplomaSite3.Migrations
                 name: "AssignedTheses");
 
             migrationBuilder.DropTable(
-                name: "RequestedThesesModelStudentModel");
+                name: "RequestedTheses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -498,19 +497,16 @@ namespace DiplomaSite3.Migrations
                 name: "Teachers");
 
             migrationBuilder.DropTable(
-                name: "Thesis");
-
-            migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
-                name: "Degrees");
-
-            migrationBuilder.DropTable(
-                name: "RequestedTheses");
+                name: "Thesis");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Degrees");
 
             migrationBuilder.DropTable(
                 name: "Programmes");

@@ -7,8 +7,8 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-            <a id="manage" class="nav-link  btn navbtn mx-1" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer["greeting"]: @UserManager.GetUserAsync(User).Result!.FullName</a>
-    </li>
+            <a id="manage" class="nav-link  btn navbtn mx-1" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer["greeting"]: @if(User != null) @UserManager.GetUserAsync(User).Result!.FullName</a>
+        </li>
     
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

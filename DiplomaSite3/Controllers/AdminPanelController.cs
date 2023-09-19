@@ -37,7 +37,7 @@ namespace DiplomaSite3.Controllers
                                  select u;
             if (!string.IsNullOrEmpty(searchString))
             {
-                usersQuerry = usersQuerry.Where(u => u.UserName!.Contains(searchString) );
+                usersQuerry = usersQuerry.Where(u => u.NormalizedUserName!.Contains(searchString.Normalize()) );
             }
 
             var viewModel = new AdminVM
@@ -90,7 +90,7 @@ namespace DiplomaSite3.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DEdit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Tags,Status,TeacherID,StudentID")] ThesisModel thesisModel)
+        public async Task<IActionResult> DEdit(Guid id, [Bind("ThesisID,Title,Description,DefendDate,Grade,Status,TeacherID,StudentID")] ThesisModel thesisModel)
         {
             if (id != thesisModel.ThesisID)
             {
@@ -191,6 +191,23 @@ namespace DiplomaSite3.Controllers
                 return NotFound();
             }
 
+            switch (userModel.UserType)
+            {
+                case Enums.MyRolesEnum.Student:
+                    break;
+                case Enums.MyRolesEnum.Teacher:
+                    var teacherModel = await _context.TeachersDBS.FindAsync(id);
+                    teacherModel.Verified = true;
+                    _context.Update(teacherModel);
+                    break;
+                case Enums.MyRolesEnum.Admin:
+                    var adminModel = await _context.TeachersDBS.FindAsync(id);
+                    adminModel.Verified = true;
+                    _context.Update(adminModel);
+                    break;
+                default:
+                    break;
+            }
             userModel.EmailConfirmed = true;
             
             _context.UsersDBS.Update(userModel);

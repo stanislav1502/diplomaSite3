@@ -40,12 +40,7 @@
                 <span asp-validation-for="ThesisModel.Thesis.Grade" class="text-danger"></span>
             </div>
             }
-            <div class="form-group">
-                <label asp-for="ThesisModel.Thesis.Tags" class="control-label">@Localizer["thesisTagsTxt"]</label>
-                <input asp-for="ThesisModel.Thesis.Tags" class="form-control" />
-                <span asp-validation-for="ThesisModel.Thesis.Tags" class="text-danger"></span>
-            </div>
-
+           
             <div class="form-group">
                 <label asp-for="ThesisModel!.Thesis.Degree.Faculty" class="control-label">@Localizer["thesisFacultyTxt"]</label>
                 <select asp-for="ThesisModel!.Thesis.Degree.Faculty" class="form-control" asp-items=ViewBag.FacultyList> </select>

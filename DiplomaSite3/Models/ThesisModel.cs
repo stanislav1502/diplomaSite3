@@ -14,12 +14,12 @@ namespace DiplomaSite3.Models
         public Guid ThesisID { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(200)]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public string Title { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(2000)]
         public string Description { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
@@ -38,13 +38,8 @@ namespace DiplomaSite3.Models
         [DisplayFormat(NullDisplayText = "---")]
         public decimal? Grade { get; set; }
 
-        [StringLength(50)]
-        [DisplayFormat(NullDisplayText = "---")]
-        public string? Tags { get; set; }
-
-        [Required]
+       [Required]
         public StatusEnum Status { get; set; }
-
 
         [Required]
         [Display(Name = "Degree")]

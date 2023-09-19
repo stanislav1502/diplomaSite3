@@ -20,76 +20,506 @@ public static class SeedDB
 
             if (!context.AdminsDBS.Any())
             {
+                var admins = new List<AdminModel>();
+
                 AdminModel user = Activator.CreateInstance<AdminModel>();
                 string username = "Admin";
-                string useremail = "admin@admin.haha";
-                string userpass = "admin1-Admin";
-                string userfirstname = "admin";
-                string userlastname = "adminov";
+                string useremail = "admin-iit@uni-ruse.bg";
+                string userpass = "admin1-Admin1";
+                string userfirstname = "Администраторски";
+                string userlastname = "Профил";
 
-                context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
-                //      await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+               // await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
                 user.Email = useremail;
                 user.NormalizedEmail = useremail.Normalize();
                 user.FirstName = userfirstname;
                 user.LastName = userlastname;
                 user.UserType = MyRolesEnum.Admin;
-                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
-
+                user.EmailConfirmed = true;
                 user.Verified = true;
-                context.AdminsDBS.Add(user);
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                admins.Add(user);
+
+                user = Activator.CreateInstance<AdminModel>();
+                username = "Admin2";
+                useremail = "admin2-iit@uni-ruse.bg";
+                userpass = "Аdmin2-аdmin2";
+                userfirstname = "Админ";
+                userlastname = "две";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                // await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Admin;
+                user.EmailConfirmed = true;
+                user.Verified = true;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                admins.Add(user);
+
 
                 context.SaveChanges();
-
             }
 
             if (!context.TeachersDBS.Any())
             {
-                TeacherModel user = Activator.CreateInstance<TeacherModel>();
-                string username = "Teacher";
-                string useremail = "teach@teach.haha";
-                string userpass = ",a'%4n,k9Yp&#X\"";
-                string userfirstname = "Teacher";
-                string userlastname = "Teacherov";
+                var teachers = new List<TeacherModel>();
 
-                context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
-                //       await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                TeacherModel user = Activator.CreateInstance<TeacherModel>();
+                string username = "RRusev";
+                string useremail = "rir@uni-ruse.bg";
+                string userpass = "parolarrusev";
+                string userfirstname = "Румен";
+                string userlastname = "Русев";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                user.Verified = true;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                user.EmailConfirmed=true;
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "CVasilev";
+                useremail = "tvassilev@uni-ruse.bg";
+                userpass = "parolacvasilev";
+                userfirstname = "Цветомир";
+                userlastname = "Василев";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+             //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
                 user.Email = useremail;
                 user.NormalizedEmail = useremail.Normalize();
                 user.FirstName = userfirstname;
                 user.LastName = userlastname;
                 user.UserType = MyRolesEnum.Teacher;
                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
 
-                context.TeachersDBS.Add(user);
+                
 
-                context.SaveChanges();
+                username = "VVoinohovska";
+                useremail = "vvoinohovska@uni-ruse.bg";
+                userpass = "parolavvoinohovska";
+                userfirstname = "Валентина";
+                userlastname = "Войноховска";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "GAtanasova";
+                useremail = "gatanasova@uni-ruse.bg";
+                userpass = "parolagatanasova";
+                userfirstname = "Галина";
+                userlastname = "Атанасова";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "DAtanasova";
+                useremail = "datanasova@uni-ruse.bg";
+                userpass = "paroladatanasova";
+                userfirstname = "Десислава";
+                userlastname = "Атанасова";
+
+                 await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              // await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "DBaeva";
+                useremail = "dbaeva@uni-ruse.bg";
+                userpass = "paroladbaeva";
+                userfirstname = "Десислава";
+                userlastname = "Баева";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+             //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "STsankov";
+                useremail = "stsankov@uni-ruse.bg";
+                userpass = "parolastsankov";
+                userfirstname = "Светлозар";
+                userlastname = "Цанков";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "VVelikov";
+                useremail = "vvelikov@uni-ruse.bg";
+                userpass = "parolavvelikov";
+                userfirstname = "Валентин";
+                userlastname = "Великов";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "KShoylekova";
+                useremail = "kshoylekova@uni-ruse.bg";
+                userpass = "parolakshoylekova";
+                userfirstname = "Камелия";
+                userlastname = "Шойлекова";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+             //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "MAndreeva";
+                useremail = "mhandreeva@uni-ruse.bg";
+                userpass = "parolamandreeva";
+                userfirstname = "Магдалена";
+                userlastname = "Андреева";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "SAntonov";
+                useremail = "santonov@uni-ruse.bg";
+                userpass = "parolasantonov";
+                userfirstname = "Сергей";
+                userlastname = "Антонов";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+            //    await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "BIvanova";
+                useremail = "bivanova@uni-ruse.bg";
+                userpass = "parolabivanova";
+                userfirstname = "Бояна";
+                userlastname = "Иванова";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "IKamenarov";
+                useremail = "ikamenarov@uni-ruse.bg";
+                userpass = "parolaikamenarov";
+                userfirstname = "Ивайло";
+                userlastname = "Каменаров";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+             //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "SKostadinov";
+                useremail = "sdkostadinov@uni-ruse.bg";
+                userpass = "parolaskostadinov";
+                userfirstname = "Станислав";
+                userlastname = "Костадинов";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "MDimitrov";
+                useremail = "mdimitrov@uni-ruse.bg";
+                userpass = "parolamdimitrov";
+                userfirstname = "Методи";
+                userlastname = "Димитров";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+               // await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "KGabrovska";
+                useremail = "kgabrovska@uni-ruse.bg";
+                userpass = "parolakgabrovska";
+                userfirstname = "Катерина";
+                userlastname = "Габровска";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+             //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+
+                user = Activator.CreateInstance<TeacherModel>();
+                username = "EMinev";
+                useremail = "eminev@uni-ruse.bg";
+                userpass = "parolaeminev";
+                userfirstname = "Екатерин";
+                userlastname = "Минев";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+              //  await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Teacher;
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                teachers.Add(user);
+
+        context.SaveChanges();
 
             }
 
             if (!context.StudentsDBS.Any())
             {
-                StudentModel user = Activator.CreateInstance<StudentModel>();
-                string username = "Student";
-                   string useremail = "student@stud.haha";
-                string userpass = ",9BkiGkf2s:kSn7";
-                string userfirstname = "student";
-                string userlastname = "Studentski";
+                var students = new List<StudentModel>();
 
-                context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                StudentModel user = Activator.CreateInstance<StudentModel>();
+                string username = "SIliev";
+                string useremail = "s196286@stud.uni-ruse.bg";
+                string userpass = "123456789+0";
+                string userfirstname = "Станислав";
+                string userlastname = "Илиев";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Student;
+                user.FacultyNumber = "196286";
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                user.EmailConfirmed = true;
+                students.Add(user);
+
+
+                user = Activator.CreateInstance<StudentModel>();
+                username = "MDjurov";
+                useremail = "s196250@stud.uni-ruse.bg";
+                userpass = "parolamdjurov";
+                userfirstname = "Мартин";
+                userlastname = "Джуров";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
                 //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
                 user.Email = useremail;
                 user.NormalizedEmail = useremail.Normalize();
                 user.FirstName = userfirstname;
                 user.LastName = userlastname;
                 user.UserType = MyRolesEnum.Student;
-                user.FacultyNumber = "123456";
+                user.FacultyNumber = "196250";
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                students.Add(user);
+
+
+                user = Activator.CreateInstance<StudentModel>();
+                username = "JGanev";
+                useremail = "s196272@stud.uni-ruse.bg";
+                userpass = "parolajganev";
+                userfirstname = "Йордан";
+                userlastname = "Ганев";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Student;
+                user.FacultyNumber = "196272";
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                students.Add(user);
+
+
+                user = Activator.CreateInstance<StudentModel>();
+                username = "RPetkova";
+                useremail = "s196259@stud.uni-ruse.bg";
+                userpass = "parolarpetkova";
+                userfirstname = "Радина";
+                userlastname = "Петкова";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Student;
+                user.FacultyNumber = "196259";
                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
 
-                context.StudentsDBS.Add(user);
+                students.Add(user);
 
+
+                user = Activator.CreateInstance<StudentModel>();
+                username = "KSpasov";
+                useremail = "s196262@stud.uni-ruse.bg";
+                userpass = "parolakspasov";
+                userfirstname = "Кристиан";
+                userlastname = "Спасов";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Student;
+                user.FacultyNumber = "196262";
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                students.Add(user);
+
+
+                user = Activator.CreateInstance<StudentModel>();
+                username = "SSahmi";
+                useremail = "s206215@stud.uni-ruse.bg";
+                userpass = "parolassahmi";
+                userfirstname = "Сезен";
+                userlastname = "Сахми";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Student;
+                user.FacultyNumber = "206215";
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                students.Add(user);
+
+
+                user = Activator.CreateInstance<StudentModel>();
+                username = "VNikolov";
+                useremail = "s196265@stud.uni-ruse.bg";
+                userpass = "parolavnikolov";
+                userfirstname = "Венцислав";
+                userlastname = "Николов";
+
+                await context.GetService<IUserStore<UserModel>>().SetUserNameAsync(user, username, CancellationToken.None);
+                //   await context.GetService<IUserEmailStore<UserModel>>().SetEmailAsync(user, useremail, CancellationToken.None);
+                user.Email = useremail;
+                user.NormalizedEmail = useremail.Normalize();
+                user.FirstName = userfirstname;
+                user.LastName = userlastname;
+                user.UserType = MyRolesEnum.Student;
+                user.FacultyNumber = "196265";
+                context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass);
+                students.Add(user);
+
+
+             
                 context.SaveChanges();
-
             }
 
 
@@ -108,180 +538,306 @@ public static class SeedDB
 
             if (!context.FacultiesDBS.Any())
             {
-
-                context.FacultiesDBS.AddRange(
-
+                FacultyModel[] list = new FacultyModel[]{
                     new FacultyModel
                     {
+                        Id=1,
                         FacultyName = "Аграрно-индустриален"
                     },
                     new FacultyModel
                     {
+                        Id=2,
                         FacultyName = "Машинно-технологичен"
                     },
                     new FacultyModel
                     {
+                        Id=3,
                         FacultyName = "Електротехника, електроника и автоматика"
                     },
                     new FacultyModel
                     {
+                        Id=4,
                         FacultyName = "Транспортен"
                     },
                     new FacultyModel
                     {
+                            Id=5,
                         FacultyName = "Бизнес и мениджмънт"
                     },
                     new FacultyModel
                     {
+                        Id=6,
                         FacultyName = "Природни науки и образование"
                     },
                     new FacultyModel
                     {
+                        Id=7,
                         FacultyName = "Юридически"
                     },
                     new FacultyModel
                     {
+                        Id=8,
                         FacultyName = "Обществено здраве и здравни грижи​​"
-                    });
+                    } 
+                };
+                
+              context.FacultiesDBS.AddRange(list);
                 context.SaveChanges();
             }
 
             if (!context.DepartmentsDBS.Any())
             {
-                context.AddRange(
-
+                context.DepartmentsDBS.AddRange(
                     new DepartmentModel
                     {
+                        Id = 1,
                         DepartmentName = "Земеделска техника",
                         FacultyId = 1,
                     },
                     new DepartmentModel
                     {
+                        Id = 2,
                         DepartmentName = "Материалознание и технология на материалите",
                         FacultyId = 2,
                     },
                     new DepartmentModel
                     {
+                        Id = 3,
                         DepartmentName = "Електроника",
-                        FacultyId = 2,
+                        FacultyId = 3,
                     },
                     new DepartmentModel
                     {
+                        Id = 4,
                         DepartmentName = "Двигатели и транспортна техника",
-                        FacultyId = 1,
-                    },
-                    new DepartmentModel
-                    {
-                        DepartmentName = "Икономика и международни отношения",
-                        FacultyId = 2,
-                    },
-                    new DepartmentModel
-                    {
-                        DepartmentName = "Информатика и информационни технологии",
                         FacultyId = 4,
                     },
                     new DepartmentModel
                     {
-                        DepartmentName = "Публичноправни науки",
-                        FacultyId = 2,
+                        Id = 5,
+                        DepartmentName = "Икономика и международни отношения",
+                        FacultyId = 5,
                     },
                     new DepartmentModel
                     {
+                        Id = 6,
+                        DepartmentName = "Информатика и информационни технологии",
+                        FacultyId = 6,
+                    },
+                    new DepartmentModel
+                    {
+                        Id = 7,
+                        DepartmentName = "Публичноправни науки",
+                        FacultyId = 7,
+                    },
+                    new DepartmentModel
+                    {
+                        Id = 8,
                         DepartmentName = "Обществено здраве",
-                        FacultyId = 2,
-                    });
+                        FacultyId = 8,
+                    },
+                    new DepartmentModel
+                    {
+                        Id = 9,
+                        DepartmentName = "Педагогика, психология и история",
+                        FacultyId = 6,
+                    },
+                    new DepartmentModel
+                    {
+                        Id = 10,
+                        DepartmentName = "Български език, литература и изкуство",
+                        FacultyId = 6,
+                    },
+                    new DepartmentModel
+                    {
+                        Id = 11,
+                        DepartmentName = "Математика",
+                        FacultyId = 6,
+                    },
+                   new DepartmentModel
+                   {
+                       Id = 12,
+                       DepartmentName = "Приложна математика и статистика",
+                       FacultyId = 6,
+                   });
+                context.SaveChanges();
             }
 
             if (!context.ProgrammesDBS.Any())
             {
-
                 context.ProgrammesDBS.AddRange(
                     new ProgrammeModel
-                    {
+                    {Id=1,
                         ProgrammeName = "Земеделска техника и технологии",
-                        DepartmentId = 1,
+                        Department = await context.DepartmentsDBS.FindAsync(0),
                     },
                     new ProgrammeModel
                     {
+                        Id = 2,
                         ProgrammeName = "Материалознание и технологии",
-                        DepartmentId = 2,
+                        Department = await context.DepartmentsDBS.FindAsync(1),
                     },
                     new ProgrammeModel
-                    {
+                    {Id = 3,
                         ProgrammeName = "Електронизация",
-                        DepartmentId = 3
+                        Department = await context.DepartmentsDBS.FindAsync(2)
                     },
                     new ProgrammeModel
-                    {
+                    {Id = 4,
                         ProgrammeName = "Автомобилна техника",
-                        DepartmentId = 4
+                        Department = await context.DepartmentsDBS.FindAsync(3)
                     },
                     new ProgrammeModel
-                    {
+                    {Id = 5,
                         ProgrammeName = "Политическа икономия",
-                        DepartmentId = 5
+                        Department = await context.DepartmentsDBS.FindAsync(4)
                     },
                     new ProgrammeModel
-                    {
-                        ProgrammeName = "Софтуерно инженерство",
-                        DepartmentId = 6
+                    {Id = 6,
+                        ProgrammeName = "Компютърни науки",
+                        Department = await context.DepartmentsDBS.FindAsync(5)
                     },
                     new ProgrammeModel
-                    {
+                    {Id = 7,
                         ProgrammeName = "Право",
-                        DepartmentId = 7  
+                        Department = await context.DepartmentsDBS.FindAsync(6)
                     }, new ProgrammeModel
                     {
+                        Id = 8,
                         ProgrammeName = "Кинезитерапия",
-                        DepartmentId = 8
-                    });
+                        Department = await context.DepartmentsDBS.FindAsync(7)
+                    },
+                     new ProgrammeModel
+                     {
+                         Id = 9,
+                         ProgrammeName = "Информатика и информационни технологии в бизнеса",
+                         Department = await context.DepartmentsDBS.FindAsync(5)
+                     },
+                    new ProgrammeModel
+                    {
+                        Id = 10,
+                        ProgrammeName = "Софтуерно инженерство",
+                        Department = await context.DepartmentsDBS.FindAsync(5)
+                    }, new ProgrammeModel
+                    {
+                        Id = 11,
+                        ProgrammeName = "Информатика",
+                        Department = await context.DepartmentsDBS.FindAsync(5)
+                    },
+                     new ProgrammeModel
+                     {Id = 12,
+                         ProgrammeName = "Информатика и информационни технологии в образованието",
+                         Department = await context.DepartmentsDBS.FindAsync(5)
+                     });
                 context.SaveChanges();
             }
 
             if (!context.DegreesDBS.Any())
             {
-
                 context.DegreesDBS.AddRange(
-                    
                     new DegreeModel
                     {
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(0).Id,
+                        Id=1,
+                        FacultyId= 1,
+                        DepartmentId=1,
+                        ProgrammeId = 1,
                         Degree = DegreeEnum.Bachelor
                     },
                     new DegreeModel
                     {
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(1).Id,
-                        Degree = DegreeEnum.Master
-                    },
-                    new DegreeModel
-                    {   
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(2).Id,
-                        Degree = DegreeEnum.Master
-                    },
-                    new DegreeModel
-                    {
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(3).Id,
+                        Id = 2,
+                        FacultyId = 2,
+                        DepartmentId = 2,
+                        ProgrammeId = 2,
                         Degree = DegreeEnum.Master
                     },
                     new DegreeModel
                     {
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(4).Id,
+                        Id = 3,
+                        FacultyId = 3,
+                        DepartmentId =3,
+                        ProgrammeId = 3,
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        Id = 4,
+                        FacultyId = 4,
+                        DepartmentId =4,
+                        ProgrammeId =4,
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        Id = 5,
+                        FacultyId = 5,
+                        DepartmentId = 5,
+                        ProgrammeId =5,
                         Degree = DegreeEnum.Bachelor
                     }, 
                     new DegreeModel
                     {
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(5).Id,  
-                        Degree = DegreeEnum.Master
-                    },
-                    new DegreeModel
-                    {
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(6).Id,
-                        Degree = DegreeEnum.Master
-                    },
-                    new DegreeModel
-                    {
-                        ProgrammeId = context.ProgrammesDBS.ToList().ElementAt(7).Id,
+                        Id = 6,
+                        FacultyId =6,
+                        DepartmentId =6,
+                        ProgrammeId = 6,  
                         Degree = DegreeEnum.Bachelor
+                    },
+                    new DegreeModel
+                    {
+                        Id = 7,
+                        FacultyId = 7,
+                        DepartmentId = 7,
+                        ProgrammeId = 7,
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        Id = 8,
+                        FacultyId = 8,
+                        DepartmentId = 8,
+                        ProgrammeId = 8,
+                        Degree = DegreeEnum.Bachelor
+                    },
+                    new DegreeModel
+                    {
+                        Id = 9,
+                        FacultyId = 6,
+                        DepartmentId = 6,
+                        ProgrammeId = 9,
+                        Degree = DegreeEnum.Bachelor
+                    },
+                    new DegreeModel
+                    {
+                        Id = 10,
+                        FacultyId = 6,
+                        DepartmentId = 6,
+                        ProgrammeId = 10,
+                        Degree = DegreeEnum.Bachelor
+                    },
+                    new DegreeModel
+                    {
+                        Id = 11,
+                        FacultyId = 6,
+                        DepartmentId = 6,
+                        ProgrammeId = 10,
+                        Degree = DegreeEnum.Master
+                    },
+                    new DegreeModel
+                    {
+                        Id = 12,
+                        FacultyId = 6,
+                        DepartmentId = 6,
+                        ProgrammeId = 11,
+                        Degree = DegreeEnum.Master
+                    }, 
+                    new DegreeModel
+                    {
+                        Id = 13,
+                        FacultyId = 6,
+                        DepartmentId = 6,
+                        ProgrammeId = 12,
+                        Degree = DegreeEnum.Master
                     }
                 );
                 context.SaveChanges();
@@ -298,66 +854,23 @@ public static class SeedDB
                         AssignDate = DateTime.Now,
                         DefendDate = DateTime.Parse("5-6-2014"),
                         Grade = 7.99M,
-                        Tags = "p2p,web,dcdn,content delivery",
-                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(6).Id,
+                        DegreeId = 7,
                         Status = StatusEnum.Archived
-                    },
-                    new ThesisModel
-                    {
-                        Title = "Diploma 2",
-                        Description = "desc2",
-                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(2).Id,
-                        Status = StatusEnum.InAppraisal,
-                        AssignDate = DateTime.Now.AddDays(-30),
-                        DefendDate = DateTime.Parse("20-12-2024")
-                    },
-                    new ThesisModel
-                    {
-                        Title = "Diploma 3",
-                        Description = "desc3",
-                        Status = StatusEnum.WIP,
-                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(1).Id,
-                        Tags = "tag303,tag3,tag33"
-                    },
-                    new ThesisModel
-                    {
-                        Title = "Diploma 4",
-                        Description = "desc4",
-                        DegreeId = context.DegreesDBS.AsNoTracking().ToList().ElementAt(7).Id,
-                        Status = StatusEnum.Posted
-                    });
+                    }
+                    );
                 context.SaveChanges();
             }
 
             if(!context.AssignedThesesDBS.Any())
             {
-                context.AssignedThesesDBS.AddRange(
-                new AssignedThesisModel
-                {
-                    ThesisID = context.ThesisDBS.AsNoTracking().ToList().ElementAt(0).ThesisID,
-                    TeacherID = context.TeachersDBS.AsNoTracking().ToList().ElementAt(0).Id,
-                    StudentID = context.StudentsDBS.AsNoTracking().ToList().ElementAt(0).Id
-                },
-                new AssignedThesisModel
-                {
-                    ThesisID = context.ThesisDBS.AsNoTracking().ToList().ElementAt(1).ThesisID,
-                    TeacherID = context.TeachersDBS.AsNoTracking().ToList().ElementAt(0).Id,
-                    StudentID = null
-                }, new AssignedThesisModel
-                {
-                    ThesisID = context.ThesisDBS.AsNoTracking().ToList().ElementAt(2).ThesisID,
-                    TeacherID = null,
-                    StudentID = context.StudentsDBS.AsNoTracking().ToList().ElementAt(0).Id
-                }, new AssignedThesisModel
-                {
-                    ThesisID = context.ThesisDBS.AsNoTracking().ToList().ElementAt(3).ThesisID,
-                    TeacherID = null,
-                    StudentID = null
-                }
-                );
+
+                var assigned = new List<AssignedThesisModel>();
+
+
                 context.SaveChanges();
             }
 
+            context.Dispose();
         }
     }
 

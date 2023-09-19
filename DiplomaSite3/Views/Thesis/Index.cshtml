@@ -57,9 +57,7 @@
             <th onclick="sortTable(3)">
                 @Localizer["thesisGradeTxt"]
             </th>
-            <th>
-                @Localizer["thesisTagsTxt"]
-            </th>
+           
             <th onclick="sortTable(5)">
                 @Localizer["thesisStatusTxt"]
             </th>
@@ -91,9 +89,7 @@
             <td>
                     @Html.DisplayFor(modelItem => item.Thesis.Grade)
             </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.Tags)
-            </td>
+           
             <td>
                     @{
                         var status = item.Thesis.Status.ToString();

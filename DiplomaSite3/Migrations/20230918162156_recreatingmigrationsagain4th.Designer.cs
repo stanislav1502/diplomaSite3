@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomaSite3.Migrations
 {
     [DbContext(typeof(DiplomaSite3Context))]
-    [Migration("20230819191811_RedoingMigrations3")]
-    partial class RedoingMigrations3
+    [Migration("20230918162156_recreatingmigrationsagain4th")]
+    partial class recreatingmigrationsagain4th
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -50,18 +50,25 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DegreeModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("Degree")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("FacultyId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProgrammeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("FacultyId");
 
                     b.HasIndex("ProgrammeId");
 
@@ -71,10 +78,7 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DepartmentModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
@@ -93,10 +97,7 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.FacultyModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FacultyName")
                         .IsRequired()
@@ -110,10 +111,7 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.ProgrammeModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
@@ -145,6 +143,10 @@ namespace DiplomaSite3.Migrations
 
                     b.HasKey("RequestId");
 
+                    b.HasIndex("StudentID");
+
+                    b.HasIndex("ThesisID");
+
                     b.ToTable("RequestedTheses", (string)null);
                 });
 
@@ -165,33 +167,24 @@ namespace DiplomaSite3.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<decimal?>("Grade")
                         .HasPrecision(5, 3)
                         .HasColumnType("decimal(5,3)");
 
-                    b.Property<int?>("RequestedThesesModelRequestId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Tags")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("ThesisID");
 
                     b.HasIndex("DegreeId");
-
-                    b.HasIndex("RequestedThesesModelRequestId");
 
                     b.ToTable("Thesis", (string)null);
                 });
@@ -415,21 +408,6 @@ namespace DiplomaSite3.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RequestedThesesModelStudentModel", b =>
-                {
-                    b.Property<int>("RequestedThesesRequestId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RequestedThesesRequestId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("RequestedThesesModelStudentModel");
-                });
-
             modelBuilder.Entity("DiplomaSite3.Models.AdminModel", b =>
                 {
                     b.HasBaseType("DiplomaSite3.Models.UserModel");
@@ -488,10 +466,22 @@ namespace DiplomaSite3.Migrations
 
             modelBuilder.Entity("DiplomaSite3.Models.DegreeModel", b =>
                 {
+                    b.HasOne("DiplomaSite3.Models.DepartmentModel", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("DiplomaSite3.Models.FacultyModel", "Faculty")
+                        .WithMany()
+                        .HasForeignKey("FacultyId");
+
                     b.HasOne("DiplomaSite3.Models.ProgrammeModel", "Programme")
                         .WithMany("Degrees")
                         .HasForeignKey("ProgrammeId")
                         .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Faculty");
 
                     b.Navigation("Programme");
                 });
@@ -514,6 +504,25 @@ namespace DiplomaSite3.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("DiplomaSite3.Models.RequestedThesesModel", b =>
+                {
+                    b.HasOne("DiplomaSite3.Models.StudentModel", "Student")
+                        .WithMany("RequestedTheses")
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DiplomaSite3.Models.ThesisModel", "Thesis")
+                        .WithMany("StudentRequests")
+                        .HasForeignKey("ThesisID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Thesis");
+                });
+
             modelBuilder.Entity("DiplomaSite3.Models.ThesisModel", b =>
                 {
                     b.HasOne("DiplomaSite3.Models.DegreeModel", "Degree")
@@ -521,10 +530,6 @@ namespace DiplomaSite3.Migrations
                         .HasForeignKey("DegreeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DiplomaSite3.Models.RequestedThesesModel", null)
-                        .WithMany("Theses")
-                        .HasForeignKey("RequestedThesesModelRequestId");
 
                     b.Navigation("Degree");
                 });
@@ -580,21 +585,6 @@ namespace DiplomaSite3.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RequestedThesesModelStudentModel", b =>
-                {
-                    b.HasOne("DiplomaSite3.Models.RequestedThesesModel", null)
-                        .WithMany()
-                        .HasForeignKey("RequestedThesesRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DiplomaSite3.Models.StudentModel", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DiplomaSite3.Models.AdminModel", b =>
                 {
                     b.HasOne("DiplomaSite3.Models.UserModel", null)
@@ -642,20 +632,18 @@ namespace DiplomaSite3.Migrations
                     b.Navigation("Degrees");
                 });
 
-            modelBuilder.Entity("DiplomaSite3.Models.RequestedThesesModel", b =>
-                {
-                    b.Navigation("Theses");
-                });
-
             modelBuilder.Entity("DiplomaSite3.Models.ThesisModel", b =>
                 {
-                    b.Navigation("Assigned")
-                        .IsRequired();
+                    b.Navigation("Assigned");
+
+                    b.Navigation("StudentRequests");
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.StudentModel", b =>
                 {
                     b.Navigation("AssignedThesis");
+
+                    b.Navigation("RequestedTheses");
                 });
 
             modelBuilder.Entity("DiplomaSite3.Models.TeacherModel", b =>

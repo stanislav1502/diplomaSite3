@@ -144,9 +144,6 @@
   <data name="thesisStudentTxt" xml:space="preserve">
     <value>Student</value>
   </data>
-  <data name="thesisTagsTxt" xml:space="preserve">
-    <value>Tags</value>
-  </data>
   <data name="thesisTeacherTxt" xml:space="preserve">
     <value>Teacher</value>
   </data>

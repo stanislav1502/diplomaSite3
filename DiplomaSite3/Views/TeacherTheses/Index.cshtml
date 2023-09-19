@@ -42,9 +42,6 @@
                 @Localizer["thesisGradeTxt"]
             </th>
             <th>
-                @Localizer["thesisTagsTxt"]
-            </th>
-            <th>
                 @Localizer["thesisStatusTxt"]
             </th>
             <th>
@@ -86,9 +83,6 @@
                         <a class="btn thesisbtn m-1" asp-controller="TeacherTheses" asp-action="SetGrade" asp-route-id="@item.ThesisID" method="get">@Localizer["setGradeBtn"]</a>
                     }
                 }
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.Tags)
             </td>
             <td>
                     @Html.DisplayFor(modelItem => item.Thesis.Status)

@@ -23,7 +23,7 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<DiplomaSite3Context>();
         var userManager = services.GetRequiredService<UserManager<UserModel>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-
+        
         SeedDB.Initialize(services);
         await SeedDB.SeedRolesAsync(roleManager);
         await SeedDB.AssignRolesAsync(context, userManager);
@@ -34,9 +34,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred seeding the DB.");
     }
 }
-
-// генериране на word.doc 
-// https://www.add-in-express.com/creating-addins-blog/working-with-word-templates/.
 
 // configuring localization 
 var supportedCultures = new[] { "bg", "en" };
@@ -84,7 +81,14 @@ void AddServices(IServiceCollection services)
     services.AddDbContext<DiplomaSite3Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DiplomaSite3Context") ?? throw new InvalidOperationException("Connection string 'DiplomaSite3Context' not found.")));
 
-    services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
+    services.AddDefaultIdentity<UserModel>(options => {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireDigit= false;
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireNonAlphanumeric= false;
+    })
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<DiplomaSite3Context>();
 

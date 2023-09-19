@@ -153,9 +153,6 @@
   <data name="thesisStatusTxt" xml:space="preserve">
     <value>Статус</value>
   </data>
-  <data name="thesisTagsTxt" xml:space="preserve">
-    <value>Тагове</value>
-  </data>
   <data name="title" xml:space="preserve">
     <value>Промяна</value>
   </data>
