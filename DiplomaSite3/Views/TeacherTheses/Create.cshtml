@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <label asp-for="ThesisModel!.Thesis.Description" class="control-label">@Localizer["thesisDescriptionTxt"]</label>
-                <input asp-for="ThesisModel!.Thesis.Description" class="form-control" />
+                <textarea asp-for="ThesisModel!.Thesis.Description" class="form-control" rows="10"> </textarea>
                 <span asp-validation-for="ThesisModel!.Thesis.Description" class="text-danger"></span>
             </div>
             

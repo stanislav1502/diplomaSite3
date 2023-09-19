@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MailKit.Security;
-
-
+using System.Reflection;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using Newtonsoft.Json;
+using System.Dynamic;
+using Newtonsoft.Json.Converters;
 
 namespace DiplomaSite3.Services
 {
@@ -32,8 +35,21 @@ namespace DiplomaSite3.Services
     public class MyEmailSender : IEmailService
     {
         private readonly MailSettings _mailSettings;
+        private dynamic secrets;
+        private void GetSecrets()
+        {
+            // get local secrets file
+            var secretsId = Assembly.GetExecutingAssembly().GetCustomAttribute<UserSecretsIdAttribute>().UserSecretsId;
+            var secretsPath = PathHelper.GetSecretsPathFromSecretsId(secretsId);
+            // Load 
+            var secretsJson = File.ReadAllText(secretsPath);
+            secrets = JsonConvert.DeserializeObject<ExpandoObject>(secretsJson, new ExpandoObjectConverter());
+        }
         public MyEmailSender(IOptions<MailSettings> mailSettingsOptions)
         {
+            GetSecrets();
+            mailSettingsOptions.Value.UserName = (secrets.MailSenderProfile.UserName);
+            mailSettingsOptions.Value.Password = (secrets.MailSenderProfile.Password);
             _mailSettings = mailSettingsOptions.Value;
         }
 
