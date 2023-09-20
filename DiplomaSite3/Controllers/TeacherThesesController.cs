@@ -89,11 +89,27 @@ namespace DiplomaSite3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AdminThesisVM adminThesisModel)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var thesis = adminThesisModel.ThesisModel.Thesis;
                 thesis.ThesisID = Guid.NewGuid();
+
+                DegreeModel degree = new DegreeModel
+                {
+                   
+                    Degree = thesis.Degree.Degree,
+                    FacultyId = thesis.Degree.FacultyId,
+                    DepartmentId = thesis.Degree.DepartmentId,
+                    ProgrammeId = thesis.Degree.ProgrammeId
+                };
+                 var added = _context.DegreesDBS.Add(degree);
+                _context.SaveChanges();
+
+                await Console.Out.WriteLineAsync(added + "\n"+ added.ToString()+ "\n" + added.Entity.Id);
+
+                thesis.Degree = _context.DegreesDBS.Find(added.Entity.Id);
+                thesis.DegreeId = thesis.Degree.Id;
                 _context.ThesisDBS.Add(thesis); 
                 
                 AssignedThesisModel assigned = new AssignedThesisModel
@@ -111,7 +127,7 @@ namespace DiplomaSite3.Controllers
 
                 _context.AssignedThesesDBS.Add(assigned);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Details), thesis.ThesisID);
+                return RedirectToAction("Details", new { id = thesis.ThesisID });
             }
             return RedirectToAction(nameof(Index));
         }
@@ -131,15 +147,9 @@ namespace DiplomaSite3.Controllers
             {
                 return NotFound();
             }
-            viewModel.ThesisModel = thesisModel;
-
-            if (thesisModel.ThesisID != Guid.Empty)
-                thesisModel.Thesis = _context.ThesisDBS.FindAsync(thesisModel.ThesisID).Result;
-            if (thesisModel.StudentID != Guid.Empty)
-                thesisModel.Student = _context.StudentsDBS.FindAsync(thesisModel.StudentID).Result;
-            if (thesisModel.TeacherID != Guid.Empty)
-                thesisModel.Teacher = _context.TeachersDBS.FindAsync(thesisModel.TeacherID).Result;
-
+            
+            viewModel.ThesisModel = LinkAssignedThesisData(thesisModel);
+           
             // does current user have a thesis
             var stringID = User.Claims.First().Value;
             if (stringID == null || _context.StudentsDBS == null)
@@ -168,7 +178,7 @@ namespace DiplomaSite3.Controllers
 
             var thesis = await _context.ThesisDBS.FindAsync(id);
             var assignedThesis = await _context.AssignedThesesDBS.FindAsync(id);
-
+            
             var teacher = await _context.TeachersDBS.FindAsync(assignedThesis.TeacherID);
             
             
@@ -176,6 +186,8 @@ namespace DiplomaSite3.Controllers
 
             if (assignedThesis is null || teacher is null || requests is null || thesis is null)
                 return Problem("Nonexistent entities.");
+
+            assignedThesis = LinkAssignedThesisData(assignedThesis);
 
             model.RequestedThesis = thesis;
 
@@ -242,16 +254,18 @@ namespace DiplomaSite3.Controllers
                 _context.ThesisDBS.Update(thesis);
                 _context.StudentsDBS.Update(student);
                 _context.AssignedThesesDBS.Update(assignedThesis);
+await _context.SaveChangesAsync();
 
                 do
                 {
                     _context.RequestedThesesDBS.Remove(requestedThesisModel);
                     requestedThesisModel = await _context.RequestedThesesDBS.FirstAsync(r => r.Thesis == assignedThesis.Thesis);
+                    _context.SaveChanges();
                 } 
                 while (_context.RequestedThesesDBS.Contains(requestedThesisModel));
 
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                return RedirectToAction("Index");
             }
 
             return RedirectToAction(nameof(Index), nameof(ThesisController));
@@ -375,8 +389,26 @@ namespace DiplomaSite3.Controllers
                 thesisModel.Student = _context.StudentsDBS.Find(thesisModel.StudentID);
             if (thesisModel.TeacherID != Guid.Empty)
                 thesisModel.Teacher = _context.TeachersDBS.Find(thesisModel.TeacherID);
-
+            if (thesisModel.Thesis != null)
+                if (thesisModel.Thesis.DegreeId != 0)
+                {
+                    thesisModel.Thesis.Degree = _context.DegreesDBS.Find(thesisModel.Thesis.DegreeId);
+                thesisModel.Thesis.Degree= LinkDegreeData(thesisModel.Thesis.Degree);
+                }
             return thesisModel;
+        }
+
+        private DegreeModel LinkDegreeData(DegreeModel degreeModel)
+        {
+
+            if (degreeModel.FacultyId != null)
+                degreeModel.Faculty = _context.FacultiesDBS.Find(degreeModel.FacultyId);
+            if (degreeModel.DepartmentId != null)
+                degreeModel.Department = _context.DepartmentsDBS.Find(degreeModel.DepartmentId);
+            if (degreeModel.ProgrammeId != null)
+                degreeModel.Programme = _context.ProgrammesDBS.Find(degreeModel.ProgrammeId);
+
+            return degreeModel;
         }
 
         private void PopulateDegreesDropDownList(object selected = null)

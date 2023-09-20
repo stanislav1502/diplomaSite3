@@ -45,26 +45,29 @@
             @Localizer["thesisStatusTxt"]
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+            @{
+                var status = Model.Status.ToString();
+            }
+            @Localizer[status]
         </dd>
 
         <dt class="col-sm-2">
             @Localizer["thesisFacultyTxt"]
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Degree.Faculty)
+            @Html.DisplayFor(model => model.Degree.Faculty.FacultyName)
         </dd>
         <dt class="col-sm-2">
             @Localizer["thesisDepartmentTxt"]
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Degree.Department)
+            @Html.DisplayFor(model => model.Degree.Department.DepartmentName)
         </dd>
         <dt class="col-sm-2">
             @Localizer["thesisProgrammeTxt"]
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Degree.Programme)
+            @Html.DisplayFor(model => model.Degree.Programme.ProgrammeName)
         </dd>
         <dt class="col-sm-2">
             @Localizer["thesisDegreeTxt"]

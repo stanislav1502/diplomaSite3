@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiplomaSite3.Migrations
 {
     [DbContext(typeof(DiplomaSite3Context))]
-    [Migration("20230918162156_recreatingmigrationsagain4th")]
-    partial class recreatingmigrationsagain4th
+    [Migration("20230920165246_fixingMigrations5thTime")]
+    partial class fixingMigrations5thTime
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DegreeModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Degree")
                         .HasColumnType("int");
@@ -78,7 +81,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DepartmentModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
@@ -97,7 +103,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.FacultyModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FacultyName")
                         .IsRequired()
@@ -111,7 +120,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.ProgrammeModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");

@@ -47,7 +47,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DegreeModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Degree")
                         .HasColumnType("int");
@@ -75,7 +78,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.DepartmentModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
@@ -94,7 +100,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.FacultyModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FacultyName")
                         .IsRequired()
@@ -108,7 +117,10 @@ namespace DiplomaSite3.Migrations
             modelBuilder.Entity("DiplomaSite3.Models.ProgrammeModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");

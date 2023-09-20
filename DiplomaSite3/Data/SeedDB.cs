@@ -54,7 +54,8 @@ public static class SeedDB
                 user.EmailConfirmed = true;
                 user.Verified = true;
                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwaiter().GetResult();
-                
+
+                context.SaveChanges();
             }
 
             if (!context.TeachersDBS.Any())
@@ -334,7 +335,7 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                 user.UserType = MyRolesEnum.Teacher;
                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwaiter().GetResult();
 
-
+                context.SaveChanges();
             }
 
             if (!context.StudentsDBS.Any())
@@ -592,6 +593,7 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                 user.FacultyNumber = "196288";
                 context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwaiter().GetResult();
 
+                context.SaveChanges();
             }
 
             if (context.UsersDBS.Any() && cofirmAllEmails)
@@ -611,47 +613,40 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                 FacultyModel[] list = new FacultyModel[]{
                     new FacultyModel
                     {
-                        Id=1,
                         FacultyName = "Аграрно-индустриален"
                     },
                     new FacultyModel
                     {
-                        Id=2,
                         FacultyName = "Машинно-технологичен"
                     },
                     new FacultyModel
                     {
-                        Id=3,
                         FacultyName = "Електротехника, електроника и автоматика"
                     },
                     new FacultyModel
                     {
-                        Id=4,
                         FacultyName = "Транспортен"
                     },
                     new FacultyModel
                     {
-                            Id=5,
-                        FacultyName = "Бизнес и мениджмънт"
+                            FacultyName = "Бизнес и мениджмънт"
                     },
                     new FacultyModel
                     {
-                        Id=6,
                         FacultyName = "Природни науки и образование"
                     },
                     new FacultyModel
                     {
-                        Id=7,
                         FacultyName = "Юридически"
                     },
                     new FacultyModel
                     {
-                        Id=8,
                         FacultyName = "Обществено здраве и здравни грижи​​"
                     }
                 };
 
                 context.FacultiesDBS.AddRange(list);
+                context.SaveChanges();
             }
 
             if (!context.DepartmentsDBS.Any())
@@ -659,144 +654,124 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                 context.DepartmentsDBS.AddRange(
                     new DepartmentModel
                     {
-                        Id = 1,
+             
                         DepartmentName = "Земеделска техника",
                         Faculty = await context.FacultiesDBS.FindAsync(1)
                     },
                     new DepartmentModel
                     {
-                        Id = 2,
                         DepartmentName = "Материалознание и технология на материалите",
                         Faculty = await context.FacultiesDBS.FindAsync(2)
                     },
                     new DepartmentModel
                     {
-                        Id = 3,
                         DepartmentName = "Електроника",
                         Faculty = await context.FacultiesDBS.FindAsync(3)
                     },
                     new DepartmentModel
                     {
-                        Id = 4,
                         DepartmentName = "Двигатели и транспортна техника",
                         Faculty = await context.FacultiesDBS.FindAsync(4)
                     },
                     new DepartmentModel
                     {
-                        Id = 5,
-                        DepartmentName = "Икономика и международни отношения",
+                            DepartmentName = "Икономика и международни отношения",
                         Faculty = await context.FacultiesDBS.FindAsync(5)
                     },
                     new DepartmentModel
                     {
-                        Id = 6,
                         DepartmentName = "Информатика и информационни технологии",
                         Faculty = await context.FacultiesDBS.FindAsync(6)
                     },
                     new DepartmentModel
                     {
-                        Id = 7,
                         DepartmentName = "Публичноправни науки",
                         Faculty = await context.FacultiesDBS.FindAsync(7)
                     },
                     new DepartmentModel
                     {
-                        Id = 8,
                         DepartmentName = "Обществено здраве",
                         Faculty = await context.FacultiesDBS.FindAsync(8)
                     },
                     new DepartmentModel
                     {
-                        Id = 9,
                         DepartmentName = "Педагогика, психология и история",
                         Faculty = await context.FacultiesDBS.FindAsync(6)
                     },
                     new DepartmentModel
                     {
-                        Id = 10,
                         DepartmentName = "Български език, литература и изкуство",
                         Faculty = await context.FacultiesDBS.FindAsync(6)
                     },
                     new DepartmentModel
                     {
-                        Id = 11,
                         DepartmentName = "Математика",
                         Faculty = await context.FacultiesDBS.FindAsync(6)
                     },
                    new DepartmentModel
                    {
-                       Id = 12,
                        DepartmentName = "Приложна математика и статистика",
                        Faculty = await context.FacultiesDBS.FindAsync(6)
                    });
+                context.SaveChanges();
             }
 
             if (!context.ProgrammesDBS.Any())
             {
                 context.ProgrammesDBS.AddRange(
                     new ProgrammeModel
-                    { Id = 1,
+                    { 
                         ProgrammeName = "Земеделска техника и технологии",
                         Department = await context.DepartmentsDBS.FindAsync(1),
                     },
                     new ProgrammeModel
                     {
-                        Id = 2,
                         ProgrammeName = "Материалознание и технологии",
                         Department = await context.DepartmentsDBS.FindAsync(2),
                     },
                     new ProgrammeModel
-                    { Id = 3,
-                        ProgrammeName = "Електронизация",
+                    { ProgrammeName = "Електронизация",
                         Department = await context.DepartmentsDBS.FindAsync(3)
                     },
                     new ProgrammeModel
-                    { Id = 4,
-                        ProgrammeName = "Автомобилна техника",
+                    { ProgrammeName = "Автомобилна техника",
                         Department = await context.DepartmentsDBS.FindAsync(4)
                     },
                     new ProgrammeModel
-                    { Id = 5,
-                        ProgrammeName = "Политическа икономия",
+                    { ProgrammeName = "Политическа икономия",
                         Department = await context.DepartmentsDBS.FindAsync(5)
                     },
                     new ProgrammeModel
-                    { Id = 6,
-                        ProgrammeName = "Компютърни науки",
+                    { ProgrammeName = "Компютърни науки",
                         Department = await context.DepartmentsDBS.FindAsync(6)
                     },
                     new ProgrammeModel
-                    { Id = 7,
-                        ProgrammeName = "Право",
+                    { ProgrammeName = "Право",
                         Department = await context.DepartmentsDBS.FindAsync(7)
                     }, new ProgrammeModel
                     {
-                        Id = 8,
                         ProgrammeName = "Кинезитерапия",
                         Department = await context.DepartmentsDBS.FindAsync(8)
                     },
                      new ProgrammeModel
                      {
-                         Id = 9,
                          ProgrammeName = "Информатика и информационни технологии в бизнеса",
                          Department = await context.DepartmentsDBS.FindAsync(6)
                      },
                     new ProgrammeModel
                     {
-                        Id = 10,
                         ProgrammeName = "Софтуерно инженерство",
                         Department = await context.DepartmentsDBS.FindAsync(6)
                     }, new ProgrammeModel
                     {
-                        Id = 11,
                         ProgrammeName = "Информатика",
                         Department = await context.DepartmentsDBS.FindAsync(6)
                     },
                      new ProgrammeModel
-                     { Id = 12,
-                         ProgrammeName = "Информатика и информационни технологии в образованието",
+                     { ProgrammeName = "Информатика и информационни технологии в образованието",
                          Department = await context.DepartmentsDBS.FindAsync(6)
                      });
+                context.SaveChanges();
             }
 
             if (!context.DegreesDBS.Any())
@@ -804,7 +779,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                 context.DegreesDBS.AddRange(
                     new DegreeModel
                     {
-                        Id = 1,
                         Faculty = await context.FacultiesDBS.FindAsync(1),
                         Department = await context.DepartmentsDBS.FindAsync(1),
                         Programme = await context.ProgrammesDBS.FindAsync(1),
@@ -812,7 +786,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 2,
                         Faculty = await context.FacultiesDBS.FindAsync(2),
                         Department = await context.DepartmentsDBS.FindAsync(2),
                         Programme = await context.ProgrammesDBS.FindAsync(2),
@@ -820,7 +793,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 3,
                         Faculty = await context.FacultiesDBS.FindAsync(3),
                         Department = await context.DepartmentsDBS.FindAsync(3),
                         Programme = await context.ProgrammesDBS.FindAsync(3),
@@ -828,7 +800,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 4,
                         Faculty = await context.FacultiesDBS.FindAsync(4),
                         Department = await context.DepartmentsDBS.FindAsync(4),
                         Programme = await context.ProgrammesDBS.FindAsync(4),
@@ -836,7 +807,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 5,
                         Faculty = await context.FacultiesDBS.FindAsync(5),
                         Department = await context.DepartmentsDBS.FindAsync(5),
                         Programme = await context.ProgrammesDBS.FindAsync(5),
@@ -844,7 +814,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 6,
                         Faculty = await context.FacultiesDBS.FindAsync(6),
                         Department = await context.DepartmentsDBS.FindAsync(6),
                         Programme = await context.ProgrammesDBS.FindAsync(6),
@@ -852,7 +821,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 7,
                         Faculty = await context.FacultiesDBS.FindAsync(7),
                         Department = await context.DepartmentsDBS.FindAsync(7),
                         Programme = await context.ProgrammesDBS.FindAsync(7),
@@ -860,7 +828,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 8,
                         Faculty = await context.FacultiesDBS.FindAsync(8),
                         Department = await context.DepartmentsDBS.FindAsync(8),
                         Programme = await context.ProgrammesDBS.FindAsync(8),
@@ -868,7 +835,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 9,
                         Faculty = await context.FacultiesDBS.FindAsync(6),
                         Department = await context.DepartmentsDBS.FindAsync(6),
                         Programme = await context.ProgrammesDBS.FindAsync(9),
@@ -876,7 +842,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 10,
                         Faculty = await context.FacultiesDBS.FindAsync(6),
                         Department = await context.DepartmentsDBS.FindAsync(6),
                         Programme = await context.ProgrammesDBS.FindAsync(10),
@@ -884,7 +849,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 11,
                         Faculty = await context.FacultiesDBS.FindAsync(6),
                         Department = await context.DepartmentsDBS.FindAsync(6),
                         Programme = await context.ProgrammesDBS.FindAsync(10),
@@ -892,7 +856,6 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 12,
                         Faculty = await context.FacultiesDBS.FindAsync(6),
                         Department = await context.DepartmentsDBS.FindAsync(6),
                         Programme = await context.ProgrammesDBS.FindAsync(11),
@@ -900,13 +863,13 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
                     },
                     new DegreeModel
                     {
-                        Id = 13,
                         Faculty = await context.FacultiesDBS.FindAsync(6),
                         Department = await context.DepartmentsDBS.FindAsync(6),
                         Programme = await context.ProgrammesDBS.FindAsync(12),
                         Degree = DegreeEnum.Master
                     }
                 );
+                context.SaveChanges();
             }
 
             if (!context.ThesisDBS.Any())

@@ -5,64 +5,91 @@
 @model RequestedThesesVM
 
 @{
-    ViewData["Title"] = "Requests";
+    ViewData["Title"] = Localizer["title"];
 }
 
-<div>
-<form asp-controller="TeacherTheses" asp-action="ViewRequests" method="get">
-    <input type="hidden" asp-for=@Model.RequestedThesis.ThesisID value="@Model.RequestedThesis.ThesisID">
-    <div class="float-start">
-        Student: <input type="text" asp-for="SearchStudent" />
+ <div class="float-start">
+    <div class="float-start m-1">
+        <h2>@Localizer["thesisTxt"]</h2>
     </div>
+        
     <div class="float-end">
-        <input type="submit" value="Filter" />
+        <a class="btn thesisbtn m-1" asp-action="TeacherTheses">@Localizer["backBtn"]</a>
+		</div>
+    <hr/>
+</div>
+
+<div style="clear:both">
+
+<dl class="row">
+    <dt class="col-sm-2">
+        @Localizer["thesisNameTxt"]
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.RequestedThesis.Title)
+    </dd>
+    <dt class="col-sm-2">
+        @Localizer["thesisDescriptionTxt"]
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.RequestedThesis.Description)
+    </dd>
+
+    <dt class="col-sm-2">
+        @Localizer["thesisFacultyTxt"]
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.RequestedThesis.Degree.Faculty.FacultyName)
+    </dd>
+    <dt class="col-sm-2">
+        @Localizer["thesisDepartmentTxt"]
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.RequestedThesis.Degree.Department.DepartmentName)
+    </dd>
+    <dt class="col-sm-2">
+        @Localizer["thesisProgrammeTxt"]
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.RequestedThesis.Degree.Programme.ProgrammeName)
+    </dd>
+    <dt class="col-sm-2">
+        @Localizer["thesisDegreeTxt"]
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.RequestedThesis.Degree.Degree)
+    </dd>
+</dl>
+
+</div>
+<br />
+
+<div style="clear:both">
+	<hr />
+<form asp-controller="TeacherTheses" asp-action="ViewRequests" method="get">
+    <div class="float-start m-1">
+        <input type="hidden" asp-for=@Model.RequestedThesis.ThesisID value="@Model.RequestedThesis.ThesisID">
     </div>
-</form>
-</div>
 
-<div>
-<h1>Thesis</h1>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Localizer["thesisNameTxt"]
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RequestedThesis.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["thesisDescriptionTxt"]
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RequestedThesis.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Localizer["thesisAssignedTxt"]
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RequestedThesis.AssignDate)
-        </dd>
-    </dl>
-</div>
+    <div class="float-start m-1">
+        @Localizer["studentTxt"]: <input type="text" asp-for="SearchStudent" />
+    </div>
 
-<hr />
+    <div class="float-end m-1">
+        <input class="btn btnreq" type="submit" value=@Localizer["filterBtn"] />
+    </div>
+</form> 
+  
+    <h1>@Localizer["requestedTxt"]</h1>
 
-<div class="float-end">
-    <a asp-action="TeacherTheses">@Localizer["backBtn"]</a>
-</div>
-
-<div>
-<h2>Requests</h2>
-
-<table class="table">
-    
+    <table class="table">
     <thead>
         <tr>
             <th onclick="sortTable(0)">
                 @Localizer["facultyNumberTxt"]
             </th>
             <th>
-                @Localizer["studentNameTxt"]
+                    @Localizer["studentNameTxt"]
             </th>
             <th>
                 @Localizer["studentEmailTxt"]
@@ -111,6 +138,5 @@
         </tr>
         }
     </tbody>
-
 </table>
 </div>

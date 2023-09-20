@@ -117,14 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Archived" xml:space="preserve">
+    <value>Archived</value>
+  </data>
   <data name="backBtn" xml:space="preserve">
     <value>Back</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="downloadBtn" xml:space="preserve">
+    <value>Download as Word .docx</value>
   </data>
   <data name="editBtn" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="giveThesisBtn" xml:space="preserve">
     <value>Give thesis</value>
+  </data>
+  <data name="InAppraisal" xml:space="preserve">
+    <value>In appraisal</value>
+  </data>
+  <data name="Posted" xml:space="preserve">
+    <value>Available</value>
   </data>
   <data name="requestThesisBtn" xml:space="preserve">
     <value>Request thesis</value>
@@ -167,5 +182,8 @@
   </data>
   <data name="title" xml:space="preserve">
     <value>Details</value>
+  </data>
+  <data name="WIP" xml:space="preserve">
+    <value>In progress</value>
   </data>
 </root>

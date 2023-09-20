@@ -18,14 +18,20 @@
 </p>
 
 <form asp-controller="TeacherTheses" asp-action="Index" method="get">
-    <p>
+    <div class="float-start m-1">
         @Localizer["thesisNameTxt"]: <input type="text" asp-for="SearchString" />
-
-        @Localizer["thesisStatusTxt"]: <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<StatusEnum>()">
+    </div>
+    
+    <div class="float-start m-1">
+        @Localizer["thesisStatusTxt"]:
+        <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<StatusEnum>()">
         <option>Any</option>
-    </select>
-    </p>
-    <input type="submit" value="@Localizer["filterBtn"]" />
+        </select>
+    </div>
+    
+    <div class="float-end m-1">
+        <input class="btn btnreq" type="submit" value="@Localizer["filterBtn"]" />
+    </div>
 </form>
 
 <table class="table">

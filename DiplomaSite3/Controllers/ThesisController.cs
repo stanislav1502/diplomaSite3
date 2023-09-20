@@ -266,7 +266,7 @@ namespace DiplomaSite3.Controllers
                 _context.AssignedThesesDBS.Remove(assignedModel);
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Student")]
@@ -306,7 +306,7 @@ namespace DiplomaSite3.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction(nameof(Index), nameof(ThesisController));
+            return RedirectToAction("Index");
         }
 
         [ValidateAntiForgeryToken]
@@ -365,7 +365,7 @@ namespace DiplomaSite3.Controllers
             string thesisStudent = thesisModel.Student is null ? "няма студент" : thesisModel.Student.FullName;
             string studentFN = thesisModel.Student is null ? "няма ФН" : thesisModel.Student.FacultyNumber;
             string thesisTeacher = thesisModel.Teacher is null ? "няма преподавател" : thesisModel.Teacher.FullName;
-            string thesisProgramme = thesisModel.Thesis.Degree is null ? "няма специалност" : thesisModel.Thesis.Degree.Programme.ToString();
+            string thesisProgramme = thesisModel.Thesis.Degree is null ? "няма специалност" : thesisModel.Thesis.Degree.Programme.ProgrammeName;
             string thesisDegree = thesisModel.Thesis.Degree is null ? "няма степен" : thesisModel.Thesis.Degree.Degree.ToString();
 
             var fileName = "ZadanieTemplate.docx";
@@ -497,9 +497,12 @@ namespace DiplomaSite3.Controllers
                 thesisModel.Student = _context.StudentsDBS.Find(thesisModel.StudentID);
             if (thesisModel.TeacherID != Guid.Empty)
                 thesisModel.Teacher = _context.TeachersDBS.Find(thesisModel.TeacherID);
-            if (thesisModel.Thesis.DegreeId != 0)
-                thesisModel.Thesis.Degree = _context.DegreesDBS.Find(thesisModel.Thesis.DegreeId);
-
+            if (thesisModel.Thesis != null)
+                if (thesisModel.Thesis.DegreeId != 0)
+                {
+                    thesisModel.Thesis.Degree = _context.DegreesDBS.Find(thesisModel.Thesis.DegreeId);
+                    thesisModel.Thesis.Degree = LinkDegreeData(thesisModel.Thesis.Degree);
+                }
             return thesisModel;
         }
 
@@ -510,7 +513,7 @@ namespace DiplomaSite3.Controllers
                 degreeModel.Faculty = _context.FacultiesDBS.Find(degreeModel.FacultyId);
             if (degreeModel.DepartmentId != null)
                 degreeModel.Department = _context.DepartmentsDBS.Find(degreeModel.DepartmentId);
-            if (degreeModel.Programme != null)
+            if (degreeModel.ProgrammeId != null)
                 degreeModel.Programme = _context.ProgrammesDBS.Find(degreeModel.ProgrammeId);
 
             return degreeModel;

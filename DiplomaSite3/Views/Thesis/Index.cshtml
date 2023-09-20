@@ -50,23 +50,21 @@
             <th onclick="sortTable(0)">
                 @Localizer["thesisNameTxt"]
             </th>
-            <th>
-                @Localizer["thesisDescriptionTxt"]
-            </th>
-            <th onclick="sortTable(2)">
+           
+            <th onclick="sortTable(1)">
                 @Localizer["thesisDefenseTxt"]
             </th>
-            <th onclick="sortTable(3)">
+            <th onclick="sortTable(2)">
                 @Localizer["thesisGradeTxt"]
             </th>
            
-            <th onclick="sortTable(5)">
+            <th onclick="sortTable(3)"  >
                 @Localizer["thesisStatusTxt"]
             </th>
-            <th onclick="sortTable(6)">
+            <th onclick="sortTable(4)">
                 @Localizer["thesisTeacherTxt"]
             </th>
-            <th onclick="sortTable(7)">
+            <th onclick="sortTable(5)">
                 @Localizer["thesisStudentTxt"]
             </th>
             <th>
@@ -82,9 +80,7 @@
             <td>
                     @Html.DisplayFor(modelItem => item.Thesis.Title)
             </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.Description)
-            </td>
+           
             <td>
                     @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
             </td>

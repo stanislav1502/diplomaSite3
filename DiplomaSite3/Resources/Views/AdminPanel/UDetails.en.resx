@@ -132,7 +132,7 @@
   <data name="userFullname" xml:space="preserve">
     <value>Names</value>
   </data>
-  <data name="userId" xml:space="preserve">
+  <data name="userIdTxt" xml:space="preserve">
     <value>GUID</value>
   </data>
   <data name="userPhone" xml:space="preserve">

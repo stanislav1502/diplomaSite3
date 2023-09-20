@@ -101,3 +101,7 @@ footer {
 .container {
     max-width: 1600px ;
 }
+
+textarea{
+    resize: none;
+}

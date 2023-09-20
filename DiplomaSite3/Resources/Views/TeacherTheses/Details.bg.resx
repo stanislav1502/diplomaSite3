@@ -117,14 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Archived" xml:space="preserve">
+    <value>Архивирана</value>
+  </data>
   <data name="backBtn" xml:space="preserve">
     <value>Назад</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Готова</value>
+  </data>
+  <data name="downloadBtn" xml:space="preserve">
+    <value>Изтегли като Word .docx</value>
   </data>
   <data name="editBtn" xml:space="preserve">
     <value>Промени</value>
   </data>
   <data name="giveThesisBtn" xml:space="preserve">
     <value>Задай тема</value>
+  </data>
+  <data name="InAppraisal" xml:space="preserve">
+    <value>Оценяване</value>
+  </data>
+  <data name="Posted" xml:space="preserve">
+    <value>Свободна</value>
   </data>
   <data name="requestThesisBtn" xml:space="preserve">
     <value>Поискай тема</value>
@@ -167,5 +182,8 @@
   </data>
   <data name="title" xml:space="preserve">
     <value>Детайли</value>
+  </data>
+  <data name="WIP" xml:space="preserve">
+    <value>В разработка</value>
   </data>
 </root>
