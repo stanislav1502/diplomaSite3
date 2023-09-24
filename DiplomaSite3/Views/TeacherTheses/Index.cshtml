@@ -88,7 +88,12 @@
                 }
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.Status)
+
+                    @{
+                        var status = item.Thesis.Status.ToString();
+                    }
+                    @Localizer[status]
+
             </td>
             <td>
             @if (item.Student == null && item.Thesis.Status == StatusEnum.Posted)

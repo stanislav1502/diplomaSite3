@@ -46,7 +46,7 @@
 
         <div class="form-group">
             <label asp-for="Thesis.Grade" class="control-label">@Localizer["thesisGradeTxt"]</label>
-            <input asp-for="Thesis.Grade" class="form-control col-sm-10" style="max-width:fit-content" name="GradeValue" type="number" step="0.01" min="0" max="6" required />
+            <input asp-for="Thesis.Grade" class="form-control col-sm-10" style="max-width:fit-content" name="GradeValue" type="number" step="0.01" min="2" max="6" required />
             <span asp-validation-for="Thesis.Grade" class="text-danger"> </span>
         </div>
         
