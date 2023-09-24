@@ -147,6 +147,9 @@
   <data name="Posted" xml:space="preserve">
     <value>Available</value>
   </data>
+  <data name="setGradeBtn" xml:space="preserve">
+    <value>Grade</value>
+  </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Defense date</value>
   </data>

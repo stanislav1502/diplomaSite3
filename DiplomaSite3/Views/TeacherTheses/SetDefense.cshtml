@@ -38,8 +38,9 @@
 		</dd>
 
         <div class="form-group">
-            <label class="control-label col-sm-2">@Localizer["thesisDefenseTxt"]</label>
-			<input type="datetime-local" asp-for=Thesis.DefendDate asp-format="{0:yyyy-MM-ddTHH:mm}" name="DefenseValue" class="form-control" value=@Model.Thesis.DefendDate.Value.Ticks.ToString() />
+            <label asp-for="Thesis.DefendDate" class="control-label col-sm-2 fw-bold">@Localizer["thesisDefenseTxt"]</label>
+			<input type="datetime-local" asp-for="Thesis.DefendDate" asp-format="{0:yyyy-MM-ddTHH:mm}" name="DefenseValue" class="form-control" style="max-width:fit-content"/>
+            <span asp-validation-for="Thesis.DefendDate" class="text-danger"></span>
         </div>
         
         <dt class="col-sm-2">

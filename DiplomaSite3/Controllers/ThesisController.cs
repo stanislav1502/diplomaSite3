@@ -27,7 +27,7 @@ namespace DiplomaSite3.Controllers
         // GET: Thesis
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Index(string searchString, bool onlyposted)
+        public async Task<IActionResult> Index(string searchString, string searchStatus, bool onlyposted)
         {
             var theses = _context.AssignedThesesDBS;
             if (theses == null)
@@ -46,6 +46,17 @@ namespace DiplomaSite3.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 thesesQuerry = thesesQuerry.Where(d => d.Thesis.Title.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(searchStatus))
+            {
+                if (!searchStatus.Equals("Any"))
+
+                {
+                    var status = Enum.Parse<StatusEnum>(searchStatus, true);
+                    thesesQuerry = thesesQuerry.Where(d => d.Thesis.Status.Equals(status));
+
+                }
             }
             if (onlyposted)
             {
@@ -348,7 +359,7 @@ namespace DiplomaSite3.Controllers
             WordprocessingDocument document;
 
             // find the the thesis in the DB
-            if (id == null || _context.ThesisDBS == null)
+            if (id == Guid.Empty || _context.ThesisDBS == null)
             {
                 return RedirectToAction("MyThesis");
             }

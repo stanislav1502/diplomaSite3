@@ -147,6 +147,9 @@
   <data name="Posted" xml:space="preserve">
     <value>Свободна</value>
   </data>
+  <data name="setGradeBtn" xml:space="preserve">
+    <value>Оцени</value>
+  </data>
   <data name="thesisDefenseTxt" xml:space="preserve">
     <value>Дата на защита</value>
   </data>

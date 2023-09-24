@@ -60,9 +60,9 @@ namespace DiplomaSite3.Data
             modelBuilder.Entity<AssignedThesisModel>()
                 .HasOne(a=>a.Thesis).WithOne(t=>t.Assigned).OnDelete(DeleteBehavior.ClientCascade);
             modelBuilder.Entity<AssignedThesisModel>()
-                .HasOne(a=>a.Teacher).WithMany(t=>t.PostedTheses).OnDelete(DeleteBehavior.ClientSetNull);
+                .HasOne(a=>a.Teacher).WithMany(t=>t.PostedTheses).OnDelete(DeleteBehavior.ClientCascade);
             modelBuilder.Entity<AssignedThesisModel>()
-                .HasOne(a=>a.Student).WithOne(s=>s.AssignedThesis).OnDelete(DeleteBehavior.ClientSetNull);
+                .HasOne(a=>a.Student).WithOne(s=>s.AssignedThesis).OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<RequestedThesesModel>().ToTable("RequestedTheses");
             modelBuilder.Entity<RequestedThesesModel>().HasOne(r=>r.Student).WithMany(s=>s.RequestedTheses);

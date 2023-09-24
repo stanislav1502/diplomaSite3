@@ -121,7 +121,7 @@
     <value>Имейл</value>
   </data>
   <data name="resendBtn" xml:space="preserve">
-    <value>Прати</value>
+    <value>Изпрати</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Пращане на имейл за потвърждение</value>

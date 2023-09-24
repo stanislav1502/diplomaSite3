@@ -127,7 +127,7 @@
     <value>Filter</value>
   </data>
   <data name="giveThesisBtn" xml:space="preserve">
-    <value>Give thesis</value>
+    <value>Assign</value>
   </data>
   <data name="requestedTxt" xml:space="preserve">
     <value>Requested</value>

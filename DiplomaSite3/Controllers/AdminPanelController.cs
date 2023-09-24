@@ -281,11 +281,13 @@ namespace DiplomaSite3.Controllers
             var userModel = await _context.UsersDBS.FindAsync(id);
             if (userModel != null)
             {
+                var teacherModel = await _context.TeachersDBS.FindAsync(id);
+                _context.TeachersDBS.Remove(teacherModel);
                 _context.UsersDBS.Remove(userModel);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
     }

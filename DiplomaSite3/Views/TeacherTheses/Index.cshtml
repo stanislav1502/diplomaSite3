@@ -80,14 +80,11 @@
             <td>
                 @if (item.Thesis.Grade != null)
                 {
-                    @Html.DisplayFor(modelItem => item.Thesis.Grade)
+                        @Html.DisplayFor(modelItem => item.Thesis.Grade)
                 }
-                else
+                else 
                 {
-                    if(item.Thesis.Status == StatusEnum.InAppraisal && item.Thesis.DefendDate.Value.Date <= DateTime.Today.Date )
-                    {
-                        <a class="btn thesisbtn m-1" asp-controller="TeacherTheses" asp-action="SetGrade" asp-route-id="@item.ThesisID" method="get">@Localizer["setGradeBtn"]</a>
-                    }
+                   
                 }
             </td>
             <td>

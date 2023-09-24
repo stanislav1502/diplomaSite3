@@ -62,17 +62,10 @@ namespace DiplomaSite3.Controllers
                 ThesisList = await thesisQuerry.OrderByDescending(d =>d.Thesis.Title).ToListAsync()
             };
 
-            foreach ( var assignedThesis in viewModel.ThesisList)
+            foreach ( var item in viewModel.ThesisList)
             {
-				var thesis = await _context.ThesisDBS.FindAsync(assignedThesis.ThesisID);
-				assignedThesis.Thesis = thesis is not null ? thesis : null;
-
-				var student = await _context.StudentsDBS.FindAsync(assignedThesis.StudentID);
-				assignedThesis.Student = student is not null ? student : null;
-				
-				var teacher = await _context.TeachersDBS.FindAsync(assignedThesis.TeacherID);
-				assignedThesis.Teacher = teacher is not null ? teacher : null;
-			}
+                LinkAssignedThesisData(item);
+            }
 
 			return View(viewModel);
         }
@@ -287,6 +280,7 @@ await _context.SaveChangesAsync();
             }
 
             thesisModel = LinkAssignedThesisData(thesisModel);
+            thesisModel.Thesis.DefendDate = DateTime.Now.Date.AddDays(1).AddHours(9);
 
             return View(thesisModel);
         }
@@ -347,6 +341,7 @@ await _context.SaveChangesAsync();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ThesisReviewer")]
         public async Task<IActionResult> SetGrade(IFormCollection collection)
         {
             // check Post has data
@@ -377,7 +372,7 @@ await _context.SaveChangesAsync();
             }
             else return Problem("Thesis not found");
 
-            return RedirectToAction("Index", "TeacherTheses");
+            return RedirectToAction("Index", "Thesis", new { Search="", SearchStatus=3 });
         }
 
 

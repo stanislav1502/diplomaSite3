@@ -23,12 +23,18 @@
         @if (isGuest)
         {
             <input type="hidden" id="postedCheckbox" asp-for="OnlyPosted" value="true" />
-        }else
+        }
+        else
         {
-            <label for="postedCheckbox">@Localizer["onlyPostedTxt"]: </label>
-            <input type="checkbox" id="postedCheckbox" asp-for="OnlyPosted" />
+            <div class="float-start m-1">
+                @Localizer["thesisStatusTxt"]:
+                <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<StatusEnum>()">
+                    <option>Any</option>
+                </select>
+            </div>
         }
     </div>
+
 
     <div class="float-end">
         <input class="btn btnreq" type="submit" value="@Localizer["filterBtn"]" />
@@ -78,14 +84,32 @@
         {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.Title)
+                  @Html.DisplayFor(modelItem => item.Thesis.Title)
             </td>
            
             <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
-            </td>
+                    @if(item.Thesis.DefendDate is not null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Thesis.DefendDate)
+                    }
+
+                </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.Thesis.Grade)
+                @if (User.IsInRole("ThesisReviewer"))
+                { 
+                    if (item.Thesis.Status == StatusEnum.InAppraisal && item.Thesis.DefendDate.Value.Date >= DateTime.Today.Date)
+                    {
+                        <a class="btn thesisbtn m-1" asp-controller="TeacherTheses" asp-action="SetGrade" asp-route-id="@item.ThesisID" method="get">@Localizer["setGradeBtn"]</a>
+                    }
+                }
+                else
+                {
+                    Html.DisplayFor(modelItem => item.Thesis.Grade);
+                }
             </td>
            
             <td>

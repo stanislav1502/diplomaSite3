@@ -1142,6 +1142,7 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
         await roleManager.CreateAsync(new IdentityRole<Guid>(MyRolesEnum.Student.ToString()));
         await roleManager.CreateAsync(new IdentityRole<Guid>(MyRolesEnum.Teacher.ToString()));
         await roleManager.CreateAsync(new IdentityRole<Guid>(MyRolesEnum.Admin.ToString()));
+        await roleManager.CreateAsync(new IdentityRole<Guid>("ThesisReviewer"));
     }
 
 
@@ -1159,6 +1160,11 @@ context.GetService<UserManager<UserModel>>().CreateAsync(user, userpass).GetAwai
         {
             await userManager.AddToRoleAsync(teacher, MyRolesEnum.Teacher.ToString());
             Console.Out.WriteLine("teacher role:" + teacher.FullName);
+            if(teacher.UserName=="RRusev")
+            {
+                await userManager.AddToRoleAsync(teacher, "ThesisReviewer");
+                Console.Out.WriteLine("reviewer role:" + teacher.FullName);
+            }
         }
         
         var students = await context.StudentsDBS.ToListAsync();
