@@ -80,4 +80,10 @@
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Database\DiplomaSite3Context-77fa93dc-3e5f-44ed-abf2-c07b50b12e84_log.ldf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
